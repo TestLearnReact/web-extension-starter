@@ -1,19 +1,17 @@
-import { resolve } from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { crx, defineDynamicResource, defineManifest } from "@crxjs/vite-plugin";
 import AutoImport from "unplugin-auto-import/vite";
-
-import pkg from "../../package.json";
+import { isDev, r } from "../dev-scripts/utils";
 
 import packageJson from "../../package.json";
-import { isDev, r } from "../dev-scripts/utils";
+
 const { version } = packageJson;
 
 const manifest = defineManifest({
   manifest_version: 3,
   name: "V3 -> CRXJS <-",
-  version: pkg.version,
+  version: version,
   action: {
     default_popup: "src/browser-shell/popup/index.html",
   },
@@ -22,21 +20,15 @@ const manifest = defineManifest({
     open_in_tab: true,
   },
   icons: {
-    16: "public/icon-512.png",
-    48: "public/icon-512.png",
-    128: "public/icon-512.png",
+    16: "public/assets/icons/icon-512.png",
+    48: "public/assets/icons/icon-512.png",
+    128: "public/assets/icons/icon-512.png",
   },
   content_scripts: [
     {
-      js: [
-        // "public/browser-polyfill.js",
-        // "src/browser-shell/contentScripts/scripts/toolbar.tsx",
-        // "src/browser-shell/contentScripts/scripts/sidebar.tsx",
-        // "src/browser-shell/contentScripts/scripts/main.ts",
-        "src/browser-shell/contentScripts/cs-scripts/main.ts",
-      ],
+      js: ["src/browser-shell/contentScripts/cs-scripts/main.ts"],
       matches: ["https://www.google.com/*"],
-      run_at: "document_start",
+      run_at: "document_end",
     },
   ],
   background: {
@@ -50,14 +42,7 @@ const manifest = defineManifest({
       matches: ["https://www.google.com/*"],
     }),
     {
-      resources: [
-        "dist/*",
-        "src/*",
-        "assets/*",
-        // "src/browser-shell/contentScripts/scripts/main.ts",
-        // "src/browser-shell/contentScripts/scripts/toolbar.tsx",
-        // "src/browser-shell/contentScripts/scripts/sidebar.tsx",
-      ],
+      resources: ["dist/*", "src/*", "assets/*"],
       matches: ["<all_urls>"],
     },
   ],
@@ -101,6 +86,5 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["webextension-polyfill", "styled-components"],
-    //entries: ["src/*.html"],
   },
 });

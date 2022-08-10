@@ -85,21 +85,21 @@ const csMainModule = async (
   window["contentScriptRegistry"] = contentScriptRegistry;
 
   /** use vite HMR  */
-  if (true) {
-    //!__CS_BUILD__
-    await toolbarMain(csDeps.toolbar);
-    await sidebarMain(csDeps.sidebar);
-  }
+  // if (true) { // todo
+  //   //!__CS_BUILD__
+  //   await toolbarMain(csDeps.toolbar);
+  //   await sidebarMain(csDeps.sidebar);
+  // }
 
   // 6. Setup other interactions with this page (things that always run)
   const loadContentScript = createContentScriptLoader({
     loadRemotely: params.loadRemotely,
   });
 
-  // await inPageUI.loadComponent("toolbar");
+  await inPageUI.loadComponent("toolbar");
   ms_sendComponentInit({ component: "toolbar" });
 
-  // await inPageUI.loadComponent("sidebar");
+  await inPageUI.loadComponent("sidebar");
   ms_sendComponentInit({ component: "sidebar" });
 
   return inPageUI;

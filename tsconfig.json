@@ -20,8 +20,12 @@
     "paths": {
       "~/*": ["src/*"]
     },    
+    //"outDir": "./dist/",
+    //"rootDir": "./src"
   },
-  "include": ["src"],
+  "include": [
+    "src/**/*.ts",
+  ],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]
