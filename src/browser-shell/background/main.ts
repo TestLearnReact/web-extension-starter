@@ -24,55 +24,6 @@ const scriptPaths: P = {
 };
 
 export const main = async () => {
-  // inject content script in dev mode
-  if (!__IS_CRXJS__ && import.meta?.hot) {
-    // @ts-expect-error for background HMR
-    import("/@vite/client");
-    // load latest content script
-    import("./contentScriptHMR");
-  }
-
-  if (__IS_WEBPACK__) {
-    browser.webNavigation.onCommitted.addListener(({ tabId, frameId, url }) => {
-      // Filter out non main window events.
-      console.log("- contentScriptHMR.ts -");
-      if (frameId !== 0) return;
-
-      if (isForbiddenUrl(url)) return;
-
-      // browser.scripting
-      //   .executeScript({
-      //     target: { tabId: tabId as number, allFrames: true },
-      //     files: [`${isFirefox ? "" : "."}/lib/browser-polyfill.js`],
-      //   })
-      //   .then(() => {
-      //     console.log(
-      //       `worker.ts inject script 'browser-polyfill' in Tab ${tabId}`
-      //     );
-      //   })
-      //   .catch((error) =>
-      //     console.error(`worker.ts inject error Tab ${tabId}`, error)
-      //   );
-
-      // inject the latest scripts
-      browser.scripting
-        .executeScript({
-          target: { tabId: tabId as number, allFrames: true },
-          files: [
-            `${isFirefox ? "" : "."}/dist/contentScripts/index.global.js`,
-          ],
-        })
-        .then(() => {
-          console.log(
-            `worker.ts inject script 'index.global.js' in Tab ${tabId}`
-          );
-        })
-        .catch((error) =>
-          console.error(`worker.ts inject error Tab ${tabId}`, error)
-        );
-    });
-  }
-
   browser.runtime.onInstalled.addListener((): void => {
     // eslint-disable-next-line no-console
     console.log("Extension installed");
@@ -83,11 +34,6 @@ export const main = async () => {
       tabId: sender.tab?.id,
       component: filename,
     });
-  });
-
-  // message bridge
-  ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
-    await ms_sendComponentInit({ component }, { tabId: sender.tab?.id });
   });
 
   const injectContentScriptComponent = async ({
@@ -109,6 +55,11 @@ export const main = async () => {
         console.error(`worker.ts inject error Tab ${tabId}`, error)
       );
   };
+
+  //** message bridge */
+  ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
+    await ms_sendComponentInit({ component }, { tabId: sender.tab?.id });
+  });
 };
 
 main();
