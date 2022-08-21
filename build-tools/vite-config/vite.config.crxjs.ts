@@ -27,19 +27,19 @@ const manifest = defineManifest({
   content_scripts: [
     {
       js: ["src/browser-shell/contentScripts/cs-scripts/main.ts"],
-      matches: ["https://www.google.com/*"],
+      matches: ["<all_urls>"], //"https://www.google.com/*"
       run_at: "document_end",
     },
   ],
   background: {
-    service_worker: "src/browser-shell/background/main.ts",
+    service_worker: "src/browser-shell/background/dev.ts",
     type: "module",
   },
   permissions: ["scripting", "tabs", "storage", "activeTab", "webNavigation"],
-  host_permissions: ["https://www.google.com/*"],
+  host_permissions: ["<all_urls>"], //
   web_accessible_resources: [
     defineDynamicResource({
-      matches: ["https://www.google.com/*"],
+      matches: [], //"https://www.google.com/*"
     }),
     {
       resources: ["dist/*", "src/*", "assets/*"],

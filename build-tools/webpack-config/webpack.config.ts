@@ -45,7 +45,7 @@ const config: Configuration = {
 
   entry: {
     "contentScripts/vendor": { import: res("contentScripts", "vendor.ts") },
-    "background/index": { import: res("background", "main.ts") },
+    "background/index": { import: res("background", "prod.ts") },
     "contentScripts/index.global": {
       import: res("contentScripts", "cs-scripts", "main.ts"),
       //dependOn: "contentScripts/vendor",

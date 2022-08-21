@@ -6,9 +6,12 @@ import { ContentScriptComponent, ContentScriptRegistry } from "../types";
 import { Resolvable, resolvablePromise } from "../utils";
 import { sidebarMain } from "./sidebar";
 import { toolbarMain } from "./toolbar";
+// import scriptPath_toolbar from "../cs-scripts/toolbar?script";
+// import scriptPath_sidebar from "../cs-scripts/sidebar?script";
+import { isForbiddenUrl } from "~/browser-shell/env";
+import { getScriptPaths } from "./dev";
 
-import scriptPath_toolbar from "../cs-scripts/toolbar?script";
-import scriptPath_sidebar from "../cs-scripts/sidebar?script";
+//import { scriptPath_sidebar, scriptPath_toolbar } from "./dev";
 
 // let scriptPath_toolbar = "";
 // let scriptPath_sidebar = "";
@@ -21,8 +24,8 @@ import scriptPath_sidebar from "../cs-scripts/sidebar?script";
 //   }
 // })();
 
-const test = { toolbar: scriptPath_toolbar, sidebar: scriptPath_sidebar };
-console.log(test);
+// const test = { toolbar: scriptPath_toolbar, sidebar: scriptPath_sidebar };
+// console.log(test);
 
 /**
  * Main Module for HMR && inject in webpage
@@ -49,7 +52,9 @@ const csMainModule = async (
   // 3. Creates an instance of the InPageUI manager class to encapsulate
   // business logic of initialising and hide/showing components.
   const inPageUI = {
-    loadComponent: (component: ContentScriptComponent) => {
+    loadComponent: (component: any) => {
+      // ContentScriptComponent
+
       if (!components[component]) {
         components[component] = resolvablePromise<void>();
         loadContentScript(component);
@@ -96,11 +101,22 @@ const csMainModule = async (
     loadRemotely: params.loadRemotely,
   });
 
-  await inPageUI.loadComponent("toolbar");
-  ms_sendComponentInit({ component: "toolbar" });
+  // use es modules in development for frontend stuff (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
+  if (window.location.href.startsWith("chrome-extension://")) {
+    await toolbarMain(csDeps.toolbar);
+    await sidebarMain(csDeps.sidebar);
+  } else {
+    await inPageUI.loadComponent("toolbar");
+    ms_sendComponentInit({ component: "toolbar" });
+    await inPageUI.loadComponent("sidebar");
+    ms_sendComponentInit({ component: "sidebar" });
+  }
 
-  await inPageUI.loadComponent("sidebar");
-  ms_sendComponentInit({ component: "sidebar" });
+  //  await inPageUI.loadComponent("toolbar");
+  // ms_sendComponentInit({ component: "toolbar" });
+
+  //  await inPageUI.loadComponent("sidebar");
+  //  ms_sendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };

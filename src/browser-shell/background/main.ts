@@ -1,29 +1,16 @@
 import browser, { Tabs } from "webextension-polyfill";
+import { ContentScriptComponent } from "../contentScripts/types";
 import {
   ms_injectScriptStream,
   ms_componentInitStream,
   ms_sendComponentInit,
 } from "../utils";
-import { isFirefox, isForbiddenUrl } from "../env";
 
-//** CRXJS imports */
-// import scriptPath_toolbar from "../contentScripts/cs-scripts/toolbar?script";
-// import scriptPath_sidebar from "../contentScripts/cs-scripts/sidebar?script";
-
-let scriptPath_toolbar = "";
-let scriptPath_sidebar = "";
-
-type P = { [key: string]: string };
-const scriptPaths: P = {
-  toolbar: __IS_CRXJS__
-    ? scriptPath_toolbar
-    : `${isFirefox ? "" : "."}/dist/contentScripts/index.toolbar.js`,
-  sidebar: __IS_CRXJS__
-    ? scriptPath_sidebar
-    : `${isFirefox ? "" : "."}/dist/contentScripts/index.sidebar.js`,
-};
-
-export const main = async () => {
+export const main = async ({
+  contentScriptsPaths,
+}: {
+  contentScriptsPaths: any;
+}) => {
   browser.runtime.onInstalled.addListener((): void => {
     // eslint-disable-next-line no-console
     console.log("Extension installed");
@@ -41,12 +28,12 @@ export const main = async () => {
     component,
   }: {
     tabId: Tabs.Tab["id"];
-    component: string;
+    component: ContentScriptComponent;
   }): Promise<void> => {
     await browser.scripting
       .executeScript({
         target: { tabId: tabId as number, allFrames: true },
-        files: [scriptPaths[component]],
+        files: [contentScriptsPaths[component]],
       })
       .then(() => {
         console.log(`worker.ts inject script '${component}' in Tab ${tabId}`);
@@ -56,10 +43,10 @@ export const main = async () => {
       );
   };
 
-  //** message bridge */
+  /**
+   * message bridge between content scripts
+   */
   ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
     await ms_sendComponentInit({ component }, { tabId: sender.tab?.id });
   });
 };
-
-main();

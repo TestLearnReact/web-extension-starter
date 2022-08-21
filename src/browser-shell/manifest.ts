@@ -24,6 +24,7 @@ export async function getManifest() {
     },
     background: {
       service_worker: "./dist/background/index.js",
+      type: "module",
     },
     icons: {
       16: "./assets/icons/icon-512.png",
