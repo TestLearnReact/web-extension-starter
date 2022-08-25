@@ -26,8 +26,11 @@ const manifest = defineManifest({
   },
   content_scripts: [
     {
-      js: ["src/browser-shell/contentScripts/cs-scripts/main.ts"],
-      matches: ["<all_urls>"], //"https://www.google.com/*"
+      js: [
+        //"node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        "src/browser-shell/contentScripts/cs-scripts/main.ts",
+      ],
+      matches: ["https://www.google.com/*"],
       run_at: "document_end",
     },
   ],
@@ -36,13 +39,19 @@ const manifest = defineManifest({
     type: "module",
   },
   permissions: ["scripting", "tabs", "storage", "activeTab", "webNavigation"],
-  host_permissions: ["<all_urls>"], //
+  host_permissions: ["https://www.google.com/*"], //
   web_accessible_resources: [
     defineDynamicResource({
-      matches: [], //"https://www.google.com/*"
+      matches: ["https://www.google.com/*"], //"https://www.google.com/*"
     }),
     {
-      resources: ["dist/*", "src/*", "assets/*"],
+      resources: [
+        "dist/*",
+        "src/*",
+        "assets/*",
+        // "src/browser-shell/contentScripts/cs-scripts/sidebar.ts",
+        // "src/browser-shell/contentScripts/cs-scripts/toolbar.ts",
+      ],
       matches: ["<all_urls>"],
     },
   ],

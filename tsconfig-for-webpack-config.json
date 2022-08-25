@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "module": "commonjs",
-      "target": "es5",
+      "target": "ESNext",
       "esModuleInterop": true,
       "noEmit": true,
       "noEmitOnError": true,
@@ -12,11 +12,11 @@
       // "allowJs": false,
       // "skipLibCheck": true,
      
-      // "allowSyntheticDefaultImports": true,
+       "allowSyntheticDefaultImports": true,
       // "strict": true,
       // "forceConsistentCasingInFileNames": true,
       
-      // "moduleResolution": "Node",
+      "moduleResolution": "Node",
       // "resolveJsonModule": true,
       // "isolatedModules": true,
      

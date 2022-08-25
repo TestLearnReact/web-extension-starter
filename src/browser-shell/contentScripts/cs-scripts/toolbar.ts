@@ -10,3 +10,5 @@ export const csToolbar = async () => {
 (async () => {
   await csToolbar();
 })();
+
+export default csToolbar;

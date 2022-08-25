@@ -1,6 +1,6 @@
 import path from "path";
 const resolve = path.resolve;
-import webpack, { Configuration } from "webpack";
+import webpack from "webpack";
 
 import FilemanagerPlugin from "filemanager-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
@@ -13,19 +13,22 @@ import TerserPlugin from "terser-webpack-plugin";
 
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 
-import { isDev } from "../dev-scripts/utils";
+const isDev = process.env.NODE_ENV !== "production";
 
-import ResolveTypeScriptPlugin from "resolve-typescript-plugin";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+//import { isDev } from "../dev-scripts/utils";
 
 // const Dotenv = require('dotenv-webpack')
 // const nodeExternals = require("webpack-node-externals");
 
-const resRoot = (...args: string[]) => resolve(__dirname, "../../", ...args);
-const res = (...args: string[]) =>
+const resRoot = (...args) => resolve(__dirname, "../../", ...args);
+const res = (...args) =>
   resolve(__dirname, "../../src/browser-shell/", ...args);
 
-export const nodeEnv = (process.env.NODE_ENV ||
-  "development") as Configuration["mode"];
+export const nodeEnv = process.env.NODE_ENV || "development";
 const targetBrowser = process.env.TARGET_BROWSER || "";
 
 export const getExtensionFileType = (browser) => {
@@ -34,9 +37,10 @@ export const getExtensionFileType = (browser) => {
   return "zip";
 };
 
-const config: Configuration = {
+const config = {
+  //module.exports = {
   devtool: false, // https://github.com/webpack/webpack/issues/1194#issuecomment-560382342
-  // todo source-map
+
   stats: {
     all: false,
     builtAt: true,
@@ -44,67 +48,61 @@ const config: Configuration = {
     hash: true,
   },
 
-  mode: nodeEnv,
+  mode: "production", //nodeEnv,
 
   entry: {
-    messages: { import: res("utils", "index.ts") },
-    background: {
-      import: res("background", "prod.ts"),
-      //dependOn: "messages",
-    },
-    "contentScripts/cs.global": {
+    // "react-dom": "react-dom",
+    // react: "react",
+    background: { import: res("background", "prod.ts") },
+    "cs.global": {
       import: res("contentScripts", "cs-scripts", "main.ts"),
-      dependOn: "messages",
+      //dependOn: ["react"],
     },
-    "contentScripts/cs.toolbar": {
+    "cs.toolbar": {
       import: res("contentScripts", "cs-scripts", "toolbar.ts"),
-      dependOn: "messages",
+      //dependOn: ["react-dom", "react"],
     },
-    "contentScripts/cs.sidebar": {
+    "cs.sidebar": {
       import: res("contentScripts", "cs-scripts", "sidebar.ts"),
-      dependOn: "messages",
+      //dependOn: ["react-dom", "react"],
     },
-    "popup/popup": { import: res("popup", "main.tsx") },
-    "options/options": { import: res("options", "main.tsx") },
   },
 
   output: {
     path: resRoot("extension", targetBrowser),
-    filename: "dist/[name].js", // "/dist"
+    filename: "[name].js", // "/dist"
   },
 
   optimization: {
     minimizer: [
       new ESBuildMinifyPlugin({
         //target: "es2015", // Syntax to compile to (see options below for possible values)
-        tsconfigRaw: require("../../tsconfig.json"),
+        //tsconfigRaw: require("../../tsconfig.json"),
       }),
     ],
-    // runtimeChunk: {
-    //   name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
-    // },
-    // minimize: true,
+
     splitChunks: {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks(chunk) {
-            return chunk.name !== "background";
-          },
+          name: "vendors",
+          chunks: "all",
         },
-        // messagesss: {
-        //   test: /[\\/]src[\\/]browser-shell[\\/]utils[\\/]/,
-        //   name: "messagesss",
-        //   chunks: "all",
+        // "cs.sidebar": {
+        //   test: /[\\/]node_modules[\\/]react-dom[\\/]/,
+        //   name: "react-dom",
+        //   chunks: "async",
         // },
-        // messages: {
-        //   test: /[\\/]src[\\/]browser-shell[\\/]utils[\\/]/,
-        //   name: "messages",
-        //   chunks(chunk) {
-        //     return chunk.name !== "background";
+        //  'highcharts-react-official': {
+        //     test: /[\\/]node_modules[\\/]highcharts-react-official[\\/]/,
+        //     name: 'highcharts-react-official',
+        //     chunks: 'all',
         //   },
-        // },
+        //  'highcharts/highmaps': {
+        //     test: /[\\/]node_modules[\\/]highcharts[\\/]highmaps[\\/]/,
+        //     name: 'highcharts/highmaps',
+        //     chunks: 'all',
+        //   },
       },
     },
   },
@@ -117,9 +115,8 @@ const config: Configuration = {
         "browser-polyfill.js"
       ),
       "~": resRoot("src"),
-      "message-system": resRoot("src/message-system/index.ts"),
     },
-    modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
+    // modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },
 
   module: {
@@ -135,57 +132,64 @@ const config: Configuration = {
         },
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
       },
+      // {
+      //   test: /\.ts(x?)$/, ///\.(js)$/,
+      //   exclude: /node_modules/,
+      //   use: ["babel-loader"],
+      // },
       {
         test: /\.ts(x?)$/,
-        exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
+        //exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
         loader: "esbuild-loader",
         options: {
           loader: "tsx", // Or 'ts' if you don't need tsx
           target: "ESNext", ////ESNext", //"es2016",
-          tsconfigRaw: require("../../tsconfig.json"),
+          //tsconfigRaw: require("../../tsconfig.json"),
           jsxFactory: "React.createElement",
           jsxFragment: "React.Fragment",
+
           //type: "module",
           //jsx: "automatic",
           // //   sourcemap: true, //nodeEnv === "development",
         },
       },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader, // It creates a CSS file per JS file which contains CSS
-          },
-          {
-            loader: "css-loader", // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    "autoprefixer",
-                    {
-                      // Options
-                    },
-                  ],
-                ],
-              },
-            },
-          },
-          "resolve-url-loader", // Rewrites relative paths in url() statements
-          "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
-        ],
-      },
+      // {
+      //   test: /\.(sa|sc|c)ss$/,
+      //   use: [
+      //     {
+      //       loader: MiniCssExtractPlugin.loader, // It creates a CSS file per JS file which contains CSS
+      //     },
+      //     {
+      //       loader: "css-loader", // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
+      //       options: {
+      //         sourceMap: true,
+      //       },
+      //     },
+      //     {
+      //       loader: "postcss-loader",
+      //       options: {
+      //         postcssOptions: {
+      //           plugins: [
+      //             [
+      //               "autoprefixer",
+      //               {
+      //                 // Options
+      //               },
+      //             ],
+      //           ],
+      //         },
+      //       },
+      //     },
+      //     "resolve-url-loader", // Rewrites relative paths in url() statements
+      //     "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
+      //   ],
+      // },
     ],
   },
 
   plugins: [
     // Plugin to not generate js bundle for manifest entry
+    // @ts-ignore
     new WextManifestWebpackPlugin(),
     // Generate sourcemaps
     ///new webpack.SourceMapDevToolPlugin({ filename: false }),
@@ -205,34 +209,39 @@ const config: Configuration = {
       __IS_CRXJS__: false,
     }),
     // delete previous build files
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [
-        path.join(
-          "!",
-          process.cwd(),
-          `extension/${targetBrowser}/manifest.json`
-        ),
-        path.join(process.cwd(), `extension/${targetBrowser}`),
-        path.join(
-          process.cwd(),
-          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
-        ),
-      ],
-      cleanStaleWebpackAssets: false,
-      verbose: true,
-    }),
-    new HtmlWebpackPlugin({
-      template: res("popup", "index.html"),
-      inject: true, //"body",
-      chunks: ["popup/popup"],
-      filename: "dist/popup/index.html",
-    }),
-    new HtmlWebpackPlugin({
-      template: res("options", "index.html"),
-      inject: true, //"body",
-      chunks: ["options/options"],
-      filename: "dist/options/index.html",
-    }),
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: [
+    //     path.join(
+    //       "!",
+    //       process.cwd(),
+    //       `extension/${targetBrowser}/manifest.json`
+    //     ),
+    //     `!manifest*`,
+    //     path.join(process.cwd(), `extension/${targetBrowser}`),
+    //     path.join(
+    //       process.cwd(),
+    //       `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+    //     ),
+
+    //     ,
+    //   ],
+    //   cleanStaleWebpackAssets: false,
+    //   verbose: true,
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template: res("popup", "index.html"),
+    //   inject: "body",
+    //   chunks: ["popup/popup"],
+    //   //hash: true,
+    //   filename: "dist/popup/index.html",
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template: res("options", "index.html"),
+    //   inject: "body",
+    //   chunks: ["options/options"],
+    //   //hash: true,
+    //   filename: "dist/options/index.html",
+    // }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: "css/[name].css" }),
     // copy static assets
@@ -249,7 +258,7 @@ const config: Configuration = {
     }),
   ],
 
-  context: __dirname,
+  // context: __dirname,
 };
 
 export {};

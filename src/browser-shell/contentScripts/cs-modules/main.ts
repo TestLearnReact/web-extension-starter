@@ -6,26 +6,11 @@ import { ContentScriptComponent, ContentScriptRegistry } from "../types";
 import { Resolvable, resolvablePromise } from "../utils";
 import { sidebarMain } from "./sidebar";
 import { toolbarMain } from "./toolbar";
-// import scriptPath_toolbar from "../cs-scripts/toolbar?script";
-// import scriptPath_sidebar from "../cs-scripts/sidebar?script";
-import { isForbiddenUrl } from "~/browser-shell/env";
-import { getScriptPaths } from "./dev";
 
-//import { scriptPath_sidebar, scriptPath_toolbar } from "./dev";
+import scriptPath_toolbar from "../cs-scripts/toolbar?script";
+import scriptPath_sidebar from "../cs-scripts/sidebar?script";
 
-// let scriptPath_toolbar = "";
-// let scriptPath_sidebar = "";
-
-// (async () => {
-//   if (__IS_CRXJS__) {
-//     scriptPath_toolbar = await import("../cs-scripts/toolbar?script"!);
-//     scriptPath_sidebar = await import("../cs-scripts/sidebar?script"!);
-//     console.log(scriptPath_sidebar, scriptPath_toolbar);
-//   }
-// })();
-
-// const test = { toolbar: scriptPath_toolbar, sidebar: scriptPath_sidebar };
-// console.log(test);
+const scripts = { t: scriptPath_toolbar, s: scriptPath_sidebar };
 
 /**
  * Main Module for HMR && inject in webpage
@@ -89,34 +74,24 @@ const csMainModule = async (
 
   window["contentScriptRegistry"] = contentScriptRegistry;
 
-  /** use vite HMR  */
-  // if (true) { // todo
-  //   //!__CS_BUILD__
-  //   await toolbarMain(csDeps.toolbar);
-  //   await sidebarMain(csDeps.sidebar);
-  // }
-
   // 6. Setup other interactions with this page (things that always run)
   const loadContentScript = createContentScriptLoader({
     loadRemotely: params.loadRemotely,
   });
 
   // use es modules in development for frontend stuff (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
+  // no need inject scripts and mount components
   if (window.location.href.startsWith("chrome-extension://")) {
     await toolbarMain(csDeps.toolbar);
     await sidebarMain(csDeps.sidebar);
   } else {
+    // inject scripts and mount components
     await inPageUI.loadComponent("toolbar");
     ms_sendComponentInit({ component: "toolbar" });
+
     await inPageUI.loadComponent("sidebar");
     ms_sendComponentInit({ component: "sidebar" });
   }
-
-  //  await inPageUI.loadComponent("toolbar");
-  // ms_sendComponentInit({ component: "toolbar" });
-
-  //  await inPageUI.loadComponent("sidebar");
-  //  ms_sendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };

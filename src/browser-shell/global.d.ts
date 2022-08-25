@@ -4,6 +4,7 @@ declare const __IS_VITE__: boolean;
 declare const __IS_CRXJS__: boolean;
 
 declare module "*?script";
+declare module "*?script&module";
 
 declare module "*.svg" {
   import React = require("react");

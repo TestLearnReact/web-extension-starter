@@ -10,3 +10,5 @@ export const csSidebar = async () => {
 (async () => {
   return await csSidebar();
 })();
+
+export default csSidebar;

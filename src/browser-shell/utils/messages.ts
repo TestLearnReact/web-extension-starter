@@ -1,4 +1,4 @@
-import getMessage from "~/message-system";
+import getMessage from "message-system";
 import { ContentScriptComponent } from "../contentScripts/types";
 
 export const [

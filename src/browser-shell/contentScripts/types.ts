@@ -1,7 +1,11 @@
 import { ToolbarContainerDependencies } from "../frontends/toolbar";
 import { SidebarContainerDependencies } from "../frontends/sidebar";
 
-export type ContentScriptComponent = "sidebar" | "toolbar" | "main";
+export type ContentScriptComponent =
+  | "sidebar"
+  | "toolbar"
+  | "main"
+  | "polyfill";
 
 export interface ContentScriptRegistry {
   registerToolbarScript(main: ToolbarScriptMain): Promise<void>;

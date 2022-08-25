@@ -17,16 +17,16 @@ export async function getManifest() {
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description,
-    action: {
-      default_icon: "./assets/icons/icon-512.png",
-      default_popup: "./dist/popup/index.html",
-    },
-    options_ui: {
-      page: "./dist/options/index.html",
-      open_in_tab: true,
-    },
+    // action: {
+    //   default_icon: "./assets/icons/icon-512.png",
+    //   default_popup: "./dist/popup/index.html",
+    // },
+    // options_ui: {
+    //   page: "./dist/options/index.html",
+    //   open_in_tab: true,
+    // },
     background: {
-      service_worker: "./dist/background.js",
+      service_worker: "./dist/background/index.js",
       type: "module",
     },
     icons: {
@@ -41,9 +41,7 @@ export async function getManifest() {
         matches: ["http://*/*", "https://*/*"],
         js: [
           "./lib/browser-polyfill.js",
-          "./dist/vendor.js",
-          "./dist/messages.js",
-          "./dist/contentScripts/cs.global.js",
+          "./dist/contentScripts/index.global.js",
         ],
       },
     ],
