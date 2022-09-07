@@ -18,3 +18,9 @@ export const [
   ms_componentDestroyStream,
   ms_waitForComponentDestroy,
 ] = getMessage<{ component: ContentScriptComponent }>("COMPONENT_DESTROY");
+
+export const [
+  ms_sendExtensionReload,
+  ms_extensionReloadStream,
+  ms_waitForExtensionReload,
+] = getMessage<void>("EXTENSION_RELOAD");

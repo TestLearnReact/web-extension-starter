@@ -40,6 +40,7 @@ export async function getManifest() {
       {
         matches: ["http://*/*", "https://*/*"],
         js: [
+          //"./lib/react-refresh.js",
           "./lib/browser-polyfill.js",
           "./dist/vendor.js",
           "./dist/messages.js",

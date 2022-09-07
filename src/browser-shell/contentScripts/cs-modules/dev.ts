@@ -1,29 +1,31 @@
-import { isFirefox } from "~/browser-shell/env";
+export {};
 
-import scriptPath_toolbar from "../cs-scripts/toolbar?script";
-import scriptPath_sidebar from "../cs-scripts/sidebar?script";
+// import { isFirefox } from "~/browser-shell/env";
 
-//let scriptPath_toolbar = "";
-//let scriptPath_sidebar = "";
-// let scriptPaths = {};
+// import scriptPath_toolbar from "../cs-scripts/toolbar?script";
+// import scriptPath_sidebar from "../cs-scripts/sidebar?script";
 
-export const getScriptPaths = async () => {
-  if (__DEV__ && __IS_CRXJS__) {
-    // scriptPath_toolbar = await import("../cs-scripts/toolbar?script"!);
-    // scriptPath_sidebar = await import("../cs-scripts/sidebar?script"!);
-  }
+// //let scriptPath_toolbar = "";
+// //let scriptPath_sidebar = "";
+// // let scriptPaths = {};
 
-  const scriptPaths = {
-    toolbar:
-      __DEV__ && __IS_CRXJS__
-        ? scriptPath_toolbar
-        : `${isFirefox ? "" : "."}/dist/contentScripts/index.toolbar.js`,
-    sidebar:
-      __DEV__ && __IS_CRXJS__
-        ? scriptPath_sidebar
-        : `${isFirefox ? "" : "."}/dist/contentScripts/index.sidebar.js`,
-  };
+// export const getScriptPaths = async () => {
+//   if (__DEV__ && __IS_CRXJS__) {
+//     // scriptPath_toolbar = await import("../cs-scripts/toolbar?script"!);
+//     // scriptPath_sidebar = await import("../cs-scripts/sidebar?script"!);
+//   }
 
-  console.log(".dev: ", scriptPaths);
-  return scriptPaths;
-};
+//   const scriptPaths = {
+//     toolbar:
+//       __DEV__ && __IS_CRXJS__
+//         ? scriptPath_toolbar
+//         : `${isFirefox ? "" : "."}/dist/contentScripts/index.toolbar.js`,
+//     sidebar:
+//       __DEV__ && __IS_CRXJS__
+//         ? scriptPath_sidebar
+//         : `${isFirefox ? "" : "."}/dist/contentScripts/index.sidebar.js`,
+//   };
+
+//   console.log(".dev: ", scriptPaths);
+//   return scriptPaths;
+// };

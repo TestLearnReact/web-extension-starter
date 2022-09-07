@@ -17,13 +17,15 @@ import { isDev } from "../dev-scripts/utils";
 
 import ResolveTypeScriptPlugin from "resolve-typescript-plugin";
 
+import "webpack-dev-server";
+
 // const Dotenv = require('dotenv-webpack')
 // const nodeExternals = require("webpack-node-externals");
 
 const resRoot = (...args: string[]) => resolve(__dirname, "../../", ...args);
 const res = (...args: string[]) =>
   resolve(__dirname, "../../src/browser-shell/", ...args);
-
+const isDevelopment = process.env.NODE_ENV !== "production";
 export const nodeEnv = (process.env.NODE_ENV ||
   "development") as Configuration["mode"];
 const targetBrowser = process.env.TARGET_BROWSER || "";
@@ -45,6 +47,10 @@ const config: Configuration = {
   },
 
   mode: nodeEnv,
+
+  devServer: {
+    hot: true,
+  },
 
   entry: {
     messages: { import: res("utils", "index.ts") },
@@ -80,10 +86,7 @@ const config: Configuration = {
         tsconfigRaw: require("../../tsconfig.json"),
       }),
     ],
-    // runtimeChunk: {
-    //   name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
-    // },
-    // minimize: true,
+
     splitChunks: {
       cacheGroups: {
         vendor: {
@@ -93,17 +96,25 @@ const config: Configuration = {
             return chunk.name !== "background";
           },
         },
-        // messagesss: {
-        //   test: /[\\/]src[\\/]browser-shell[\\/]utils[\\/]/,
-        //   name: "messagesss",
-        //   chunks: "all",
-        // },
-        // messages: {
-        //   test: /[\\/]src[\\/]browser-shell[\\/]utils[\\/]/,
-        //   name: "messages",
+        // vendor: {
+        //   test: /[\\/]node_modules[\\/](react|react-dom|styled-components|rxjs)[\\/]/,
+        //   name: "vendor",
+        //   //chunks: "all",
         //   chunks(chunk) {
         //     return chunk.name !== "background";
         //   },
+        // },
+        // router: {
+        //   test: /[\\/]node_modules[\\/](react|react-dom|styled-components|rxjs)[\\/]/,
+        //   name: "router",
+        //   chunks: "all",
+        //   priority: 1,
+        // },
+        // m: {
+        //   test: /[\\/]src[\\/]message-system[\\/]intex.ts[\\/]/,
+        //   name: "m",
+        //   chunks: "all",
+        //   priority: 1,
         // },
       },
     },
@@ -135,6 +146,20 @@ const config: Configuration = {
         },
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
       },
+      // {
+      //   test: /\.[jt]sx?$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: require.resolve("babel-loader"),
+      //       options: {
+      //         plugins: [
+      //           isDevelopment && require.resolve("react-refresh/babel"),
+      //         ].filter(Boolean),
+      //       },
+      //     },
+      //   ],
+      // },
       {
         test: /\.ts(x?)$/,
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
@@ -205,22 +230,22 @@ const config: Configuration = {
       __IS_CRXJS__: false,
     }),
     // delete previous build files
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [
-        path.join(
-          "!",
-          process.cwd(),
-          `extension/${targetBrowser}/manifest.json`
-        ),
-        path.join(process.cwd(), `extension/${targetBrowser}`),
-        path.join(
-          process.cwd(),
-          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
-        ),
-      ],
-      cleanStaleWebpackAssets: false,
-      verbose: true,
-    }),
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: [
+    //     path.join(
+    //       "!",
+    //       process.cwd(),
+    //       `extension/${targetBrowser}/manifest.json`
+    //     ),
+    //     path.join(process.cwd(), `extension/${targetBrowser}`),
+    //     path.join(
+    //       process.cwd(),
+    //       `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+    //     ),
+    //   ],
+    //   cleanStaleWebpackAssets: false,
+    //   verbose: true,
+    // }),
     new HtmlWebpackPlugin({
       template: res("popup", "index.html"),
       inject: true, //"body",
@@ -239,6 +264,10 @@ const config: Configuration = {
     new CopyWebpackPlugin({
       patterns: [
         { from: resRoot("public/assets"), to: "assets" },
+        {
+          from: resRoot("public/libs/react-refresh.js"),
+          to: "lib/react-refresh.js",
+        },
         {
           from: resRoot(
             "node_modules/webextension-polyfill/dist/browser-polyfill.js"

@@ -8,6 +8,10 @@ import packageJson from "../../package.json";
 
 const { version } = packageJson;
 
+//import dns from "dns";
+
+//dns.setDefaultResultOrder("verbatim");
+
 const manifest = defineManifest({
   manifest_version: 3,
   name: "V3 -> CRXJS <-",
@@ -26,12 +30,10 @@ const manifest = defineManifest({
   },
   content_scripts: [
     {
-      js: [
-        //"node_modules/webextension-polyfill/dist/browser-polyfill.js",
-        "src/browser-shell/contentScripts/cs-scripts/main.ts",
-      ],
+      js: ["src/browser-shell/contentScripts/cs-scripts/main.ts"],
       matches: ["https://www.google.com/*"],
-      run_at: "document_end",
+      run_at: "document_idle",
+      //run_at: "document_end",
     },
   ],
   background: {
@@ -45,13 +47,7 @@ const manifest = defineManifest({
       matches: ["https://www.google.com/*"], //"https://www.google.com/*"
     }),
     {
-      resources: [
-        "dist/*",
-        "src/*",
-        "assets/*",
-        // "src/browser-shell/contentScripts/cs-scripts/sidebar.ts",
-        // "src/browser-shell/contentScripts/cs-scripts/toolbar.ts",
-      ],
+      resources: ["dist/*", "src/*", "assets/*"],
       matches: ["<all_urls>"],
     },
   ],
@@ -61,6 +57,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "~/": `${r("src")}/`,
+      "message-system": r("src/message-system/index.ts"),
     },
   },
   define: {

@@ -2,15 +2,13 @@ import {
   ms_sendComponentInit,
   ms_sendInjectScript,
 } from "~/browser-shell/utils";
-import { ContentScriptComponent, ContentScriptRegistry } from "../types";
+import {
+  ContentScriptComponent,
+  ContentScriptRegistry,
+  SidebarScriptMain,
+  ToolbarScriptMain,
+} from "../types";
 import { Resolvable, resolvablePromise } from "../utils";
-import { sidebarMain } from "./sidebar";
-import { toolbarMain } from "./toolbar";
-
-import scriptPath_toolbar from "../cs-scripts/toolbar?script";
-import scriptPath_sidebar from "../cs-scripts/sidebar?script";
-
-const scripts = { t: scriptPath_toolbar, s: scriptPath_sidebar };
 
 /**
  * Main Module for HMR && inject in webpage
@@ -18,11 +16,13 @@ const scripts = { t: scriptPath_toolbar, s: scriptPath_sidebar };
 const csMainModule = async (
   params: {
     loadRemotely?: boolean;
-  } = {}
+    devScripts?: {
+      toolbarDevModule: ToolbarScriptMain;
+      sidebarDevModule: SidebarScriptMain;
+    };
+  } = { loadRemotely: true }
 ) => {
-  params.loadRemotely = params.loadRemotely ?? true;
-
-  console.log("cs-modules/main.ts......");
+  console.log("cs-modules/main.ts...");
 
   // 1. Create a local object with promises to track each content script
   // initialisation and provide a function which can initialise a content script
@@ -55,7 +55,6 @@ const csMainModule = async (
   // 4. Create a contentScriptRegistry object with functions for each content script
   // component, that when run, initialise the respective component with it's
   // dependencies
-
   const csDeps = {
     toolbar: { inPageUI },
     sidebar: { inPageUI },
@@ -79,19 +78,24 @@ const csMainModule = async (
     loadRemotely: params.loadRemotely,
   });
 
-  // use es modules in development for frontend stuff (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
-  // no need inject scripts and mount components
-  if (window.location.href.startsWith("chrome-extension://")) {
-    await toolbarMain(csDeps.toolbar);
-    await sidebarMain(csDeps.sidebar);
+  // use es modules in development for frontend stuff
+  // (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
+  if (__DEV__ && window.location.href.startsWith("chrome-extension://")) {
+    console.log("LLLLLL", process.env.NODE_ENV === "production");
+    // webpack bundles code in production mode too, so we passed modules as parameter only in dev
+    // no need inject scripts
+    await params.devScripts?.toolbarDevModule(csDeps.toolbar);
+    await params.devScripts?.sidebarDevModule(csDeps.toolbar);
+    // await toolbarMain(csDeps.toolbar);
+    // await sidebarMain(csDeps.sidebar);
   } else {
-    // inject scripts and mount components
+    // inject scripts
     await inPageUI.loadComponent("toolbar");
-    ms_sendComponentInit({ component: "toolbar" });
-
     await inPageUI.loadComponent("sidebar");
-    ms_sendComponentInit({ component: "sidebar" });
   }
+
+  ms_sendComponentInit({ component: "toolbar" });
+  ms_sendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };
@@ -99,7 +103,7 @@ const csMainModule = async (
 export { csMainModule };
 
 type ContentScriptLoader = (component: ContentScriptComponent) => Promise<void>;
-export function createContentScriptLoader(args: { loadRemotely: boolean }) {
+export function createContentScriptLoader(args: { loadRemotely?: boolean }) {
   const remoteLoader: ContentScriptLoader = async (
     component: ContentScriptComponent
   ) => {

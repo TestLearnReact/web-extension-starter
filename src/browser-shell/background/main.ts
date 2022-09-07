@@ -13,7 +13,7 @@ export const main = async ({
 }) => {
   browser.runtime.onInstalled.addListener((): void => {
     // eslint-disable-next-line no-console
-    console.log("Extension installed");
+    console.log("Extension instal.led");
   });
 
   ms_injectScriptStream.subscribe(async ([{ filename }, sender]) => {

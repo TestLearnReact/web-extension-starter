@@ -1,6 +1,7 @@
 import { csMainModule } from "./cs-modules/main";
 
-// const Test = () => <div></div>;
+import { sidebarMain } from "./cs-modules/sidebar";
+import { toolbarMain } from "./cs-modules/toolbar";
 
 /**
  * CS Module for development without injecting
@@ -8,7 +9,13 @@ import { csMainModule } from "./cs-modules/main";
  */
 export const MakeHMRworking = async () => {
   console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
-  await csMainModule({ loadRemotely: true });
+  await csMainModule({
+    loadRemotely: true,
+    devScripts: {
+      toolbarDevModule: toolbarMain,
+      sidebarDevModule: sidebarMain,
+    },
+  });
 };
 
 MakeHMRworking();
