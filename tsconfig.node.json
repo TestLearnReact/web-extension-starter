@@ -7,6 +7,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
+    "src/**/*.ts",
     "build-tools/vite-config/vite.config.crxjs.ts", 
     "build-tools/dev-scripts/**/*.ts", 
     "build-tools/**/*.ts", 

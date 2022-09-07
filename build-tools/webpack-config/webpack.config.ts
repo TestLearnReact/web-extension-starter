@@ -1,6 +1,6 @@
-import path from "path";
-const resolve = path.resolve;
 import webpack, { Configuration } from "webpack";
+import path, { resolve } from "path";
+import { execSync } from "child_process";
 
 import FilemanagerPlugin from "filemanager-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
@@ -15,19 +15,16 @@ import { ESBuildMinifyPlugin } from "esbuild-loader";
 
 import { isDev } from "../dev-scripts/utils";
 
-import ResolveTypeScriptPlugin from "resolve-typescript-plugin";
-
 import "webpack-dev-server";
 
-// const Dotenv = require('dotenv-webpack')
-// const nodeExternals = require("webpack-node-externals");
-
 const resRoot = (...args: string[]) => resolve(__dirname, "../../", ...args);
+
 const res = (...args: string[]) =>
   resolve(__dirname, "../../src/browser-shell/", ...args);
-const isDevelopment = process.env.NODE_ENV !== "production";
-export const nodeEnv = (process.env.NODE_ENV ||
+
+const nodeEnv = (process.env.NODE_ENV ||
   "development") as Configuration["mode"];
+
 const targetBrowser = process.env.TARGET_BROWSER || "";
 
 export const getExtensionFileType = (browser) => {
@@ -76,14 +73,49 @@ const config: Configuration = {
 
   output: {
     path: resRoot("extension", targetBrowser),
-    filename: "dist/[name].js", // "/dist"
+    filename: "dist/[name].js",
   },
 
   optimization: {
+    // todo no need webpack 5 // esbuild ?
+    minimize: true,
     minimizer: [
       new ESBuildMinifyPlugin({
-        //target: "es2015", // Syntax to compile to (see options below for possible values)
+        target: "es2015", // Syntax to compile to (see options below for possible values)
         tsconfigRaw: require("../../tsconfig.json"),
+      }),
+      // todo no need webpack 5 // esbuild ?
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+      // todo no need webpack 5 // esbuild ?
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorPluginOptions: {
+          preset: ["default", { discardComments: { removeAll: true } }],
+        },
+      }),
+      new FilemanagerPlugin({
+        events: {
+          onEnd: {
+            archive: [
+              {
+                format: "zip",
+                source: resRoot("extension", targetBrowser),
+                destination: `${resRoot(
+                  "extension",
+                  targetBrowser
+                )}.${getExtensionFileType(targetBrowser)}`,
+                options: { zlib: { level: 6 } },
+              },
+            ],
+          },
+        },
       }),
     ],
 
@@ -96,26 +128,6 @@ const config: Configuration = {
             return chunk.name !== "background";
           },
         },
-        // vendor: {
-        //   test: /[\\/]node_modules[\\/](react|react-dom|styled-components|rxjs)[\\/]/,
-        //   name: "vendor",
-        //   //chunks: "all",
-        //   chunks(chunk) {
-        //     return chunk.name !== "background";
-        //   },
-        // },
-        // router: {
-        //   test: /[\\/]node_modules[\\/](react|react-dom|styled-components|rxjs)[\\/]/,
-        //   name: "router",
-        //   chunks: "all",
-        //   priority: 1,
-        // },
-        // m: {
-        //   test: /[\\/]src[\\/]message-system[\\/]intex.ts[\\/]/,
-        //   name: "m",
-        //   chunks: "all",
-        //   priority: 1,
-        // },
       },
     },
   },
@@ -146,33 +158,17 @@ const config: Configuration = {
         },
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
       },
-      // {
-      //   test: /\.[jt]sx?$/,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: require.resolve("babel-loader"),
-      //       options: {
-      //         plugins: [
-      //           isDevelopment && require.resolve("react-refresh/babel"),
-      //         ].filter(Boolean),
-      //       },
-      //     },
-      //   ],
-      // },
+
       {
         test: /\.ts(x?)$/,
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
         loader: "esbuild-loader",
         options: {
           loader: "tsx", // Or 'ts' if you don't need tsx
-          target: "ESNext", ////ESNext", //"es2016",
+          target: "es2015",
           tsconfigRaw: require("../../tsconfig.json"),
           jsxFactory: "React.createElement",
           jsxFragment: "React.Fragment",
-          //type: "module",
-          //jsx: "automatic",
-          // //   sourcemap: true, //nodeEnv === "development",
         },
       },
       {
@@ -210,6 +206,20 @@ const config: Configuration = {
   },
 
   plugins: [
+    {
+      apply: (compiler) => {
+        let wroteManifest = false;
+
+        compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
+          if (!wroteManifest) {
+            execSync("npx esno ./build-tools/dev-scripts/manifest.ts", {
+              stdio: "inherit",
+            });
+          }
+          wroteManifest = true;
+        });
+      },
+    },
     // Plugin to not generate js bundle for manifest entry
     new WextManifestWebpackPlugin(),
     // Generate sourcemaps
@@ -217,8 +227,8 @@ const config: Configuration = {
     /// new ForkTsCheckerWebpackPlugin(),
     // environmental variables
     new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
-      TARGET_BROWSER: "chrome",
+      NODE_ENV: isDev, // "development",
+      TARGET_BROWSER: targetBrowser, // "chrome",
       IS_WEBPACK: true,
       IS_VITE: false,
       IS_CRXJS: false,
@@ -230,22 +240,17 @@ const config: Configuration = {
       __IS_CRXJS__: false,
     }),
     // delete previous build files
-    // new CleanWebpackPlugin({
-    //   cleanOnceBeforeBuildPatterns: [
-    //     path.join(
-    //       "!",
-    //       process.cwd(),
-    //       `extension/${targetBrowser}/manifest.json`
-    //     ),
-    //     path.join(process.cwd(), `extension/${targetBrowser}`),
-    //     path.join(
-    //       process.cwd(),
-    //       `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
-    //     ),
-    //   ],
-    //   cleanStaleWebpackAssets: false,
-    //   verbose: true,
-    // }),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        path.join(process.cwd(), `extension/${targetBrowser}`),
+        path.join(
+          process.cwd(),
+          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+        ),
+      ],
+      cleanStaleWebpackAssets: false,
+      verbose: true,
+    }),
     new HtmlWebpackPlugin({
       template: res("popup", "index.html"),
       inject: true, //"body",
