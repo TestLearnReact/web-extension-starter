@@ -13,7 +13,7 @@ import TerserPlugin from "terser-webpack-plugin";
 
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 
-import { isDev } from "../dev-scripts/utils";
+import { isDev, isProd } from "../dev-scripts/utils";
 
 import "webpack-dev-server";
 
@@ -100,24 +100,25 @@ const config: Configuration = {
           preset: ["default", { discardComments: { removeAll: true } }],
         },
       }),
-      new FilemanagerPlugin({
-        events: {
-          onEnd: {
-            archive: [
-              {
-                format: "zip",
-                source: resRoot("extension", targetBrowser),
-                destination: `${resRoot(
-                  "extension",
-                  targetBrowser
-                )}.${getExtensionFileType(targetBrowser)}`,
-                options: { zlib: { level: 6 } },
-              },
-            ],
+      !isProd &&
+        new FilemanagerPlugin({
+          events: {
+            onEnd: {
+              archive: [
+                {
+                  format: "zip",
+                  source: resRoot("extension", targetBrowser),
+                  destination: `${resRoot(
+                    "extension",
+                    targetBrowser
+                  )}.${getExtensionFileType(targetBrowser)}`,
+                  options: { zlib: { level: 6 } },
+                },
+              ],
+            },
           },
-        },
-      }),
-    ],
+        }),
+    ].filter((n) => n),
 
     splitChunks: {
       cacheGroups: {

@@ -4,6 +4,7 @@ import { bgCyan, black } from "kolorist";
 export const port = parseInt(process.env.PORT || "") || 3000;
 export const r = (...args: string[]) => resolve(__dirname, "../../", ...args);
 export const isDev = process.env.NODE_ENV !== "production";
+export const isProd = process.env.NODE_ENV === "production";
 
 export function log(name: string, message: string) {
   // eslint-disable-next-line no-console
