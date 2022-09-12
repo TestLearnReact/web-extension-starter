@@ -1,18 +1,14 @@
 import fs from "fs-extra";
-import type { Manifest } from "webextension-polyfill";
 import type PkgType from "../../package.json";
-// @ts-ignore
-import { isDev, port, r } from "../../build-tools/dev-scripts/utils";
-
+import { r } from "../../build-tools/dev-scripts/utils";
 import type { ManifestV3Export } from "@crxjs/vite-plugin";
 
-export async function getManifest() {
+export async function getManifest(): Promise<ManifestV3Export> {
   const pkg = (await fs.readJSON(r("package.json"))) as typeof PkgType;
 
   // update this file to update this manifest.json
   // can also be conditional based on your need
   const manifest: ManifestV3Export = {
-    //Manifest.WebExtensionManifest
     manifest_version: 3,
     name: pkg.displayName || pkg.name,
     version: pkg.version,
@@ -31,6 +27,7 @@ export async function getManifest() {
     },
     icons: {
       16: "./assets/icons/icon-512.png",
+      32: "./assets/icons/icon-512.png",
       48: "./assets/icons/icon-512.png",
       128: "./assets/icons/icon-512.png",
     },
@@ -40,7 +37,6 @@ export async function getManifest() {
       {
         matches: ["http://*/*", "https://*/*"],
         js: [
-          //"./lib/react-refresh.js",
           "./lib/browser-polyfill.js",
           "./dist/vendor.js",
           "./dist/messages.js",
@@ -55,18 +51,6 @@ export async function getManifest() {
       },
     ],
   };
-  // console.log("isDev", isDev, process.env.NODE_ENV);
-  // if (isDev) {
-  //   // for content script, as browsers will cache them for each reload,
-  //   // we use a background script to always inject the latest version
-  //   // see src/background/contentScriptHMR.ts
-  //   delete manifest.content_scripts;
-  //   manifest.permissions?.push("webNavigation");
-
-  //   // this is required on dev for Vite script to load
-  //   ///manifest.content_security_policy = `script-src \'self\' http://localhost:${port}; object-src \'self\'`;
-  //   //manifest.content_security_policy = `script-src \'self\' 'sha256-TikAVT3TDd8KfZOLAW9TG6pVSDjWWktyzhTMs7Rm+1o=' http://localhost:${port}; object-src \'self\'`;
-  // }
 
   return manifest;
 }

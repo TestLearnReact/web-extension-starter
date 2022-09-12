@@ -33,6 +33,8 @@ export const getExtensionFileType = (browser) => {
   return "zip";
 };
 
+console.log(isDev, isProd, process.env.NODE_ENV, process.env.TARGET_BROWSER);
+
 const config: Configuration = {
   devtool: false, // https://github.com/webpack/webpack/issues/1194#issuecomment-560382342
   // todo source-map
@@ -100,7 +102,7 @@ const config: Configuration = {
           preset: ["default", { discardComments: { removeAll: true } }],
         },
       }),
-      !isProd &&
+      isProd &&
         new FilemanagerPlugin({
           events: {
             onEnd: {
