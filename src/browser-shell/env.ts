@@ -12,7 +12,3 @@ export function isForbiddenUrl(url: string): boolean {
 }
 
 export const isFirefox = navigator.userAgent.includes("Firefox");
-
-export const isCrxJs = __IS_CRXJS__; //process.env.CRXJS === "CRXJS";
-
-//export const isVITE = process.env.IS_VITE;
