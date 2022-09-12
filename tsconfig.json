@@ -15,11 +15,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsx",    
     "noImplicitAny": false,
     "paths": { 
       "~/*": ["src/*"],
-      "message-system": ["src/message-system/index.ts"]
+      "@message-system/*": ["src/message-system/index.ts"]
      }  
   },
   "ts-node": {

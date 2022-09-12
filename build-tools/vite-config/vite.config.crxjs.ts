@@ -57,7 +57,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "~/": `${r("src")}/`,
-      "message-system": r("src/message-system/index.ts"),
+      "@message-system": r("src/message-system/index.ts"),
     },
   },
   define: {

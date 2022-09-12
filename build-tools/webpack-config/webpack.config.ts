@@ -143,7 +143,7 @@ const config: Configuration = {
         "browser-polyfill.js"
       ),
       "~": resRoot("src"),
-      "message-system": resRoot("src/message-system/index.ts"),
+      "@message-system": resRoot("src/message-system/index.ts"),
     },
     modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },
