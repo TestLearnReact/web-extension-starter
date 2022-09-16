@@ -1,8 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
+// import svgr from "@honkhonk/vite-plugin-svgr";
+// const reactSvgPlugin = require('vite-plugin-react-svg');
+import reactSvgPlugin from "vite-plugin-react-svg";
+import Icons from "unplugin-icons/vite";
 import { crx, defineDynamicResource, defineManifest } from "@crxjs/vite-plugin";
 import AutoImport from "unplugin-auto-import/vite";
 import { isDev, r } from "../dev-scripts/utils";
+
+import { promises as fs } from "fs";
+// loader helpers
+import { FileSystemIconLoader } from "unplugin-icons/loaders";
 
 import packageJson from "../../package.json";
 
@@ -68,8 +77,38 @@ export default defineConfig({
   },
 
   plugins: [
+    //svgr(),
+    Icons({
+      compiler: "jsx",
+      jsx: "react",
+      customCollections: {
+        // key as the collection name
+        "my-icons": {
+          account: "<svg><!-- ... --></svg>",
+          // load your custom icon lazily
+          settings: () => fs.readFile("./path/to/my-icon.svg", "utf-8"),
+          /* ... */
+        },
+        "my-other-icons": async (iconName) => {
+          // your custom loader here. Do whatever you want.
+          // for example, fetch from a remote server:
+          return await fetch(`https://example.com/icons/${iconName}.svg`).then(
+            (res) => res.text()
+          );
+        },
+        // a helper to load icons from the file system
+        // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
+        // you can also provide a transform callback to change each icon (optional)
+        "my-yet-other-icons": FileSystemIconLoader(
+          r("./public/assets/icons"),
+          (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
+        ),
+      },
+    }),
     react(),
+    //reactSvgPlugin(),
     crx({ manifest }),
+    // svgr(),
     AutoImport({
       imports: [
         {
@@ -84,13 +123,13 @@ export default defineConfig({
       // add any html pages here
       input: {
         // output file at '/index.html'
-        // welcome: resolve(__dirname, "index.html"),
+        welcome: r("src/browser-shell/frontends/sidebar", "index.html"),
         // output file at '/src/panel.html'
         // panel: resolve(__dirname, "src/panel.html"),
       },
     },
   },
   optimizeDeps: {
-    include: ["webextension-polyfill", "styled-components"],
+    include: ["webextension-polyfill"], //"styled-components"
   },
 });

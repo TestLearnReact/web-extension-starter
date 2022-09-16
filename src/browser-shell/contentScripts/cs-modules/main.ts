@@ -2,6 +2,7 @@ import {
   ms_sendComponentInit,
   ms_sendInjectScript,
 } from "~/browser-shell/utils";
+import { SharedInPageUIState } from "../sharedInPageUI";
 import {
   ContentScriptComponent,
   ContentScriptRegistry,
@@ -36,21 +37,35 @@ const csMainModule = async (
 
   // 3. Creates an instance of the InPageUI manager class to encapsulate
   // business logic of initialising and hide/showing components.
-  const inPageUI = {
-    loadComponent: (component: any) => {
-      // ContentScriptComponent
 
+  const inPageUI = new SharedInPageUIState({
+    loadComponent: (component) => {
       if (!components[component]) {
         components[component] = resolvablePromise<void>();
         loadContentScript(component);
       }
-
       return components[component]!;
     },
     unloadComponent: (component) => {
       delete components[component];
     },
-  };
+  });
+
+  // const inPageUI = {
+  //   loadComponent: (component: any) => {
+  //     // ContentScriptComponent
+
+  //     if (!components[component]) {
+  //       components[component] = resolvablePromise<void>();
+  //       loadContentScript(component);
+  //     }
+
+  //     return components[component]!;
+  //   },
+  //   unloadComponent: (component) => {
+  //     delete components[component];
+  //   },
+  // };
 
   // 4. Create a contentScriptRegistry object with functions for each content script
   // component, that when run, initialise the respective component with it's
@@ -94,8 +109,8 @@ const csMainModule = async (
     await inPageUI.loadComponent("sidebar");
   }
 
-  ms_sendComponentInit({ component: "toolbar" });
-  ms_sendComponentInit({ component: "sidebar" });
+  // ms_sendComponentInit({ component: "toolbar" });
+  // ms_sendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };

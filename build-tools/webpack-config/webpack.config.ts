@@ -209,6 +209,9 @@ const config: Configuration = {
   },
 
   plugins: [
+    require("unplugin-icons/webpack")({
+      /* options */
+    }),
     {
       apply: (compiler) => {
         let wroteManifest = false;

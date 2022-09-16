@@ -3,9 +3,7 @@ import * as ReactDOM from "react-dom";
 import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
-import { Sidebar } from "./Sidebar";
-
-//export const Test = () => <div>Test HMR</div>;
+import SidebarHolder from "./container/sidebar-holder";
 
 export interface SidebarContainerDependencies {
   inPageUI: any;
@@ -19,7 +17,7 @@ export function setupFrontendSidebar(
     <React.StrictMode>
       <StyleSheetManager target={mount.shadowRoot as any}>
         <ThemeProvider theme={{}}>
-          <Sidebar />
+          <SidebarHolder dependencies={dependencies} />
         </ThemeProvider>
       </StyleSheetManager>
     </React.StrictMode>,

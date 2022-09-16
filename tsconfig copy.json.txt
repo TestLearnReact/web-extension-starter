@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Node16",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
@@ -20,18 +20,16 @@
     "paths": { 
       "~/*": ["src/*"],
       "@message-system": ["src/message-system/index.ts"]
-     },
-     "types": [
-      "unplugin-icons/types/react",
-    ]  
+     }  
   },
-  // "ts-node": {
-  //   "compilerOptions": {
-  //     "module": "CommonJS"
-  //   }
-  // },
-  // "include": [
-  //   "src"
-  // ],
-  // "exclude": ["node_modules"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": ["node_modules"],
+  "references": [ {"path": "./tsconfig.node.json"} ]
 }

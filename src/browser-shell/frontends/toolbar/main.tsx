@@ -3,9 +3,7 @@ import * as ReactDOM from "react-dom";
 import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
-import { Toolbar } from "./Toolbar";
-
-export const Test = () => <div>Test HMR</div>;
+import ToolbarHolder from "./container/toolbar-holder";
 
 export interface ToolbarContainerDependencies {
   inPageUI: any;
@@ -19,7 +17,7 @@ export function setupFrontendToolbar(
     <React.StrictMode>
       <StyleSheetManager target={mount.shadowRoot as any}>
         <ThemeProvider theme={{}}>
-          <Toolbar />
+          <ToolbarHolder dependencies={dependencies} />
         </ThemeProvider>
       </StyleSheetManager>
     </React.StrictMode>,
