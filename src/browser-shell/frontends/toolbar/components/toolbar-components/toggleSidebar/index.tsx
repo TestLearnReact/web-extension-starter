@@ -22,7 +22,6 @@ export const ToggleSidebar: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(sidebar.isSidebarOpen);
 
   const toggleSidebar = () => {
-    //!isOpen ? sidebar.openSidebar() : sidebar.closeSidebar();
     setIsOpen(!isOpen);
   };
 
