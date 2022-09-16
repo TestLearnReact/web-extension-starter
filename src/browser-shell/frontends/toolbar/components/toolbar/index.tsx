@@ -1,13 +1,6 @@
 import React, { useRef } from "react";
 import cx from "classnames";
 
-// import {
-//   CloseToolbar,
-//   CreateBookmark,
-//   Search,
-//   ToggleSidebar,
-// } from "../ribbon-components";
-
 import "./styles.scss";
 import { CloseToolbar } from "../toolbar-components/closeToolbar";
 import { ToggleSidebar } from "../toolbar-components/toggleSidebar";
@@ -18,7 +11,7 @@ export interface RibbonSubcomponentProps {
   sidebar: RibbonSidebarProps;
 }
 export interface RibbonSidebarProps {
-  isSidebarOpen: boolean; // todo doppelt sharedsate...
+  isSidebarOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
 }
@@ -85,15 +78,3 @@ const Toolbar: React.FC<IRibbonProps> = (props) => {
 };
 
 export default Toolbar;
-
-// import React from "react";
-
-// import * as S from "./styles";
-
-// export const Toolbar: React.FC<{}> = () => {
-//   return (
-//     <S.Container>
-//       <div className="crx-root">Toolbar !!!</div>
-//     </S.Container>
-//   );
-// };
