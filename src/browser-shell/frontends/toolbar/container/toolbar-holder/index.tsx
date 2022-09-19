@@ -20,6 +20,8 @@ interface IRibbonHolderProps {
 const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
   dependencies,
 }) => {
+  console.log(".r.e.n.d.e.r ToolbarHolderContainer");
+
   const holderRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -29,8 +31,6 @@ const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
   let mouseInRibbon = false;
   let mouseInHolder = false;
   let isAnyPopupOpen = false;
-
-  console.log(".r.e.n.d.e.r ToolbarHolderContainer");
 
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
