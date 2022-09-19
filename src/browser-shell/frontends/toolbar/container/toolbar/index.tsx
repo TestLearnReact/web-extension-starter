@@ -23,6 +23,8 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
 }) => {
   const { inPageUI } = dependencies;
 
+  console.log(".r.e.n.d.e.r ToolbarContainer");
+
   const [sharedInPageUiState, setSharedInPageUiState] =
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 

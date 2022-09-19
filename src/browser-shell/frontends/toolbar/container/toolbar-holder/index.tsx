@@ -30,24 +30,9 @@ const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
   let mouseInHolder = false;
   let isAnyPopupOpen = false;
 
-  //let isAnyPopupOpen = useRef(false);
-
-  console.log("render ??", isAnyPopupOpen);
-
-  // const [sharedInPageUiState, setSharedInPageUiState] =
-  //   useState<InPageUIComponentShowState>(inPageUI.componentsShown);
-
-  // useEffect(() => {
-  //   console.log("render ?? useEffect", isAnyPopupOpen);
-  //   ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
-  //     isAnyPopupOpen = sidebar;
-  //     //isAnyPopupOpen.current = sidebar;
-  //     setSharedInPageUiState({ toolbar, sidebar });
-  //   });
-  // }, []);
+  console.log(".r.e.n.d.e.r ToolbarHolderContainer");
 
   useEffect(() => {
-    console.log("render ?? useEffect", isAnyPopupOpen);
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       isAnyPopupOpen = sidebar;
     });
@@ -102,11 +87,7 @@ const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
         withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
       })}
     >
-      <ToolbarContainer
-        dependencies={dependencies}
-        toolbarRef={toolbarRef}
-        // sharedInPageUiState={sharedInPageUiState}
-      />
+      <ToolbarContainer dependencies={dependencies} toolbarRef={toolbarRef} />
     </div>
   );
 };
