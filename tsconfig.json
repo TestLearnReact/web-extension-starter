@@ -21,17 +21,9 @@
       "~/*": ["src/*"],
       "@message-system": ["src/message-system/index.ts"]
      },
-     "types": [
+    "types": [
       "unplugin-icons/types/react",
+      "chrome"
     ]  
   },
-  // "ts-node": {
-  //   "compilerOptions": {
-  //     "module": "CommonJS"
-  //   }
-  // },
-  // "include": [
-  //   "src"
-  // ],
-  // "exclude": ["node_modules"]
 }

@@ -3,9 +3,15 @@ import { styled } from "~/browser-shell/frontends/common";
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  color: white;
-  background-color: #131a22;
-  right: "100";
+  justify-content: center;
 `;
+
+export const Content = styled.div`
+  font-size: 1.4em;
+  height: 200px;
+  width: 80%;
+  color: ${({ theme }) => theme?.colors.grey50};
+  background-color: ${(props) => props.theme.colors.grey20};
+`;
+//${({ theme }) => theme?.fontSizes.}; // todo bug

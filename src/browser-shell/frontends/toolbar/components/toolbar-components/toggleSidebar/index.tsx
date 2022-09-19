@@ -7,12 +7,12 @@ import {
 
 import IconOpenSidebar from "~icons/my-yet-other-icons/openSidebar.svg";
 
-import { RibbonSidebarProps } from "../../toolbar";
+import { ToolbarSidebarProps } from "../../toolbar";
 
 interface IProps {
   tooltipText: string;
   position?: TooltipPosition;
-  sidebar: RibbonSidebarProps;
+  sidebar: ToolbarSidebarProps;
 }
 
 export const ToggleSidebar: React.FC<IProps> = ({

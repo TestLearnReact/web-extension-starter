@@ -11,13 +11,13 @@ import ToolbarContainer from "../toolbar";
 
 import "./styles.css";
 
-const RIBBON_HIDE_TIMEOUT = 2000;
+const TOOLBAR_HIDE_TIMEOUT = 2000;
 
-interface IRibbonHolderProps {
+interface IToolbarHolderProps {
   dependencies: ToolbarContainerDependencies;
 }
 
-const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
+const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   dependencies,
 }) => {
   console.log(".r.e.n.d.e.r ToolbarHolderContainer");
@@ -28,7 +28,7 @@ const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
 
   const { inPageUI } = dependencies;
 
-  let mouseInRibbon = false;
+  let mouseInToolbar = false;
   let mouseInHolder = false;
   let isAnyPopupOpen = false;
 
@@ -47,38 +47,38 @@ const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
   }, []);
 
   const handleMouseEnterHolderRef = (event: Event) => {
-    console.log("handleMouseEnter HolderRef");
+    //console.log("handleMouseEnter HolderRef");
     mouseInHolder = true;
-    inPageUI.showRibbon();
+    inPageUI.showToolbar();
   };
 
-  const handleMouseEnterRibbonRef = (event: Event) => {
-    console.log("handleMouseEnter RibbonRef");
-    mouseInRibbon = true;
-    inPageUI.showRibbon();
+  const handleMouseEnterToolbarRef = (event: Event) => {
+    //console.log("handleMouseEnter ToolbarRef");
+    mouseInToolbar = true;
+    inPageUI.showToolbar();
   };
 
-  const handleMouseLeaveRibbonRef = (event: Event) => {
-    console.log("handleMouseLeaveRibbonRef");
-    mouseInRibbon = false;
+  const handleMouseLeaveToolbarRef = (event: Event) => {
+    //console.log("handleMouseLeaveToolbarRef");
+    mouseInToolbar = false;
   };
 
-  const hideRibbon = () => {
-    const shouldHide = !mouseInHolder && !mouseInRibbon && !isAnyPopupOpen; // !isAnyPopupOpen.current; //
-    shouldHide && inPageUI.hideRibbon();
+  const hideToolbar = () => {
+    const shouldHide = !mouseInHolder && !mouseInToolbar && !isAnyPopupOpen; // !isAnyPopupOpen.current; //
+    shouldHide && inPageUI.hideToolbar();
   };
 
-  const hideRibbonWithTimeout = (event: Event) => {
+  const hideToolbarWithTimeout = (event: Event) => {
     mouseInHolder = false;
     timerRef.current && clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(hideRibbon, RIBBON_HIDE_TIMEOUT);
+    timerRef.current = setTimeout(hideToolbar, TOOLBAR_HIDE_TIMEOUT);
   };
 
   useEventListener("mouseenter", handleMouseEnterHolderRef, holderRef);
-  useEventListener("mouseleave", hideRibbonWithTimeout, holderRef);
+  useEventListener("mouseleave", hideToolbarWithTimeout, holderRef);
 
-  useEventListener("mouseenter", handleMouseEnterRibbonRef, toolbarRef);
-  useEventListener("mouseleave", handleMouseLeaveRibbonRef, toolbarRef);
+  useEventListener("mouseenter", handleMouseEnterToolbarRef, toolbarRef);
+  useEventListener("mouseleave", handleMouseLeaveToolbarRef, toolbarRef);
 
   return (
     <div

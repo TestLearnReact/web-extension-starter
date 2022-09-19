@@ -1,9 +1,14 @@
 /* eslint-disable */
 import {
+  ms_sendComponentDestroy,
   ms_sendComponentInit,
   ms_sendInPageUiState,
 } from "~/browser-shell/utils";
-import { InPageUIComponentShowState, InPageUIComponent } from "./types";
+import {
+  InPageUIComponentShowState,
+  InPageUIComponent,
+  SharedInPageUIInterface,
+} from "./types";
 
 export const isCsDevHtmlFirefox = (url: string) =>
   url.includes("moz-extension://") && url.includes("/dist/csdev/index.html");
@@ -13,7 +18,7 @@ export interface SharedInPageUIDependencies {
   unloadComponent: (component: InPageUIComponent) => void;
 }
 
-export class SharedInPageUIState {
+export class SharedInPageUIState implements SharedInPageUIInterface {
   componentsShown: InPageUIComponentShowState = {
     toolbar: false,
     sidebar: false,
@@ -24,19 +29,13 @@ export class SharedInPageUIState {
     sidebar: false,
   };
 
-  constructor(private options: SharedInPageUIDependencies) {
-    // ms_reloadRibbonStream.subscribe(async ([{}]) => {
-    //   console.log("R-R-R-EEELO");
-    //   await this.reloadRibbon();
-    // });
-  }
+  constructor(private options: SharedInPageUIDependencies) {}
 
   async showSidebar(options?: any) {
-    // SidebarActionOptions
     if (this.componentsShown.sidebar) return;
 
     this.componentsShown.sidebar = true;
-    this.componentsShown.toolbar = true; // ?
+    this.componentsShown.toolbar = true;
     await ms_sendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
@@ -63,17 +62,12 @@ export class SharedInPageUIState {
     }
   }
 
-  async loadComponent(
-    component: InPageUIComponent,
-    options: any = {} //ShouldSetUpOptions
-  ) {
+  async loadComponent(component: InPageUIComponent, options: any = {}) {
     await this.options.loadComponent(component);
     this._maybeEmitShouldSetUp(component, options);
   }
 
-  async showRibbon(options?: { action?: any }) {
-    //InPageUIRibbonAction
-
+  async showToolbar(options?: { action?: any }) {
     if (this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = true;
@@ -83,7 +77,7 @@ export class SharedInPageUIState {
     });
   }
 
-  async hideRibbon() {
+  async hideToolbar() {
     if (!this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = false;
@@ -95,23 +89,22 @@ export class SharedInPageUIState {
     });
   }
 
-  async toggleRibbon() {
+  async toggleToolbar() {
     if (this.componentsShown.toolbar) {
-      await this.hideRibbon();
+      await this.hideToolbar();
     } else {
-      await this.showRibbon();
+      await this.showToolbar();
     }
   }
 
-  async removeRibbon() {
+  async removeToolbar() {
     if (this.componentsSetUp.sidebar) {
       await this._removeComponent("sidebar");
     }
     await this._removeComponent("toolbar");
   }
 
-  async reloadRibbon() {
-    // if (!this.componentsSetUp.ribbon) return; //
+  async reloadToolbar() {
     await this.reloadComponent("toolbar");
     await this.reloadComponent("sidebar");
   }
@@ -120,21 +113,17 @@ export class SharedInPageUIState {
     this.options.unloadComponent(component);
     this.componentsShown[component] = false;
     this.componentsSetUp[component] = false;
-    //ms_sendComponentDestroy(component); // todo change state?
+    ms_sendComponentDestroy({ component });
   }
 
-  async reloadComponent(
-    component: InPageUIComponent,
-    options: any = {} //ShouldSetUpOptions
-  ) {
-    // console.log("//* reloadComponent()", component);
+  async reloadComponent(component: InPageUIComponent, options: any = {}) {
     await this.options.loadComponent(component);
-    ms_sendComponentInit({ component: component }); //await //todo
+    ms_sendComponentInit({ component: component });
   }
 
   private async _maybeEmitShouldSetUp(
     component: InPageUIComponent,
-    options: any = {} //ShouldSetUpOptions
+    options: any = {}
   ) {
     if (this.componentsSetUp[component]) return;
     await ms_sendComponentInit({ component: component });

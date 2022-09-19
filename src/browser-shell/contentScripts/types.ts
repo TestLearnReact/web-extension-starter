@@ -12,7 +12,7 @@ export interface ContentScriptRegistry {
   registerSidebarScript(main: SidebarScriptMain): Promise<void>;
 }
 export type ToolbarScriptMain = (
-  dependencies: ToolbarContainerDependencies // Omit<RibbonContainerDependencies, "currentTab">
+  dependencies: ToolbarContainerDependencies // Omit<ToolbarContainerDependencies, "currentTab">
 ) => Promise<void>;
 
 export type SidebarScriptMain = (

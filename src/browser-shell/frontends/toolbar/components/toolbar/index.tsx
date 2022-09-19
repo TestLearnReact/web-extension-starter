@@ -7,32 +7,28 @@ import { ToggleSidebar } from "../toolbar-components/toggleSidebar";
 import { ToolbarContainerDependencies } from "../../main";
 import { InPageUIComponentShowState } from "~/browser-shell/utils";
 
-export interface RibbonSubcomponentProps {
-  sidebar: RibbonSidebarProps;
+export interface ToolbarSubcomponentProps {
+  sidebar: ToolbarSidebarProps;
 }
-export interface RibbonSidebarProps {
+export interface ToolbarSidebarProps {
   isSidebarOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
   toggleSidebar: () => void;
 }
 
-// interface RibbonSubcomponentProps {
-//   sidebar: any;
-// }
-
-interface IRibbonProps extends RibbonSubcomponentProps {
-  dependencies: ToolbarContainerDependencies;
+interface IToolbarProps extends ToolbarSubcomponentProps {
+  dependencies: ToolbarContainerDependencies; // no need container/component structure
   toolbarRef: React.RefObject<HTMLDivElement>;
-  handleRemoveRibbon: () => void;
+  handleRemoveToolbar: () => void;
   sharedInPageUiState: InPageUIComponentShowState;
 }
 
-const Toolbar: React.FC<IRibbonProps> = (props) => {
+const Toolbar: React.FC<IToolbarProps> = (props) => {
   const {
-    dependencies,
+    dependencies, // no need container/component structure
     toolbarRef,
-    handleRemoveRibbon,
+    handleRemoveToolbar,
     sharedInPageUiState,
     sidebar,
   } = props;
@@ -43,16 +39,16 @@ const Toolbar: React.FC<IRibbonProps> = (props) => {
 
   return (
     <div
-      className={cx("ribbon", {
-        ribbonExpanded: sharedInPageUiState.toolbar,
-        ribbonSidebarOpen: sharedInPageUiState.sidebar,
+      className={cx("toolbar", {
+        toolbarExpanded: sharedInPageUiState.toolbar,
+        toolbarSidebarOpen: sharedInPageUiState.sidebar,
       })}
     >
       <div
         ref={toolbarRef}
-        className={cx("innerRibbon", {
-          innerRibbonExpanded: sharedInPageUiState.toolbar,
-          innerRibbonSidebarOpen: sharedInPageUiState.sidebar,
+        className={cx("innerToolbar", {
+          innerToolbarExpanded: sharedInPageUiState.toolbar,
+          innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
         })}
       >
         {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
@@ -62,7 +58,7 @@ const Toolbar: React.FC<IRibbonProps> = (props) => {
                 <>
                   <CloseToolbar
                     tooltipText={"Close Toolbar for session"}
-                    handleRemoveRibbon={handleRemoveRibbon}
+                    handleRemoveToolbar={handleRemoveToolbar}
                   />
                   <ToggleSidebar
                     tooltipText={getTooltipText("toggleSidebar")}

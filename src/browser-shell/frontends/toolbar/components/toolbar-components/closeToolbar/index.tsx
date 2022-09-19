@@ -9,17 +9,17 @@ import IconClose from "~icons/my-yet-other-icons/close.svg";
 interface IProps {
   tooltipText: string;
   position?: TooltipPosition;
-  handleRemoveRibbon: () => void;
+  handleRemoveToolbar: () => void;
 }
 
 export const CloseToolbar: React.FC<IProps> = ({
   tooltipText,
   position = "leftNarrow",
-  handleRemoveRibbon,
+  handleRemoveToolbar,
 }) => {
   return (
     <ButtonTooltip tooltipText={tooltipText} position={position}>
-      <div onClick={() => handleRemoveRibbon()}>
+      <div onClick={() => handleRemoveToolbar()}>
         <IconClose className="button" />
       </div>
     </ButtonTooltip>

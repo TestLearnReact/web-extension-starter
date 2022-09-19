@@ -1,14 +1,15 @@
-import { csMainModule } from "./cs-modules/main";
+import { csMainModule } from "./main";
 
-import { sidebarMain } from "./cs-modules/sidebar";
-import { toolbarMain } from "./cs-modules/toolbar";
+import { sidebarMain } from "./sidebar";
+import { toolbarMain } from "./toolbar";
 
 /**
  * CS Module for development without injecting
  * Change MakeHMRworking to makeHMRworking for vite reload instead of hmr
  */
 export const MakeHMRworking = async () => {
-  console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
+  //console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
+  console.log("! contentScripts/cs-modules/dev-main.ts !");
   await csMainModule({
     loadRemotely: true,
     devScripts: {

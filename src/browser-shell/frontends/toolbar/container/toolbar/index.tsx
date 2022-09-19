@@ -35,10 +35,10 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
 
   return (
     <Toolbar
-      dependencies={dependencies}
+      dependencies={dependencies} // no need container/component structure
       toolbarRef={toolbarRef}
       sharedInPageUiState={sharedInPageUiState}
-      handleRemoveRibbon={() => inPageUI.removeRibbon()}
+      handleRemoveToolbar={() => inPageUI.removeToolbar()}
       sidebar={{
         isSidebarOpen: sharedInPageUiState.sidebar,
         openSidebar: () => handleSidebarOpen(),

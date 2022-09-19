@@ -20,7 +20,7 @@ export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
   // const cssFile =
   //   !__CS_BUILD__ || isCsDevHtmlchrome() // isViteAndDev
   //     ? ""
-  //     : browser.extension.getURL(`dist/contentScripts/ribbon.css`);
+  //     : browser.extension.getURL(`dist/contentScripts/toolbar.css`);
 
   let mount: InPageUIRootMount;
   const createMount = () => {

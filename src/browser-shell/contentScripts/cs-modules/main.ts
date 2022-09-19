@@ -96,13 +96,15 @@ const csMainModule = async (
   // use es modules in development for frontend stuff
   // (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
   if (__DEV__ && window.location.href.startsWith("chrome-extension://")) {
-    console.log("LLLLLL", process.env.NODE_ENV === "production");
     // webpack bundles code in production mode too, so we passed modules as parameter only in dev
     // no need inject scripts
     await params.devScripts?.toolbarDevModule(csDeps.toolbar);
     await params.devScripts?.sidebarDevModule(csDeps.toolbar);
     // await toolbarMain(csDeps.toolbar);
     // await sidebarMain(csDeps.sidebar);
+
+    ms_sendComponentInit({ component: "toolbar" });
+    ms_sendComponentInit({ component: "sidebar" });
   } else {
     // inject scripts
     await inPageUI.loadComponent("toolbar");
