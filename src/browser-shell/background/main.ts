@@ -1,9 +1,12 @@
+import { sensitiveHeaders } from "http2";
 import browser, { Tabs } from "webextension-polyfill";
 import { ContentScriptComponent } from "../contentScripts/types";
 import {
   ms_injectScriptStream,
   ms_componentInitStream,
   ms_sendComponentInit,
+  ms_inPageUiStateStream,
+  ms_sendInPageUiState,
 } from "../utils";
 
 export const main = async ({
@@ -48,5 +51,10 @@ export const main = async ({
    */
   ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
     await ms_sendComponentInit({ component }, { tabId: sender.tab?.id });
+  });
+
+  ms_inPageUiStateStream.subscribe(async ([{ toolbar, sidebar }, sender]) => {
+    console.log("ms_inPageUiStateStream bridge", toolbar, sidebar);
+    await ms_sendInPageUiState({ toolbar, sidebar }, { tabId: sender.tab?.id });
   });
 };

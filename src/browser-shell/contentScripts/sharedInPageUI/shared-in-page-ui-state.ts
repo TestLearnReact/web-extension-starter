@@ -37,24 +37,22 @@ export class SharedInPageUIState {
 
     this.componentsShown.sidebar = true;
     this.componentsShown.toolbar = true; // ?
-    // await ms_sendInPageUiState({
-    //   ...this.componentsShown,
-    //   ribbon: true,
-    //   sidebar: true,
-    // });
+    await ms_sendInPageUiState({
+      ...this.componentsShown,
+      toolbar: true,
+      sidebar: true,
+    });
   }
 
   async hideSidebar() {
-    console.log("hideSidebar inpage");
     if (!this.componentsShown.sidebar) return;
 
     this.componentsShown.sidebar = false;
-    // this.componentsShown.ribbon = false; // todo richtige stelle?
-    // await ms_sendInPageUiState({
-    //   ...this.componentsShown,
-    //   sidebar: false,
-    //   // ribbon: false,
-    // });
+
+    await ms_sendInPageUiState({
+      ...this.componentsShown,
+      sidebar: false,
+    });
   }
 
   async toggleSidebar() {
@@ -69,24 +67,19 @@ export class SharedInPageUIState {
     component: InPageUIComponent,
     options: any = {} //ShouldSetUpOptions
   ) {
-    // inject script
-    // @ts-ignore todo besser ein platz wo kp
-    /// __CS_BUILD__ && (await this.options.loadComponent(component));
-    // setup React Component
     await this.options.loadComponent(component);
     this._maybeEmitShouldSetUp(component, options);
   }
 
   async showRibbon(options?: { action?: any }) {
     //InPageUIRibbonAction
+
     if (this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = true;
-    // this.componentsShown.sidebar = true; // test
     await ms_sendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
-      // sidebar: true,
     });
   }
 
@@ -94,7 +87,7 @@ export class SharedInPageUIState {
     if (!this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = false;
-    this.componentsShown.sidebar = false; // test
+    this.componentsShown.sidebar = false;
     await ms_sendInPageUiState({
       ...this.componentsShown,
       toolbar: false,
@@ -118,7 +111,6 @@ export class SharedInPageUIState {
   }
 
   async reloadRibbon() {
-    console.log("reloadRibbon()");
     // if (!this.componentsSetUp.ribbon) return; //
     await this.reloadComponent("toolbar");
     await this.reloadComponent("sidebar");

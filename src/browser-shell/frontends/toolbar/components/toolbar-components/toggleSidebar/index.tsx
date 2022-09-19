@@ -5,7 +5,8 @@ import {
   TooltipPosition,
 } from "~/browser-shell/frontends/common";
 
-import IconOpenSidebar from "~icons/my-yet-other-icons/openSidebar";
+import IconOpenSidebar from "~icons/my-yet-other-icons/openSidebar.svg";
+
 import { RibbonSidebarProps } from "../../toolbar";
 
 interface IProps {
@@ -22,6 +23,7 @@ export const ToggleSidebar: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(sidebar.isSidebarOpen);
 
   const toggleSidebar = () => {
+    sidebar.toggleSidebar();
     setIsOpen(!isOpen);
   };
 

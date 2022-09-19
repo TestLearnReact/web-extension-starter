@@ -1,23 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 import { ToolbarContainerDependencies } from "../../main";
-// import {
-//   InPageUIComponentShowState,
-//   useEventListener,
-// } from "@project/frontends-common";
-
-// import RibbonContainer from "../ribbon";
-
-import "./styles.css";
 import { useEventListener } from "~/browser-shell/frontends/common";
 import {
   InPageUIComponentShowState,
   ms_inPageUiStateStream,
 } from "~/browser-shell/utils";
-import Toolbar from "../../components/toolbar";
-import { CloseToolbar } from "../../components/toolbar-components/closeToolbar";
 
-//import { ms_inPageUiStateStream } from "@project/shared-utils";
+import ToolbarContainer from "../toolbar";
+
+import "./styles.css";
 
 const RIBBON_HIDE_TIMEOUT = 2000;
 
@@ -25,9 +17,11 @@ interface IRibbonHolderProps {
   dependencies: ToolbarContainerDependencies;
 }
 
-const ToolbarHolder: React.FC<IRibbonHolderProps> = ({ dependencies }) => {
+const ToolbarHolderContainer: React.FC<IRibbonHolderProps> = ({
+  dependencies,
+}) => {
   const holderRef = useRef<HTMLDivElement>(null);
-  const ribbonRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const { inPageUI } = dependencies;
@@ -36,13 +30,26 @@ const ToolbarHolder: React.FC<IRibbonHolderProps> = ({ dependencies }) => {
   let mouseInHolder = false;
   let isAnyPopupOpen = false;
 
-  const [sharedInPageUiState, setSharedInPageUiState] =
-    useState<InPageUIComponentShowState>(inPageUI.componentsShown);
+  //let isAnyPopupOpen = useRef(false);
+
+  console.log("render ??", isAnyPopupOpen);
+
+  // const [sharedInPageUiState, setSharedInPageUiState] =
+  //   useState<InPageUIComponentShowState>(inPageUI.componentsShown);
+
+  // useEffect(() => {
+  //   console.log("render ?? useEffect", isAnyPopupOpen);
+  //   ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
+  //     isAnyPopupOpen = sidebar;
+  //     //isAnyPopupOpen.current = sidebar;
+  //     setSharedInPageUiState({ toolbar, sidebar });
+  //   });
+  // }, []);
 
   useEffect(() => {
+    console.log("render ?? useEffect", isAnyPopupOpen);
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       isAnyPopupOpen = sidebar;
-      setSharedInPageUiState({ toolbar, sidebar });
     });
   }, []);
 
@@ -55,25 +62,24 @@ const ToolbarHolder: React.FC<IRibbonHolderProps> = ({ dependencies }) => {
   }, []);
 
   const handleMouseEnterHolderRef = (event: Event) => {
-    //console.log("handleMouseEnter HolderRef");
+    console.log("handleMouseEnter HolderRef");
     mouseInHolder = true;
     inPageUI.showRibbon();
   };
 
   const handleMouseEnterRibbonRef = (event: Event) => {
-    //console.log("handleMouseEnter RibbonRef");
+    console.log("handleMouseEnter RibbonRef");
     mouseInRibbon = true;
     inPageUI.showRibbon();
   };
 
   const handleMouseLeaveRibbonRef = (event: Event) => {
-    //console.log("handleMouseLeaveRibbonRef");
+    console.log("handleMouseLeaveRibbonRef");
     mouseInRibbon = false;
   };
 
   const hideRibbon = () => {
-    //console.log("hideRibbon");
-    const shouldHide = !mouseInHolder && !mouseInRibbon && !isAnyPopupOpen;
+    const shouldHide = !mouseInHolder && !mouseInRibbon && !isAnyPopupOpen; // !isAnyPopupOpen.current; //
     shouldHide && inPageUI.hideRibbon();
   };
 
@@ -86,37 +92,23 @@ const ToolbarHolder: React.FC<IRibbonHolderProps> = ({ dependencies }) => {
   useEventListener("mouseenter", handleMouseEnterHolderRef, holderRef);
   useEventListener("mouseleave", hideRibbonWithTimeout, holderRef);
 
-  useEventListener("mouseenter", handleMouseEnterRibbonRef, ribbonRef);
-  useEventListener("mouseleave", handleMouseLeaveRibbonRef, ribbonRef);
-
-  // todo container ribbon anlegen?
-  const handleSidebarOpen = () => {
-    // if (this.state.commentBox.showCommentBox) {
-    //     this.processEvent('cancelComment', null)
-    // }
-    inPageUI.showSidebar();
-  };
+  useEventListener("mouseenter", handleMouseEnterRibbonRef, toolbarRef);
+  useEventListener("mouseleave", handleMouseLeaveRibbonRef, toolbarRef);
 
   return (
     <div
       ref={holderRef}
       className={cx("holder", {
-        withSidebar: false, // sidebarIsVisible, sharedInPageUiState.sidebar
+        withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
       })}
     >
-      <Toolbar
+      <ToolbarContainer
         dependencies={dependencies}
-        toolbarRef={holderRef}
-        sharedInPageUiState={sharedInPageUiState}
-        handleRemoveRibbon={() => console.log("handleRemoveRibbon")}
-        sidebar={{
-          isSidebarOpen: sharedInPageUiState.sidebar, // todo
-          openSidebar: () => handleSidebarOpen(),
-          closeSidebar: () => inPageUI.hideSidebar(),
-        }}
+        toolbarRef={toolbarRef}
+        // sharedInPageUiState={sharedInPageUiState}
       />
     </div>
   );
 };
 
-export default ToolbarHolder;
+export default ToolbarHolderContainer;

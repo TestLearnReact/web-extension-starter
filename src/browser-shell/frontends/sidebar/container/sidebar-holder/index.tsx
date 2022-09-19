@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SidebarContainerDependencies } from "../../main";
-import { ms_inPageUiStateStream } from "~/browser-shell/utils/messages";
+import {
+  InPageUIComponentShowState,
+  ms_inPageUiStateStream,
+} from "~/browser-shell/utils/messages";
 
 import * as S from "./styles";
 import {
@@ -23,9 +26,8 @@ const Sidebarholder: React.FC<SidebarHolderProps> = ({ dependencies }) => {
   const { theme, themeToggler } = useThemeMode();
   const themeMode = theme === "light" ? lightTheme : darkTheme;
 
-  const [sharedInPageUiState, setSharedInPageUiState] = useState<any>(
-    inPageUI.componentsShown
-  ); //InPageUIComponentShowState
+  const [sharedInPageUiState, setSharedInPageUiState] =
+    useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }]) => {
@@ -39,7 +41,7 @@ const Sidebarholder: React.FC<SidebarHolderProps> = ({ dependencies }) => {
 
   useClickOutside(ref, handleClickOutside);
 
-  // if (!sharedInPageUiState.sidebar) return null;
+  if (!sharedInPageUiState.sidebar) return null;
   return (
     <>
       <ThemeProvider theme={themeMode}>

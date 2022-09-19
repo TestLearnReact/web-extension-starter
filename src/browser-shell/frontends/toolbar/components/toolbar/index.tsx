@@ -14,6 +14,7 @@ export interface RibbonSidebarProps {
   isSidebarOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
+  toggleSidebar: () => void;
 }
 
 // interface RibbonSubcomponentProps {
@@ -50,11 +51,11 @@ const Toolbar: React.FC<IRibbonProps> = (props) => {
       <div
         ref={toolbarRef}
         className={cx("innerRibbon", {
-          innerRibbonExpanded: true || sharedInPageUiState.toolbar,
-          innerRibbonSidebarOpen: false || sharedInPageUiState.sidebar,
+          innerRibbonExpanded: sharedInPageUiState.toolbar,
+          innerRibbonSidebarOpen: sharedInPageUiState.sidebar,
         })}
       >
-        {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen || true) && (
+        {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
           <>
             <div className="generalActions">
               {(!sidebar.isSidebarOpen || true) && (

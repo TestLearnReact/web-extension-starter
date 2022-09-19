@@ -182,12 +182,12 @@
       // }
       
       .arrow {
-        //background-image: url("/assets/icons/openSidebar.svg");
+        //background-image: url("/assets/icons/openSidebar.svg"); //todo
         transition: 0.2s cubic-bezier(0.55, 0.09, 0.68, 0.53);
       }
       
       .arrowReverse {
-        background-image: url("/assets/icons/openSidebar.svg");
+        //background-image: url("/assets/icons/openSidebar.svg");
         transform: rotate(180deg);
         transition: 0.2s cubic-bezier(0.55, 0.09, 0.68, 0.53);
       }

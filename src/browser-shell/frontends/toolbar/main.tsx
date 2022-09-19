@@ -3,10 +3,11 @@ import * as ReactDOM from "react-dom";
 import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
-import ToolbarHolder from "./container/toolbar-holder";
+import ToolbarHolderContainer from "./container/toolbar-holder";
+import { SharedInPageUIState } from "~/browser-shell/contentScripts/sharedInPageUI";
 
 export interface ToolbarContainerDependencies {
-  inPageUI: any;
+  inPageUI: SharedInPageUIState;
 }
 
 export function setupFrontendToolbar(
@@ -17,7 +18,7 @@ export function setupFrontendToolbar(
     <React.StrictMode>
       <StyleSheetManager target={mount.shadowRoot as any}>
         <ThemeProvider theme={{}}>
-          <ToolbarHolder dependencies={dependencies} />
+          <ToolbarHolderContainer dependencies={dependencies} />
         </ThemeProvider>
       </StyleSheetManager>
     </React.StrictMode>,

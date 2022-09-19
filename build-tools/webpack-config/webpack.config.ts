@@ -13,6 +13,11 @@ import TerserPlugin from "terser-webpack-plugin";
 
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 
+import Icons from "unplugin-icons/webpack";
+import { promises as fs } from "fs";
+// loader helpers
+import { FileSystemIconLoader } from "unplugin-icons/loaders";
+
 import { isDev, isProd } from "../dev-scripts/utils";
 
 import "webpack-dev-server";
@@ -209,9 +214,36 @@ const config: Configuration = {
   },
 
   plugins: [
-    require("unplugin-icons/webpack")({
-      /* options */
+    Icons({
+      compiler: "jsx",
+      jsx: "react",
+      customCollections: {
+        // key as the collection name
+        "my-icons": {
+          account: "<svg><!-- ... --></svg>",
+          // load your custom icon lazily
+          settings: () => fs.readFile("./path/to/my-icon.svg", "utf-8"),
+          /* ... */
+        },
+        "my-other-icons": async (iconName) => {
+          // your custom loader here. Do whatever you want.
+          // for example, fetch from a remote server:
+          return await fetch(`https://example.com/icons/${iconName}.svg`).then(
+            (res) => res.text()
+          );
+        },
+        // a helper to load icons from the file system
+        // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
+        // you can also provide a transform callback to change each icon (optional)
+        "my-yet-other-icons": FileSystemIconLoader(
+          resRoot("./public/assets/icons"),
+          (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
+        ),
+      },
     }),
+    // require("unplugin-icons/webpack")({
+    //   /* options */
+    // }),
     {
       apply: (compiler) => {
         let wroteManifest = false;

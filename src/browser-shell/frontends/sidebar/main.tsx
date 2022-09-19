@@ -4,14 +4,15 @@ import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
 import SidebarHolder from "./container/sidebar-holder";
+import { SharedInPageUIState } from "~/browser-shell/contentScripts/sharedInPageUI";
 
 export interface SidebarContainerDependencies {
-  inPageUI: any;
+  inPageUI: SharedInPageUIState;
 }
 
 export function setupFrontendSidebar(
   mount: InPageUIRootMount,
-  dependencies: any
+  dependencies: SidebarContainerDependencies
 ): void {
   ReactDOM.render(
     <React.StrictMode>
