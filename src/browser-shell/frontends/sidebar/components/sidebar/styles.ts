@@ -1,5 +1,5 @@
 // Bug CRXJS do not compile to dist
-import { styled } from "~/browser-shell/frontends/common";
+import { styled } from "@browser-shell/frontends/common";
 
 export const Container = styled.div`
   display: flex;

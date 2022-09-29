@@ -3,7 +3,7 @@ import { SidebarContainerDependencies } from "../../main";
 import {
   InPageUIComponentShowState,
   ms_inPageUiStateStream,
-} from "~/browser-shell/utils/messages";
+} from "@browser-shell/utils/messages";
 
 import * as S from "./styles";
 import {
@@ -12,7 +12,7 @@ import {
   ThemeProvider,
   useClickOutside,
   useThemeMode,
-} from "~/browser-shell/frontends/common";
+} from "@browser-shell/frontends/common";
 import { Sidebar } from "../../components/sidebar";
 
 interface SidebarHolderProps {

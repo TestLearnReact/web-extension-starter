@@ -3,16 +3,16 @@ import {
   createInPageUI,
   destroyInPageUI,
   InPageUIRootMount,
-} from "~/browser-shell/frontends/common";
+} from "@browser-shell/frontends/common";
 import {
   setupFrontendSidebar,
   //destroyFrontendSidebar,
-} from "~/browser-shell/frontends/sidebar";
+} from "@browser-shell/frontends/sidebar";
 import { SidebarScriptMain } from "../types";
 import {
   ms_componentInitStream,
   ms_componentDestroyStream,
-} from "~/browser-shell/utils";
+} from "@browser-shell/utils";
 
 // import exports from "./react-refresh.js";
 

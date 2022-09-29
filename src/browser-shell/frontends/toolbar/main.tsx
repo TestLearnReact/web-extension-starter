@@ -4,7 +4,7 @@ import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
 import ToolbarHolderContainer from "./container/toolbar-holder";
-import { SharedInPageUIState } from "~/browser-shell/contentScripts/sharedInPageUI";
+import { SharedInPageUIState } from "@browser-shell/contentScripts/sharedInPageUI";
 
 export interface ToolbarContainerDependencies {
   inPageUI: SharedInPageUIState;

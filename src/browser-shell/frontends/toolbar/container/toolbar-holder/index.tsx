@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 import { ToolbarContainerDependencies } from "../../main";
-import { useEventListener } from "~/browser-shell/frontends/common";
+import { useEventListener } from "@browser-shell/frontends/common";
 import {
   InPageUIComponentShowState,
   ms_inPageUiStateStream,
-} from "~/browser-shell/utils";
+} from "@browser-shell/utils";
 
 import ToolbarContainer from "../toolbar";
 

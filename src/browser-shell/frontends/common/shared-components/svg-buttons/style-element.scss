@@ -1,0 +1,22 @@
+.buttonElemenet {
+    width: 18px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0;
+  
+    &:hover {
+      opacity: 0.7;
+    }
+  
+    &:active {
+      opacity: 1;
+    }
+  
+    &:focus {
+      outline: none;
+    }
+  }

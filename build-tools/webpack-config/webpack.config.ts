@@ -1,5 +1,5 @@
 import webpack, { Configuration } from "webpack";
-import path, { resolve } from "path";
+import path, { relative, resolve } from "path";
 import { execSync } from "child_process";
 
 import FilemanagerPlugin from "filemanager-webpack-plugin";
@@ -17,6 +17,9 @@ import Icons from "unplugin-icons/webpack";
 import { promises as fs } from "fs";
 // loader helpers
 import { FileSystemIconLoader } from "unplugin-icons/loaders";
+//const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
+
+import HtmlWebpackInlineSVGPlugin from "html-webpack-inline-svg-plugin";
 
 import { isDev, isProd } from "../dev-scripts/utils";
 
@@ -74,8 +77,8 @@ const config: Configuration = {
       import: res("contentScripts", "cs-scripts", "sidebar.ts"),
       dependOn: "messages",
     },
-    "popup/popup": { import: res("popup", "main.tsx") },
-    "options/options": { import: res("options", "main.tsx") },
+    // "popup/popup": { import: res("popup", "main.tsx") },
+    // "options/options": { import: res("options", "main.tsx") },
   },
 
   output: {
@@ -88,7 +91,7 @@ const config: Configuration = {
     minimize: true,
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: "es2015", // Syntax to compile to (see options below for possible values)
+        target: "es2018", // Syntax to compile to (see options below for possible values)
         tsconfigRaw: require("../../tsconfig.json"),
       }),
       // todo no need webpack 5 // esbuild ?
@@ -141,14 +144,26 @@ const config: Configuration = {
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".svg"],
+
+    fallback: {
+      path: require.resolve("path-browserify"),
+      stream: require.resolve("stream-browserify"),
+      // // Check the initiating folder's node_modules
+      // fallback: [path.join(__dirname, "node_modules")],
+    },
+
     alias: {
       "webextension-polyfill": resRoot(
         "node_modules/webextension-polyfill/dist",
         "browser-polyfill.js"
       ),
-      "~": resRoot("src"),
+      "@browser-shell": resRoot("src/browser-shell/"),
       "@message-system": resRoot("src/message-system/index.ts"),
+      "~icons/public-assets-icons": path.resolve(
+        __dirname,
+        "../../public/assets/icons/"
+      ),
     },
     modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },
@@ -173,8 +188,8 @@ const config: Configuration = {
         loader: "esbuild-loader",
         options: {
           loader: "tsx", // Or 'ts' if you don't need tsx
-          target: "es2015",
-          tsconfigRaw: require("../../tsconfig.json"),
+          target: "es2018",
+          //tsconfigRaw: require("../../tsconfig.json"),
           jsxFactory: "React.createElement",
           jsxFragment: "React.Fragment",
         },
@@ -210,6 +225,121 @@ const config: Configuration = {
           "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
+      // {
+      //   test: /\.svg$/,
+      //   loader: "@svgr/webpack",
+      //   options: {
+      //     svgoConfig: {
+      //       plugins: [
+      //         {
+      //           name: "removeViewBox",
+      //           active: false,
+      //         },
+      //       ],
+      //     },
+      //   },
+      // },
+      {
+        test: /\.svg$/,
+        use: [
+          "babel-loader",
+          {
+            loader: "react-svg-loader",
+            options: {
+              svgo: {
+                plugins: [{ removeDimensions: true, removeViewBox: false }],
+                floatPrecision: 2,
+              },
+            },
+          },
+        ],
+      },
+      // {
+      //   test: /\.svg$/,
+      //   use: ["@svgr/webpack"],
+      // },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      // {
+      //   test: /\.svg$/,
+      //   use: ["@svgr/webpack", "url-loader"],
+      // },
+      // {
+      //   test: /\.svg$/,
+      //   use: [
+      //     {
+      //       loader: "@svgr/webpack",
+      //       options: {
+      //         template: (
+      //           { template },
+      //           opts,
+      //           { imports, componentName, props, jsx, exports }
+      //         ) => template.ast`
+      //           ${imports}
+      //           import useWithViewbox from '../useWithViewbox';
+
+      //           const ${componentName} = (${props}) => {
+      //             const ref = React.useRef();
+
+      //             useWithViewbox(ref);
+
+      //             props = { ...props, ref };
+
+      //             return ${jsx};
+      //           };
+
+      //           export default ${componentName};
+      //         `,
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   test: /\.svg$/i,
+      //   issuer: /\.[jt]sx?$/,
+      //   use: ["@svgr/webpack"],
+      // },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(woff(2)?|eot|ttf|otf|)$/,
+        type: "asset/inline",
+      },
+      // {
+      //   test: /\.svg$/,
+      //   use: ["@svgr/webpack", "url-loader"],
+      // },
+      // {
+      //   test: /\.(jpe?g|png|gif|webp)$/i,
+      //   type: "asset/resource",
+      //   // generator: {
+      //   //   filename: "static/assets/images/[contenthash][ext][query]",
+      //   // },
+      // },
+      // {
+      //   test: /\.svg/,
+      //   type: "asset/inline",
+      // },
+      // {
+      //   test: /\.svg$/,
+      //   use: ['@svgr/webpack']
+      // },
+      // {
+      //   test: /\.(ogg|mp3|wav|mpe?g)$/i,
+      //   // use: 'file-loader'
+      //   type: 'asset/resource',
+      //   generator: {
+      //     filename: 'static/assets/audio/[contenthash][ext][query]'
+      //   }
+      // },
+      {
+        test: /favicon\.(png|ico)$/,
+        type: "asset/resource",
+      },
     ],
   },
 
@@ -235,15 +365,12 @@ const config: Configuration = {
         // a helper to load icons from the file system
         // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
         // you can also provide a transform callback to change each icon (optional)
-        "my-yet-other-icons": FileSystemIconLoader(
+        "public-assets-icons": FileSystemIconLoader(
           resRoot("./public/assets/icons"),
           (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
         ),
       },
     }),
-    // require("unplugin-icons/webpack")({
-    //   /* options */
-    // }),
     {
       apply: (compiler) => {
         let wroteManifest = false;
@@ -289,18 +416,19 @@ const config: Configuration = {
       cleanStaleWebpackAssets: false,
       verbose: true,
     }),
-    new HtmlWebpackPlugin({
-      template: res("popup", "index.html"),
-      inject: true, //"body",
-      chunks: ["popup/popup"],
-      filename: "dist/popup/index.html",
-    }),
-    new HtmlWebpackPlugin({
-      template: res("options", "index.html"),
-      inject: true, //"body",
-      chunks: ["options/options"],
-      filename: "dist/options/index.html",
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: res("popup", "index.html"),
+    //   inject: "body", //true
+    //   chunks: ["popup/popup"],
+    //   filename: "dist/popup/index.html",
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template: res("options", "index.html"),
+    //   inject: "body",
+    //   chunks: ["options/options"],
+    //   filename: "dist/options/index.html",
+    // }),
+    //new HtmlWebpackInlineSVGPlugin(),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: "css/[name].css" }),
     // copy static assets

@@ -1,6 +1,6 @@
 import { csMainModule } from "../cs-modules/main";
 
-import { ms_sendExtensionReload } from "~/browser-shell/utils/messages";
+import { ms_sendExtensionReload } from "@browser-shell/utils/messages";
 
 /**
  * Main content-script (manifest)

@@ -4,7 +4,7 @@ import { InPageUIRootMount } from "../common";
 import { StyleSheetManager, ThemeProvider } from "styled-components";
 
 import SidebarHolder from "./container/sidebar-holder";
-import { SharedInPageUIState } from "~/browser-shell/contentScripts/sharedInPageUI";
+import { SharedInPageUIState } from "@browser-shell/contentScripts/sharedInPageUI";
 
 export interface SidebarContainerDependencies {
   inPageUI: SharedInPageUIState;

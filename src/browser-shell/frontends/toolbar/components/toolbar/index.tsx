@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
+import React from "react";
 import cx from "classnames";
-
-import "./styles.scss";
 import { CloseToolbar } from "../toolbar-components/closeToolbar";
 import { ToggleSidebar } from "../toolbar-components/toggleSidebar";
 import { ToolbarContainerDependencies } from "../../main";
-import { InPageUIComponentShowState } from "~/browser-shell/utils";
+import { InPageUIComponentShowState } from "@browser-shell/utils";
+
+import "./styles.scss";
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -64,6 +64,10 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
                     tooltipText={getTooltipText("toggleSidebar")}
                     sidebar={sidebar}
                   />
+                  {/* <ToggleSidebarTestCssSvg
+                    tooltipText={getTooltipText("toggleSidebar")}
+                    sidebar={sidebar}
+                  /> */}
                 </>
               )}
             </div>

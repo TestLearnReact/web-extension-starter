@@ -3,7 +3,7 @@ import { ToolbarContainerDependencies } from "../../main";
 import {
   InPageUIComponentShowState,
   ms_inPageUiStateStream,
-} from "~/browser-shell/utils";
+} from "@browser-shell/utils";
 
 import Toolbar from "../../components/toolbar";
 

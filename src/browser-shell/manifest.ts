@@ -13,14 +13,14 @@ export async function getManifest(): Promise<ManifestV3Export> {
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description,
-    action: {
-      default_icon: "./assets/icons/icon-512.png",
-      default_popup: "./dist/popup/index.html",
-    },
-    options_ui: {
-      page: "./dist/options/index.html",
-      open_in_tab: true,
-    },
+    // action: {
+    //   default_icon: "./assets/icons/icon-512.png",
+    //   default_popup: "./dist/popup/index.html",
+    // },
+    // options_ui: {
+    //   page: "./dist/options/index.html",
+    //   open_in_tab: true,
+    // },
     background: {
       service_worker: "./dist/background.js",
       type: "module",
@@ -46,7 +46,7 @@ export async function getManifest(): Promise<ManifestV3Export> {
     ],
     web_accessible_resources: [
       {
-        resources: ["dist/*", "src/*", "assets/*"],
+        resources: ["dist/*", "src/*", "assets/*", "*.css"],
         matches: ["<all_urls>"],
       },
     ],

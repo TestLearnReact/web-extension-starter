@@ -3,7 +3,7 @@ import {
   ms_sendComponentDestroy,
   ms_sendComponentInit,
   ms_sendInPageUiState,
-} from "~/browser-shell/utils";
+} from "@browser-shell/utils";
 import {
   InPageUIComponentShowState,
   InPageUIComponent,

@@ -3,9 +3,9 @@ import cx from "classnames";
 import {
   ButtonTooltip,
   TooltipPosition,
-} from "~/browser-shell/frontends/common";
+} from "@browser-shell/frontends/common";
 
-import IconOpenSidebar from "~icons/my-yet-other-icons/openSidebar.svg";
+import IconOpenSidebar from "~icons/public-assets-icons/openSidebar.svg";
 
 import { ToolbarSidebarProps } from "../../toolbar";
 
@@ -40,3 +40,29 @@ export const ToggleSidebar: React.FC<IProps> = ({
     </ButtonTooltip>
   );
 };
+
+// export const ToggleSidebarTestCssSvg: React.FC<IProps> = ({
+//   tooltipText,
+//   position = "leftNarrow",
+//   sidebar,
+// }) => {
+//   const [isOpen, setIsOpen] = useState<boolean>(sidebar.isSidebarOpen);
+
+//   const toggleSidebar = () => {
+//     sidebar.toggleSidebar();
+//     setIsOpen(!isOpen);
+//   };
+
+//   return (
+//     <ButtonTooltip tooltipText={tooltipText} position={position}>
+//       <div onClick={() => toggleSidebar()}>
+//         <div
+//           className={cx("button", {
+//             arrow2: !isOpen,
+//             arrowReverse2: isOpen,
+//           })}
+//         />
+//       </div>
+//     </ButtonTooltip>
+//   );
+// };
