@@ -5,3 +5,6 @@
     z-index: 2147483645;
 }
   
+.example {
+    color: var(--primary)
+}

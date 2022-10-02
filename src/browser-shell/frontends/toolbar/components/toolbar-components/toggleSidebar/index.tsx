@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import cx from "classnames";
+
 import {
-  ButtonTooltip,
+  SvgTooltipElement,
   TooltipPosition,
 } from "@browser-shell/frontends/common";
 
@@ -28,41 +28,12 @@ export const ToggleSidebar: React.FC<IProps> = ({
   };
 
   return (
-    <ButtonTooltip tooltipText={tooltipText} position={position}>
-      <div onClick={() => toggleSidebar()}>
-        <IconOpenSidebar
-          className={cx("button", {
-            arrow: !isOpen,
-            arrowReverse: isOpen,
-          })}
-        />
-      </div>
-    </ButtonTooltip>
+    <SvgTooltipElement
+      iconProps={{
+        icon: <IconOpenSidebar />,
+      }}
+      tooltipProps={{ tooltipText: tooltipText, position: position }}
+      onClick={() => toggleSidebar()}
+    />
   );
 };
-
-// export const ToggleSidebarTestCssSvg: React.FC<IProps> = ({
-//   tooltipText,
-//   position = "leftNarrow",
-//   sidebar,
-// }) => {
-//   const [isOpen, setIsOpen] = useState<boolean>(sidebar.isSidebarOpen);
-
-//   const toggleSidebar = () => {
-//     sidebar.toggleSidebar();
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <ButtonTooltip tooltipText={tooltipText} position={position}>
-//       <div onClick={() => toggleSidebar()}>
-//         <div
-//           className={cx("button", {
-//             arrow2: !isOpen,
-//             arrowReverse2: isOpen,
-//           })}
-//         />
-//       </div>
-//     </ButtonTooltip>
-//   );
-// };

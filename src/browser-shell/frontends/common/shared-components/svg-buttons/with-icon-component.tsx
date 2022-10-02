@@ -1,38 +1,47 @@
-import { on } from "events";
-import React, { ComponentType, ReactNode, useRef, useState } from "react";
+import React, { ReactElement, SVGProps } from "react";
 import ButtonTooltip, { TooltipPosition } from "../button-tooltip";
-import { IconProps } from "./types";
-import useWithViewbox from "./use-with-viewbox";
 
-type ButtonProps = {
-  children?: ReactNode;
-  Icon: ComponentType<IconProps>;
-  height?: string;
-  width?: string;
-  tooltip: { tooltipText: string; position: TooltipPosition };
-  className?: string;
+type SvgIconProps = (props: SVGProps<SVGSVGElement>) => ReactElement;
+
+interface IProps {
+  tooltipProps: { tooltipText: string; position: TooltipPosition };
+  iconProps: {
+    icon: SvgIconProps;
+    className?: string;
+    height?: SVGProps<SVGSVGElement>["height"];
+    width?: SVGProps<SVGSVGElement>["width"];
+    fill?: SVGProps<SVGSVGElement>["fill"];
+  };
   onClick: () => void;
-};
+}
 
-export const ButtonWithIconComponent = ({
-  children,
-  Icon,
-  height = "20px",
-  width = "18px",
-  tooltip,
-  className,
+export const SvgTooltipComponent = ({
+  iconProps,
+  tooltipProps,
   onClick,
-}: ButtonProps) => {
-  const { tooltipText, position } = tooltip;
+}: IProps) => {
+  const { tooltipText, position } = tooltipProps;
+
+  const {
+    height = 20,
+    width = 18,
+    fill = "currentColor",
+    className,
+  } = iconProps;
+
+  const Icon = iconProps.icon;
 
   return (
     <ButtonTooltip tooltipText={tooltipText} position={position}>
       <div onClick={onClick}>
         <Icon
-          fontSize="small"
+          fill={fill}
+          className={
+            className ? `${className} buttonElemenet` : "buttonElemenet"
+          }
           height={height}
           width={width}
-          className={className}
+          // style={{ fontSize: "2em", color: "red" }}
         />
       </div>
     </ButtonTooltip>

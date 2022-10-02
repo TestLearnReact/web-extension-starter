@@ -6,6 +6,7 @@ import {
 } from "@browser-shell/utils";
 
 import Toolbar from "../../components/toolbar";
+import { useTheme } from "@browser-shell/frontends/common/context";
 
 interface IToolbarContainer {
   dependencies: ToolbarContainerDependencies;
@@ -23,6 +24,8 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   const [sharedInPageUiState, setSharedInPageUiState] =
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
+  const { themeType } = useTheme();
+
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       setSharedInPageUiState({ toolbar, sidebar });
@@ -34,18 +37,24 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   };
 
   return (
-    <Toolbar
-      dependencies={dependencies} // no need container/component structure
-      toolbarRef={toolbarRef}
-      sharedInPageUiState={sharedInPageUiState}
-      handleRemoveToolbar={() => inPageUI.removeToolbar()}
-      sidebar={{
-        isSidebarOpen: sharedInPageUiState.sidebar,
-        openSidebar: () => handleSidebarOpen(),
-        closeSidebar: () => inPageUI.hideSidebar(),
-        toggleSidebar: () => inPageUI.toggleSidebar(),
-      }}
-    />
+    <div
+      className={
+        "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
+      }
+    >
+      <Toolbar
+        dependencies={dependencies} // no need container/component structure
+        toolbarRef={toolbarRef}
+        sharedInPageUiState={sharedInPageUiState}
+        handleRemoveToolbar={() => inPageUI.removeToolbar()}
+        sidebar={{
+          isSidebarOpen: sharedInPageUiState.sidebar,
+          openSidebar: () => handleSidebarOpen(),
+          closeSidebar: () => inPageUI.hideSidebar(),
+          toggleSidebar: () => inPageUI.toggleSidebar(),
+        }}
+      />
+    </div>
   );
 };
 

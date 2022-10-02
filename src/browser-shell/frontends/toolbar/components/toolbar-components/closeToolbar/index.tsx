@@ -1,18 +1,13 @@
 import * as React from "react";
-import type { SVGProps } from "react";
 import {
-  ButtFunc,
-  ButtonTooltip,
-  ButtonWithIconComponent,
-  ButtonWithIconElement,
-  ButtonWithIconRenderFunc,
-  Example,
-  ExampleFCProps,
+  SvgTooltipComponent,
   TooltipPosition,
 } from "@browser-shell/frontends/common";
-//import SvgIcon from "@browser-shell/frontends/common/shared-components/svg-icon";
 
 import IconClose from "~icons/public-assets-icons/close.svg";
+import IconAccessibility from "~icons/carbon/accessibility";
+
+import { SvgTooltipStyledComponent } from "@browser-shell/frontends/common/shared-components/svg-buttons/styled-component-icon";
 
 interface IProps {
   tooltipText: string;
@@ -27,22 +22,21 @@ export const CloseToolbar: React.FC<IProps> = ({
 }) => {
   return (
     <>
-      {/* <ButtonTooltip tooltipText={tooltipText} position={position}>
-        <div onClick={() => handleRemoveToolbar()}>
-          <IconClose className="button" />
-        </div>
-      </ButtonTooltip> */}
-
-      <ButtonWithIconComponent
-        className="button"
-        Icon={IconClose}
-        tooltip={{ tooltipText: "Comp", position: position }}
+      <SvgTooltipComponent
+        iconProps={{
+          icon: IconClose,
+          fill: "#c41010",
+        }}
+        tooltipProps={{ tooltipText: tooltipText, position: position }}
         onClick={() => handleRemoveToolbar()}
       />
-
-      <ButtonWithIconElement
-        icon={<IconClose />}
-        tooltip={{ tooltipText: "Elem", position: position }}
+      <SvgTooltipComponent
+        iconProps={{
+          icon: IconAccessibility,
+          fill: "#c41010",
+        }}
+        tooltipProps={{ tooltipText: tooltipText, position: position }}
+        onClick={() => handleRemoveToolbar()}
       />
     </>
   );

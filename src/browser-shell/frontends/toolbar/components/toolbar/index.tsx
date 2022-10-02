@@ -6,6 +6,7 @@ import { ToolbarContainerDependencies } from "../../main";
 import { InPageUIComponentShowState } from "@browser-shell/utils";
 
 import "./styles.scss";
+import { ToggleTheme } from "../toolbar-components/toggleTheme";
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -64,6 +65,11 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
                     tooltipText={getTooltipText("toggleSidebar")}
                     sidebar={sidebar}
                   />
+                  <ToggleTheme
+                    tooltipText="Toggle Theme"
+                    toggleTheme={() => console.log("ttt")}
+                  />
+
                   {/* <ToggleSidebarTestCssSvg
                     tooltipText={getTooltipText("toggleSidebar")}
                     sidebar={sidebar}

@@ -11,9 +11,10 @@ import {
   lightTheme,
   ThemeProvider,
   useClickOutside,
-  useThemeMode,
+  //useThemeMode,
 } from "@browser-shell/frontends/common";
 import { Sidebar } from "../../components/sidebar";
+import { useTheme } from "@browser-shell/frontends/common/context";
 
 interface SidebarHolderProps {
   dependencies: SidebarContainerDependencies;
@@ -23,8 +24,11 @@ const Sidebarholder: React.FC<SidebarHolderProps> = ({ dependencies }) => {
   const { inPageUI } = dependencies;
   const ref = useRef<HTMLDivElement>(null);
 
-  const { theme, themeToggler } = useThemeMode();
-  const themeMode = theme === "light" ? lightTheme : darkTheme;
+  //const { theme, themeToggler } = useThemeMode();
+  //const themeMode = theme === "light" ? lightTheme : darkTheme;
+
+  const { themeType } = useTheme();
+  const themeMode = themeType === "light" ? lightTheme : darkTheme;
 
   const [sharedInPageUiState, setSharedInPageUiState] =
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
