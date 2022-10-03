@@ -10,6 +10,10 @@ import {
 import ToolbarContainer from "../toolbar";
 
 import "./styles.css";
+//import "../../../../styles/scss/index.ts";
+
+import "../../../../styles/sass/style.scss";
+
 import { ThemeProvider } from "@browser-shell/frontends/common/context";
 
 const TOOLBAR_HIDE_TIMEOUT = 2000;
@@ -82,21 +86,21 @@ const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   useEventListener("mouseleave", handleMouseLeaveToolbarRef, toolbarRef);
 
   return (
-    <ThemeProvider>
-      <div
-        ref={holderRef}
-        className={cx("holder", "example", {
-          withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
-        })}
-        // style={
-        //   {
-        //     ...theme,
-        //   } as React.CSSProperties
-        // }
-      >
-        <ToolbarContainer dependencies={dependencies} toolbarRef={toolbarRef} />
-      </div>
-    </ThemeProvider>
+    // <ThemeProvider>
+    <div
+      ref={holderRef}
+      className={cx("holder", "example", {
+        withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
+      })}
+      // style={
+      //   {
+      //     ...theme,
+      //   } as React.CSSProperties
+      // }
+    >
+      <ToolbarContainer dependencies={dependencies} toolbarRef={toolbarRef} />
+    </div>
+    // </ThemeProvider>
   );
 };
 

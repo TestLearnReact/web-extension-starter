@@ -1,3 +1,5 @@
+@use "sass:math";
+
 //vars
 $font-family: 'Open Sans', 'Helvetica', 'Arial', 'sans-serif';
 $font-family--title: 'Montserrat-SemiBold', 'Montserrat', $font-family;
@@ -18,8 +20,8 @@ $spacer--largest: 120px;
 $spacer--large: 65px;
 $spacer--default: 50px;
 $spacer--medium: ($spacer--default * .8);
-$spacer--small: ($spacer--default / 2);
-$spacer--smallest: ($spacer--small / 3);
+$spacer--small: math.div($spacer--default, 2);
+$spacer--smallest: math.div($spacer--small, 3);
 $spacer--icon: 5px;
 
 //text

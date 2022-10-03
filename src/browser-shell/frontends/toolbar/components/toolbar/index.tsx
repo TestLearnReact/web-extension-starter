@@ -6,7 +6,11 @@ import { ToolbarContainerDependencies } from "../../main";
 import { InPageUIComponentShowState } from "@browser-shell/utils";
 
 import "./styles.scss";
+// import "../../../../styles/scss/app.scss";
+// import "./styles-theme.scss";
+
 import { ToggleTheme } from "../toolbar-components/toggleTheme";
+import { useTheme } from "@browser-shell/frontends/common/context";
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -34,51 +38,54 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
     sidebar,
   } = props;
 
+  const { themeType } = useTheme();
+
   const getTooltipText = (name: string): string => {
     return name;
   };
 
   return (
     <div
-      className={cx("toolbar", {
-        toolbarExpanded: sharedInPageUiState.toolbar,
-        toolbarSidebarOpen: sharedInPageUiState.sidebar,
-      })}
+      className={
+        //  "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
+        "theme-" + (themeType === "dark" ? "dark" : "light")
+      }
     >
       <div
-        ref={toolbarRef}
-        className={cx("innerToolbar", {
-          innerToolbarExpanded: sharedInPageUiState.toolbar,
-          innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
+        className={cx("toolbar", {
+          toolbarExpanded: sharedInPageUiState.toolbar,
+          toolbarSidebarOpen: sharedInPageUiState.sidebar,
         })}
       >
-        {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
-          <>
-            <div className="generalActions">
-              {(!sidebar.isSidebarOpen || true) && (
-                <>
-                  <CloseToolbar
-                    tooltipText={"Close Toolbar for session"}
-                    handleRemoveToolbar={handleRemoveToolbar}
-                  />
-                  <ToggleSidebar
-                    tooltipText={getTooltipText("toggleSidebar")}
-                    sidebar={sidebar}
-                  />
-                  <ToggleTheme
-                    tooltipText="Toggle Theme"
-                    toggleTheme={() => console.log("ttt")}
-                  />
+        <div
+          ref={toolbarRef}
+          className={cx("innerToolbar", {
+            innerToolbarExpanded: sharedInPageUiState.toolbar,
+            innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
+          })}
+        >
+          {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
+            <>
+              <div className="generalActions">
+                {(!sidebar.isSidebarOpen || true) && (
+                  <>
+                    <CloseToolbar
+                      tooltipText={"Close Toolbar for session"}
+                      handleRemoveToolbar={handleRemoveToolbar}
+                    />
+                    <ToggleSidebar
+                      tooltipText={getTooltipText("toggleSidebar")}
+                      sidebar={sidebar}
+                    />
+                    <ToggleTheme tooltipText="Toggle Theme" />
 
-                  {/* <ToggleSidebarTestCssSvg
-                    tooltipText={getTooltipText("toggleSidebar")}
-                    sidebar={sidebar}
-                  /> */}
-                </>
-              )}
-            </div>
-          </>
-        )}
+                    <div className="card">SASS</div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

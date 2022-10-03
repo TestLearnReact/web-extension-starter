@@ -8,6 +8,8 @@ import {
 import Toolbar from "../../components/toolbar";
 import { useTheme } from "@browser-shell/frontends/common/context";
 
+import { ThemeProvider } from "@browser-shell/frontends/common/context";
+
 interface IToolbarContainer {
   dependencies: ToolbarContainerDependencies;
   toolbarRef: React.RefObject<HTMLDivElement>;
@@ -24,7 +26,7 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   const [sharedInPageUiState, setSharedInPageUiState] =
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
-  const { themeType } = useTheme();
+  // const { themeType } = useTheme();
 
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
@@ -37,11 +39,13 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   };
 
   return (
-    <div
-      className={
-        "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
-      }
-    >
+    <ThemeProvider>
+      {/* <div
+        className={
+          //  "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
+          "theme-" + (themeType === "dark" ? "dark" : "light")
+        }
+      > */}
       <Toolbar
         dependencies={dependencies} // no need container/component structure
         toolbarRef={toolbarRef}
@@ -54,7 +58,8 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
           toggleSidebar: () => inPageUI.toggleSidebar(),
         }}
       />
-    </div>
+      {/* </div> */}
+    </ThemeProvider>
   );
 };
 

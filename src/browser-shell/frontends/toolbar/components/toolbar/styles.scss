@@ -17,7 +17,7 @@
 
 .toolbarSidebarOpen {
   box-shadow: none;
-  background: white;
+  background: rgb(230, 184, 184);
   display: flex;
   justify-content: flex-end;
   height: 105vh;
@@ -47,8 +47,8 @@
 
 .innerToolbarExpanded {
   border-radius: 20px;
-  box-shadow: -1px 1px 7px 2px #13131321;
-  background: white;
+  box-shadow: -1px 1px 7px 2p #13131321;
+  background: rgb(240, 236, 236);
   display: flex;
 }
       

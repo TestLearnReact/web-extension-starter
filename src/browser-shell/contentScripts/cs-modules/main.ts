@@ -103,8 +103,18 @@ const csMainModule = async (
     // await toolbarMain(csDeps.toolbar);
     // await sidebarMain(csDeps.sidebar);
 
-    ms_sendComponentInit({ component: "toolbar" });
-    ms_sendComponentInit({ component: "sidebar" });
+    ms_sendComponentInit({ component: "toolbar" }).then(() =>
+      inPageUI.setComponentShouldSetup({
+        component: "toolbar",
+        shouldSetUp: true,
+      })
+    );
+    ms_sendComponentInit({ component: "sidebar" }).then(() =>
+      inPageUI.setComponentShouldSetup({
+        component: "sidebar",
+        shouldSetUp: true,
+      })
+    );
   } else {
     // inject scripts
     await inPageUI.loadComponent("toolbar");
