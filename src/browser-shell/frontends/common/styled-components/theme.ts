@@ -14,6 +14,33 @@ const colors = {
   grey40: "#9ea2a8",
   grey50: "#686c73",
   grey60: "#30363d",
+
+  // themeLight: {
+  //   textColor: "#03121A",
+  //   textDark: "#000",
+  //   textLight: "#919394",
+  //   contentColor: "#333",
+  //   backgroundDark: "#F9F9F9",
+  //   backgroundLight: "#FFFFFF",
+  //   backgroundLight2: "#FFFFFF",
+  //   lineColor: "#E0E0E0",
+  //   iconColor: "#030303",
+  //   iconColorWhenBg: "#FFFFFF",
+  //   iconBackground: "#404040",
+  // },
+
+  // themeDark: {
+  //   textColor: "#FFFFFF",
+  //   textDark: "#fff",
+  //   textLight: "#b9baba",
+  //   backgroundDark: " #181818",
+  //   backgroundLight: "#212121",
+  //   backgroundLight2: "#202020",
+  //   lineColor: "#303030",
+  //   iconColor: "#FFFFFF",
+  //   iconColorWhenBg: "#FFFFFF",
+  //   iconBackground: "#404040",
+  // },
 };
 
 const secondaryColors = {
@@ -75,25 +102,71 @@ const constants = {
   rightOffsetPx: "0",
   topOffsetPx: "0",
   paddingRight: "0",
+
+  toolbarWidth: "30px",
+  toolbarWidtExpanded: "40px",
+
+  sidebarOuterWidth: "350px",
+};
+
+const variables = {
+  sidebarInnerWidth: `calc(${constants.sidebarOuterWidth} - ${constants.toolbarWidtExpanded})`, //constants.toolbarWidtExpanded
 };
 
 const themeColorsDark = {
-  fontColor: colors.grey10,
-  backgroundColor: colors.grey10,
-  lineColor: colors.grey40,
+  // fontColor: colors.grey10,
+  // backgroundColor: colors.black,
+  // lineColor: colors.grey40,
+  textColor: "#FFFFFF",
+  textDark: "#fff",
+  textLight: "#b9baba",
+  backgroundDark: " #181818",
+  backgroundLight: "#212121",
+  backgroundLight2: "#202020",
+  lineColor: "#303030",
+  iconColor: "#FFFFFF",
+  iconColorWhenBg: "#FFFFFF",
+  iconBackground: "#404040",
+  //**** */
 };
 
 const themeColorsLight = {
-  fontColor: colors.black,
-  backgroundColor: colors.grey10,
-  lineColor: colors.black,
+  // fontColor: colors.black,
+  // backgroundColor: colors.grey10,
+  // lineColor: colors.black,
+  textColor: "#03121A",
+  textDark: "#000",
+  textLight: "#919394",
+  contentColor: "#333",
+  backgroundDark: "#F9F9F9",
+  backgroundLight: "#FFFFFF",
+  backgroundLight2: "#FFFFFF",
+  lineColor: "#E0E0E0",
+  iconColor: "#030303",
+  iconColorWhenBg: "#FFFFFF",
+  iconBackground: "#404040",
 };
 
 const themeColors = {
-  fontColor: themeColorsLight.fontColor || themeColorsDark.fontColor,
-  backgroundColor:
-    themeColorsLight.backgroundColor || themeColorsDark.backgroundColor,
-  lineColor: colors.green,
+  // fontColor: themeColorsLight.fontColor || themeColorsDark.fontColor,
+  // backgroundColor:
+  //   themeColorsLight.backgroundColor || themeColorsDark.backgroundColor,
+  // lineColor: colors.green,
+  textColor: themeColorsLight.textColor || themeColorsDark.textColor,
+  textDark: themeColorsLight.textDark || themeColorsDark.textDark,
+  textLight: themeColorsLight.textLight || themeColorsDark.textLight,
+  backgroundDark:
+    themeColorsLight.backgroundDark || themeColorsDark.backgroundDark,
+  backgroundLight:
+    themeColorsLight.backgroundLight || themeColorsDark.backgroundLight,
+  backgroundLight2:
+    themeColorsLight.backgroundLight2 || themeColorsDark.backgroundLight2,
+  lineColor: themeColorsLight.lineColor || themeColorsDark.lineColor,
+  iconColor: themeColorsLight.iconColor || themeColorsDark.iconColor,
+  iconColorWhenBg:
+    themeColorsLight.iconColorWhenBg || themeColorsDark.iconColorWhenBg,
+  iconBackground:
+    themeColorsLight.iconBackground || themeColorsDark.iconBackground,
 };
 
 interface StyleClosetTheme {
@@ -103,6 +176,7 @@ interface StyleClosetTheme {
   colors: { [key in keyof typeof colors]: string };
   secondaryColors: { [key in keyof typeof secondaryColors]: string };
   constants: { [key in keyof typeof constants]: string };
+  variables: { [key in keyof typeof variables]: string };
   themeColors: { [key in keyof typeof themeColors]: string };
 }
 
@@ -113,6 +187,7 @@ const theme: StyleClosetTheme = {
   colors,
   secondaryColors,
   constants,
+  variables,
   themeColors,
 };
 
@@ -123,10 +198,22 @@ const lightTheme: StyleClosetTheme = {
   colors,
   secondaryColors,
   constants,
+  variables,
   themeColors: {
-    fontColor: themeColorsLight.fontColor,
-    backgroundColor: themeColorsLight.backgroundColor,
+    // fontColor: themeColorsLight.fontColor,
+    // backgroundColor: themeColorsLight.backgroundColor,
+    // lineColor: themeColorsLight.lineColor,
+
+    textColor: themeColorsLight.textColor,
+    textDark: themeColorsLight.textDark,
+    textLight: themeColorsLight.textLight,
+    backgroundDark: themeColorsLight.backgroundDark,
+    backgroundLight: themeColorsLight.backgroundLight,
+    backgroundLight2: themeColorsLight.backgroundLight2,
     lineColor: themeColorsLight.lineColor,
+    iconColor: themeColorsLight.iconColor,
+    iconColorWhenBg: themeColorsLight.iconColorWhenBg,
+    iconBackground: themeColorsLight.iconBackground,
   },
 };
 
@@ -137,10 +224,22 @@ const darkTheme: StyleClosetTheme = {
   colors,
   secondaryColors,
   constants,
+  variables,
   themeColors: {
-    fontColor: themeColorsDark.fontColor,
-    backgroundColor: themeColorsDark.backgroundColor,
+    // fontColor: themeColorsDark.fontColor,
+    // backgroundColor: themeColorsDark.backgroundColor,
+    // lineColor: themeColorsDark.lineColor,
+
+    textColor: themeColorsDark.textColor,
+    textDark: themeColorsDark.textDark,
+    textLight: themeColorsDark.textLight,
+    backgroundDark: themeColorsDark.backgroundDark,
+    backgroundLight: themeColorsDark.backgroundLight,
+    backgroundLight2: themeColorsDark.backgroundLight2,
     lineColor: themeColorsDark.lineColor,
+    iconColor: themeColorsDark.iconColor,
+    iconColorWhenBg: themeColorsDark.iconColorWhenBg,
+    iconBackground: themeColorsDark.iconBackground,
   },
 };
 

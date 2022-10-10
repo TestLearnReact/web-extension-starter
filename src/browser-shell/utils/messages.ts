@@ -33,7 +33,15 @@ export const [
   ms_sendInPageUiState,
   ms_inPageUiStateStream,
   ms_waitForInPageUiStateStream,
-] = getMessage<InPageUIComponentShowState>("INPAGE_UI_STATE");
+] = getMessage<InPageUIComponentShowState & { theme?: "dark" | "light" }>(
+  "INPAGE_UI_STATE"
+);
+
+export const [
+  ms_sendSharedStateSettings,
+  ms_sharedStateSettingsStream,
+  ms_waitForSharedStateSettings,
+] = getMessage<{ theme: "dark" | "light" }>("SHARED_STATE_SETTINGS");
 
 /**
  * development

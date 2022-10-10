@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import cx from "classnames";
 import { CloseToolbar } from "../toolbar-components/closeToolbar";
 import { ToggleSidebar } from "../toolbar-components/toggleSidebar";
 import { ToolbarContainerDependencies } from "../../main";
 import { InPageUIComponentShowState } from "@browser-shell/utils";
 
-import "./styles.scss";
-// import "../../../../styles/scss/app.scss";
-// import "./styles-theme.scss";
+import "./ss.scss";
 
 import { ToggleTheme } from "../toolbar-components/toggleTheme";
 import { useTheme } from "@browser-shell/frontends/common/context";
+import ToolbarActions from "../toolbar-components/toolbarActions";
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -30,6 +29,8 @@ interface IToolbarProps extends ToolbarSubcomponentProps {
 }
 
 const Toolbar: React.FC<IToolbarProps> = (props) => {
+  console.log("r.e.r.e.n.d.e.r Toolbar");
+
   const {
     dependencies, // no need container/component structure
     toolbarRef,
@@ -38,54 +39,53 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
     sidebar,
   } = props;
 
-  const { themeType } = useTheme();
+  const { themeType, setCurrentTheme } = useTheme();
 
-  const getTooltipText = (name: string): string => {
-    return name;
+  const toggleSidebar = () => {
+    sidebar.toggleSidebar();
   };
 
   return (
     <div
-      className={
-        //  "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
-        "theme-" + (themeType === "dark" ? "dark" : "light")
-      }
+      className={cx("toolbar", {
+        toolbarExpanded: sharedInPageUiState.toolbar,
+        toolbarSidebarOpen: sharedInPageUiState.sidebar,
+      })}
     >
       <div
-        className={cx("toolbar", {
-          toolbarExpanded: sharedInPageUiState.toolbar,
-          toolbarSidebarOpen: sharedInPageUiState.sidebar,
+        ref={toolbarRef}
+        className={cx("innerToolbar", "ignore-react-onclickoutside", {
+          innerToolbarExpanded: sharedInPageUiState.toolbar,
+          innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
         })}
       >
-        <div
-          ref={toolbarRef}
-          className={cx("innerToolbar", {
-            innerToolbarExpanded: sharedInPageUiState.toolbar,
-            innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
-          })}
-        >
-          {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
-            <>
-              <div className="generalActions">
-                {(!sidebar.isSidebarOpen || true) && (
-                  <>
-                    <CloseToolbar
-                      tooltipText={"Close Toolbar for session"}
-                      handleRemoveToolbar={handleRemoveToolbar}
-                    />
-                    <ToggleSidebar
-                      tooltipText={getTooltipText("toggleSidebar")}
-                      sidebar={sidebar}
-                    />
-                    <ToggleTheme tooltipText="Toggle Theme" />
-
-                    <div className="card">SASS</div>
-                  </>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+        {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
+          <>
+            <ToolbarActions
+              sidebar={sidebar}
+              handleRemoveToolbar={handleRemoveToolbar}
+              toggleSidebar={toggleSidebar}
+              toggleTheme={() =>
+                setCurrentTheme(themeType === "dark" ? "light" : "dark")
+              }
+            />
+            {/* <div className="generalActions">
+              {(!sidebar.isSidebarOpen || true) && (
+                <>
+                  <CloseToolbar
+                    tooltipText={"Close Toolbar for session"}
+                    handleRemoveToolbar={handleRemoveToolbar}
+                  />
+                  <ToggleSidebar
+                    tooltipText={getTooltipText("toggleSidebar")}
+                    sidebar={sidebar}
+                  />
+                  <ToggleTheme tooltipText="Toggle Theme" />
+                </>
+              )}
+            </div> */}
+          </>
+        )}
       </div>
     </div>
   );

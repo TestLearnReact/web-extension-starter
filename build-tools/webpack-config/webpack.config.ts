@@ -146,12 +146,12 @@ const config: Configuration = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json", ".svg"],
 
-    fallback: {
-      path: require.resolve("path-browserify"),
-      stream: require.resolve("stream-browserify"),
-      // // Check the initiating folder's node_modules
-      // fallback: [path.join(__dirname, "node_modules")],
-    },
+    // fallback: {
+    //   path: require.resolve("path-browserify"),
+    //   stream: require.resolve("stream-browserify"),
+    //   // // Check the initiating folder's node_modules
+    //   // fallback: [path.join(__dirname, "node_modules")],
+    // },
 
     alias: {
       "webextension-polyfill": resRoot(
@@ -225,35 +225,35 @@ const config: Configuration = {
           "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
-      // {
-      //   test: /\.svg$/,
-      //   loader: "@svgr/webpack",
-      //   options: {
-      //     svgoConfig: {
-      //       plugins: [
-      //         {
-      //           name: "removeViewBox",
-      //           active: false,
-      //         },
-      //       ],
-      //     },
-      //   },
-      // },
       {
         test: /\.svg$/,
-        use: [
-          "babel-loader",
-          {
-            loader: "react-svg-loader",
-            options: {
-              svgo: {
-                plugins: [{ removeDimensions: true, removeViewBox: false }],
-                floatPrecision: 2,
+        loader: "@svgr/webpack",
+        options: {
+          svgoConfig: {
+            plugins: [
+              {
+                name: "removeViewBox",
+                active: false,
               },
-            },
+            ],
           },
-        ],
+        },
       },
+      // {
+      //   test: /\.svg$/,
+      //   use: [
+      //     "babel-loader",
+      //     {
+      //       loader: "react-svg-loader",
+      //       options: {
+      //         svgo: {
+      //           plugins: [{ removeDimensions: true, removeViewBox: false }],
+      //           floatPrecision: 2,
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
       // {
       //   test: /\.svg$/,
       //   use: ["@svgr/webpack"],
@@ -344,33 +344,33 @@ const config: Configuration = {
   },
 
   plugins: [
-    Icons({
-      compiler: "jsx",
-      jsx: "react",
-      customCollections: {
-        // key as the collection name
-        "my-icons": {
-          account: "<svg><!-- ... --></svg>",
-          // load your custom icon lazily
-          settings: () => fs.readFile("./path/to/my-icon.svg", "utf-8"),
-          /* ... */
-        },
-        "my-other-icons": async (iconName) => {
-          // your custom loader here. Do whatever you want.
-          // for example, fetch from a remote server:
-          return await fetch(`https://example.com/icons/${iconName}.svg`).then(
-            (res) => res.text()
-          );
-        },
-        // a helper to load icons from the file system
-        // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
-        // you can also provide a transform callback to change each icon (optional)
-        "public-assets-icons": FileSystemIconLoader(
-          resRoot("./public/assets/icons"),
-          (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
-        ),
-      },
-    }),
+    // Icons({
+    //   compiler: "jsx",
+    //   jsx: "react",
+    //   customCollections: {
+    //     // key as the collection name
+    //     "my-icons": {
+    //       account: "<svg><!-- ... --></svg>",
+    //       // load your custom icon lazily
+    //       settings: () => fs.readFile("./path/to/my-icon.svg", "utf-8"),
+    //       /* ... */
+    //     },
+    //     "my-other-icons": async (iconName) => {
+    //       // your custom loader here. Do whatever you want.
+    //       // for example, fetch from a remote server:
+    //       return await fetch(`https://example.com/icons/${iconName}.svg`).then(
+    //         (res) => res.text()
+    //       );
+    //     },
+    //     // a helper to load icons from the file system
+    //     // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
+    //     // you can also provide a transform callback to change each icon (optional)
+    //     "public-assets-icons": FileSystemIconLoader(
+    //       resRoot("./public/assets/icons"),
+    //       (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
+    //     ),
+    //   },
+    // }),
     {
       apply: (compiler) => {
         let wroteManifest = false;

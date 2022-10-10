@@ -1,5 +1,7 @@
 import React, { ReactElement, SVGProps } from "react";
-import ButtonTooltip, { TooltipPosition } from "../button-tooltip";
+import { ButtonTooltip, TooltipPosition } from "../../button-tooltip";
+
+import "../style-element.scss";
 
 type SvgIconProps = (props: SVGProps<SVGSVGElement>) => ReactElement;
 
@@ -12,20 +14,22 @@ interface IProps {
     width?: SVGProps<SVGSVGElement>["width"];
     fill?: SVGProps<SVGSVGElement>["fill"];
   };
+  wrapperClassName?: string;
   onClick: () => void;
 }
 
-export const SvgTooltipComponent = ({
+export const SvgTooltipComponent: React.FC<IProps> = ({
   iconProps,
   tooltipProps,
   onClick,
-}: IProps) => {
+  wrapperClassName,
+}) => {
   const { tooltipText, position } = tooltipProps;
 
   const {
     height = 20,
     width = 18,
-    fill = "currentColor",
+    //fill = "currentColor",
     className,
   } = iconProps;
 
@@ -33,9 +37,9 @@ export const SvgTooltipComponent = ({
 
   return (
     <ButtonTooltip tooltipText={tooltipText} position={position}>
-      <div onClick={onClick}>
+      <div onClick={onClick} className={wrapperClassName}>
         <Icon
-          fill={fill}
+          //fill={fill}
           className={
             className ? `${className} buttonElemenet` : "buttonElemenet"
           }

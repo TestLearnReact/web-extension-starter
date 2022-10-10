@@ -8,6 +8,8 @@ import {
   ms_sendInPageUiState,
   ms_componentDestroyStream,
   ms_sendComponentDestroy,
+  ms_sharedStateSettingsStream,
+  ms_sendSharedStateSettings,
 } from "../utils";
 
 export const main = async ({
@@ -60,5 +62,9 @@ export const main = async ({
 
   ms_inPageUiStateStream.subscribe(async ([{ toolbar, sidebar }, sender]) => {
     await ms_sendInPageUiState({ toolbar, sidebar }, { tabId: sender.tab?.id });
+  });
+
+  ms_sharedStateSettingsStream.subscribe(async ([{ theme }, sender]) => {
+    await ms_sendSharedStateSettings({ theme }, { tabId: sender.tab?.id });
   });
 };

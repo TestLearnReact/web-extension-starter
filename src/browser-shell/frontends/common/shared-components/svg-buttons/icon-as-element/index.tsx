@@ -1,12 +1,13 @@
 import React, { ReactElement, SVGProps } from "react";
-import ButtonTooltip, { TooltipPosition } from "../button-tooltip";
+import ButtonTooltip, { TooltipPosition } from "../../button-tooltip";
 
-import "./style-element.scss";
+import "../style-element.scss";
 
 interface IProps {
   tooltipProps: { tooltipText: string; position: TooltipPosition };
   iconProps: {
     icon: ReactElement<SVGProps<SVGSVGElement>>;
+    className?: string;
   };
   onClick: () => void;
 }

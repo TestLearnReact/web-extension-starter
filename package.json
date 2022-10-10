@@ -18,6 +18,8 @@
     "clear": "rimraf extension/dist extension/manifest.json extension/.*"
   },
   "dependencies": {
+    "-": "^0.0.1",
+    "D": "^1.0.0",
     "classnames": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -85,7 +87,7 @@
     "tsconfig-paths": "^4.0.0",
     "typescript": "^4.8.3",
     "unplugin-auto-import": "^0.9.2",
-    "unplugin-icons": "^0.14.10",
+    "unplugin-icons": "^0.14.11",
     "url-loader": "^4.1.1",
     "vite": "^3.1.0",
     "vite-plugin-react-svg": "^0.2.0",

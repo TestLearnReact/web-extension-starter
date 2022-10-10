@@ -1,10 +1,11 @@
 import React from "react";
 import * as ReactDOM from "react-dom";
 import { InPageUIRootMount } from "../common";
-import { StyleSheetManager, ThemeProvider } from "styled-components";
+import { StyleSheetManager } from "styled-components";
 
-import SidebarHolder from "./container/sidebar-holder";
 import { SharedInPageUIState } from "@browser-shell/contentScripts/sharedInPageUI";
+import { ThemeProvider } from "../common/context";
+import SidebarHolderContainer from "./container/sidebar-holder";
 
 export interface SidebarContainerDependencies {
   inPageUI: SharedInPageUIState;
@@ -17,8 +18,8 @@ export function setupFrontendSidebar(
   ReactDOM.render(
     <React.StrictMode>
       <StyleSheetManager target={mount.shadowRoot as any}>
-        <ThemeProvider theme={{}}>
-          <SidebarHolder dependencies={dependencies} />
+        <ThemeProvider>
+          <SidebarHolderContainer dependencies={dependencies} />
         </ThemeProvider>
       </StyleSheetManager>
     </React.StrictMode>,

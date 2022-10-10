@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 import { useEventListener } from "../../hooks";
 
 import * as S from "./styles";

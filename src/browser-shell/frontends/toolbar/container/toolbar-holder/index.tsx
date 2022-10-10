@@ -1,20 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import cx from "classnames";
 import { ToolbarContainerDependencies } from "../../main";
 import { useEventListener } from "@browser-shell/frontends/common";
-import {
-  InPageUIComponentShowState,
-  ms_inPageUiStateStream,
-} from "@browser-shell/utils";
+import { ms_inPageUiStateStream } from "@browser-shell/utils";
 
 import ToolbarContainer from "../toolbar";
 
 import "./styles.css";
-//import "../../../../styles/scss/index.ts";
-
-import "../../../../styles/sass/style.scss";
-
-import { ThemeProvider } from "@browser-shell/frontends/common/context";
+import "../../../../styles/scss/style.scss";
 
 const TOOLBAR_HIDE_TIMEOUT = 2000;
 
@@ -86,21 +79,14 @@ const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   useEventListener("mouseleave", handleMouseLeaveToolbarRef, toolbarRef);
 
   return (
-    // <ThemeProvider>
     <div
       ref={holderRef}
       className={cx("holder", "example", {
         withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
       })}
-      // style={
-      //   {
-      //     ...theme,
-      //   } as React.CSSProperties
-      // }
     >
       <ToolbarContainer dependencies={dependencies} toolbarRef={toolbarRef} />
     </div>
-    // </ThemeProvider>
   );
 };
 

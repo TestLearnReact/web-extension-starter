@@ -6,9 +6,13 @@ import {
 } from "@browser-shell/utils";
 
 import Toolbar from "../../components/toolbar";
-import { useTheme } from "@browser-shell/frontends/common/context";
 
-import { ThemeProvider } from "@browser-shell/frontends/common/context";
+import { useTheme as useThemeContext } from "@browser-shell/frontends/common/context";
+import {
+  darkTheme,
+  lightTheme,
+  ThemeProvider,
+} from "@browser-shell/frontends/common";
 
 interface IToolbarContainer {
   dependencies: ToolbarContainerDependencies;
@@ -23,10 +27,10 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
 
   const { inPageUI } = dependencies;
 
+  const { themeType, theme } = useThemeContext();
+
   const [sharedInPageUiState, setSharedInPageUiState] =
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
-
-  // const { themeType } = useTheme();
 
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
@@ -38,28 +42,35 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
     inPageUI.showSidebar();
   };
 
+  //  if (!sharedInPageUiState.toolbar) return null;
   return (
-    <ThemeProvider>
-      {/* <div
-        className={
-          //  "theme " + (themeType === "dark" ? "theme--dark" : "theme--default")
-          "theme-" + (themeType === "dark" ? "dark" : "light")
-        }
-      > */}
-      <Toolbar
-        dependencies={dependencies} // no need container/component structure
-        toolbarRef={toolbarRef}
-        sharedInPageUiState={sharedInPageUiState}
-        handleRemoveToolbar={() => inPageUI.removeToolbar()}
-        sidebar={{
-          isSidebarOpen: sharedInPageUiState.sidebar,
-          openSidebar: () => handleSidebarOpen(),
-          closeSidebar: () => inPageUI.hideSidebar(),
-          toggleSidebar: () => inPageUI.toggleSidebar(),
-        }}
-      />
-      {/* </div> */}
-    </ThemeProvider>
+    <>
+      {/* Theme styled-component */}
+      <ThemeProvider theme={themeType === "light" ? lightTheme : darkTheme}>
+        {/* Theme scss + css variables in style={} */}
+        <div
+          className={"theme-" + (themeType === "dark" ? "dark" : "light")}
+          style={
+            {
+              ...theme,
+            } as React.CSSProperties
+          }
+        >
+          <Toolbar
+            dependencies={dependencies} // no need container/component structure
+            toolbarRef={toolbarRef}
+            sharedInPageUiState={sharedInPageUiState}
+            handleRemoveToolbar={() => inPageUI.removeToolbar()}
+            sidebar={{
+              isSidebarOpen: sharedInPageUiState.sidebar,
+              openSidebar: () => handleSidebarOpen(),
+              closeSidebar: () => inPageUI.hideSidebar(),
+              toggleSidebar: () => inPageUI.toggleSidebar(),
+            }}
+          />
+        </div>
+      </ThemeProvider>
+    </>
   );
 };
 

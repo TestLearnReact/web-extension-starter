@@ -31,6 +31,17 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
   constructor(private options: SharedInPageUIDependencies) {}
 
+  async toggleTheme(options?: any) {
+    // if (this.componentsShown.sidebar) return;
+    // this.componentsShown.sidebar = true;
+    // this.componentsShown.toolbar = true;
+    // await ms_sendInPageUiState({
+    //   ...this.componentsShown,
+    //   toolbar: true,
+    //   sidebar: true,
+    // });
+  }
+
   async showSidebar(options?: any) {
     if (this.componentsShown.sidebar) return;
 

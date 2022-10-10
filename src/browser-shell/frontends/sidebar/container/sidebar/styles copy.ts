@@ -26,17 +26,19 @@ export const GlobalStyle = createGlobalStyle<{
   `;
 
 export const ContainerStyled = styled.div`
+  //<{ sidebarWidth: string }>
   height: 100%;
+  //width: 450px; // todo
   overflow-x: visible;
   position: fixed;
   padding: 0px 0px 10px 0px;
-  right: ${({ theme }) => theme?.constants.rightOffsetPx ?? 0}px;
-  top: ${({ theme }) => theme?.constants.topOffsetPx ?? 0}px;
-  padding-right: ${({ theme }) => theme?.constants.paddingRight ?? 0}px;
-  z-index: 2147483646; /* This is to combat pages setting high values on certain elements under the sidebar */
-  background: ${(props) => props.theme.themeColors.backgroundLight};
+  right: ${({ theme }) => theme?.constants.rightOffsetPx ?? 0};
+  top: ${({ theme }) => theme?.constants.topOffsetPx ?? 0};
+  padding-right: ${({ theme }) => theme?.constants.paddingRight ?? 0};
+  z-index: 999999899; /* This is to combat pages setting high values on certain elements under the sidebar */
+  background: ${(props) => props.theme.themeColors.backgroundDark};
   transition: all 0.1s cubic-bezier(0.65, 0.05, 0.36, 1) 0s;
-  border-left: 1px solid ${(props) => props.theme.themeColors.lineColor};
+  border-left: 1px solid ${({ theme }) => theme.themeColors.lineColor};
   font-family: "Inter", sans-serif;
   &::-webkit-scrollbar {
     display: none;

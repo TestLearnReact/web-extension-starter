@@ -115,9 +115,12 @@ export const TooltipBubble = styled.div<{ position: TooltipPosition }>`
 `;
 
 export const TooltipText = styled.div`
-  background: #3a2f46; /* grey 9 */
+  //background: #3a2f46; /* grey 9 */
+  background: ${(props) =>
+    props.theme.themeColors.backgroundDark || "#3a2f46"}; /* grey 9 */
   border-radius: 3px;
-  color: white;
+  //color: white;
+  color: ${(props) => props.theme.themeColors.textColor || "white"};
   font-size: 11px;
   font-weight: 500;
   max-width: 160px;

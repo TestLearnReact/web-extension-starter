@@ -2,16 +2,38 @@
 import { styled } from "@browser-shell/frontends/common";
 
 export const Container = styled.div`
-  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 `;
 
 export const Content = styled.div`
-  font-size: 1.4em;
-  height: 200px;
+  display: flex;
+  flex-direction: row;
+  //align-items: center;
+  height: fit-content;
+  justify-content: center;
+
   width: 80%;
-  color: ${({ theme }) => theme?.colors.grey50};
-  background-color: ${(props) => props.theme.colors.grey20};
+  color: ${({ theme }) => theme?.themeColors.textColor};
+  background-color: ${(props) => props.theme.themeColors.backgroundLight};
 `;
 //${({ theme }) => theme?.fontSizes.}; // todo bug
+
+export const TopBarContainer = styled.div`
+  position: relative;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: fit-content;
+  justify-content: space-between;
+
+  //width: 310px;
+  //color: ${({ theme }) => theme?.themeColors.textColor};
+  background-color: ${(props) => props.theme.themeColors.backgroundLight2};
+`;

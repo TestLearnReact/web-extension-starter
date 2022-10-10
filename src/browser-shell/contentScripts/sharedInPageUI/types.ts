@@ -16,6 +16,8 @@ export interface SharedInPageUIInterface {
   showSidebar(): Promise<void>;
   hideSidebar(): Promise<void>;
   toggleSidebar(): Promise<void>;
+
+  toggleTheme(): Promise<void>;
 }
 
 export type ContentScriptComponent = "toolbar" | "sidebar";

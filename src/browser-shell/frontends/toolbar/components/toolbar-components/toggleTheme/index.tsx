@@ -7,6 +7,7 @@ import { useTheme } from "@browser-shell/frontends/common/context";
 
 import IconAsleep from "~icons/carbon/asleep";
 import IconAsleepFilled from "~icons/carbon/asleep-filled";
+import { TooltipButtonIcon } from "@browser-shell/frontends/common/shared-components/svg-buttons/styled-component-icon/TooltipButtonIcon";
 
 interface IProps {
   tooltipText: string;
@@ -28,7 +29,7 @@ export const ToggleTheme: React.FC<IProps> = ({
       <SvgTooltipComponent
         iconProps={{
           icon: themeType === "dark" ? IconAsleep : IconAsleepFilled,
-          fill: "#c41010",
+          className: "ignore-react-onclickoutside",
         }}
         tooltipProps={{ tooltipText: tooltipText, position: position }}
         onClick={() => toggleTheme()}
