@@ -1,0 +1,136 @@
+1 Backup branch -> merge?
+
+- master
+crxjs in dev / webpack für build (nur mv3)
+- dev HMR Options, Popup, BUG doppelt Speichern cs scripts
+- build crxjs 
+- dev page cs testen
+- webpacj build vs dev
+
+- delete build folder
+- esbuild loader optimize, css test etc minify with esbuild  
+
+- mv3
+webpack für alles (entry points / dev und prod) da inline script nicht geht
+
+- mv3/vite/webpack
+wie mv2 mit manifet v3 wenn später loclhost inlin script funktioniert (vite/client hmr script in lib auslagern und in html files einslesen) cs scripts via webpack
+
+- mv2
+vite popup/options/background mit prepare script content scripts via webpack / webpack build
+
+
+"esModuleInterop": true, // false
+
+
+      "module": "commonjs",
+      "target": "es5",
+      "esModuleInterop": true,
+      "noEmit": true,
+      "noEmitOnError": true, webpack
+
+
+      - webpack build without
+      optimize messages
+
+
+
+
+
+      vite build
+      vite dev
+      webpack build
+      webpack dev
+
+
+      delete prev files webpack
+      manifest opera etc
+      build/dev optimization
+
+      frontend
+      
+
+
+
+
+      + Manifest optimization opera/firefox etc opera/firefox.push("optimizations")
+      + vite webpack globals/env/alias config types (global.d.ts -> config file?)
+      + alias bug tsconfig message-system etc
+
+      + scss css styled-components
+
+
+      // ribbon -> toolbar
+      ribbonsubcomponents stelle 
+      dependencies sharedDependenciesMainContentScript? oder cotainerdependencies + sharedDependenciesMainContentScript (Omit<> etc)
+      alias und import pfade prüfen
+      webpack
+      /assets/svg vite webpack
+      theme fontsizes bug
+
+      style={{ fontSize: '2em', color: 'red' }}
+      ...props buttonTooltip
+      css modules scss.module
+
+      https://github.com/BrunoBernardino/nextjs-boilerplate-simple
+      https://stackblitz.com/edit/react-ts-4slzff?file=index.tsx
+      https://gist.github.com/sanoop-jose/a145079fa1d24233d9a56d854d2abaea
+      https://hello-js.com/articles/themes-in-react-with-typescript-context-hooks/
+      https://medium.com/@katiemctigue/how-to-create-a-dark-mode-in-sass-609f131a3995
+      https://github.com/kaitlinmctigue/kaitlinmctigue.github.io/blob/source/config/webpack.common.config.js
+
+
+      todo context provider?
+
+
+      stream init theme
+      them localstorage schöner
+
+
+      s button theme forwardref ? svg button schöner?
+
+
+
+      backgroundDark: #181818 hsl(0,0%,9.41%) rgb(24,24,24)
+      backgroundLight: #212121 hsl(0,0%,12.94%) rgb(33,33,33)
+      backgroundLight2: #202020 hsl(0,0%,12.55%) rgb(32,32,32)
+
+      lineColor: #303030 hsl(0,0%,18.82%) rgb(48,48,48)
+
+      iconColor: #FFFFFF rgb(255,255,255) hsl(0,0%,100%)
+      
+      #FFFFFF rgb(255,255,255) hsl(0,0%,100%)
+      iconBg: #404040 hsl(0,0%,25.1%) rgb(64,64,64)
+
+Light
+      backgroundDark: #F9F9F9 hsl(0,0%,97.65%) rgb(249,249,249)
+      backgroundLight: #FFFFFF rgb(255,255,255) hsl(0,0%,100%)
+      backgroundLight2: #FFFFFF rgb(255,255,255) hsl(0,0%,100%)
+
+      lineColor: #E0E0E0 hsl(0,0%,87.84%) rgb(224,224,224)
+
+      iconColor: #030303 hsl(0,0%,1.18%) rgb(3,3,3)
+      #FFFFFF rgb(255,255,255) hsl(0,0%,100%)
+      iconBg: #404040 hsl(0,0%,25.1%) rgb(64,64,64)
+
+
+
+      theme
+      click-outside
+
+      node.env leav open
+
+
+
+      webpack build
+      alias frontend etc
+
+      inpageuistate place
+
+
+      //${({ theme }) => theme?.fontSizes.}; // todo bug
+
+
+      webpack vite refactor css.module url loader .env shared __DEV__ css file in dev sidebar
+      font css doppeöt global.d.ts
+      globals .env ?? webpack buld in ?

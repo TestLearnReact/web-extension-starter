@@ -78,8 +78,8 @@ const config: Configuration = {
       import: res("contentScripts", "cs-scripts", "sidebar.ts"),
       dependOn: "messages",
     },
-    // "popup/popup": { import: res("popup", "main.tsx") },
-    // "options/options": { import: res("options", "main.tsx") },
+    "popup/popup": { import: res("popup", "main.tsx") },
+    "options/options": { import: res("options", "main.tsx") },
   },
 
   output: {
@@ -140,6 +140,20 @@ const config: Configuration = {
           jsxFragment: "React.Fragment",
         },
       },
+      // {
+      //   test: /\\.css$/,
+      //   use: [
+      //     "style-loader",
+      //     {
+      //       loader: "css-loader",
+      //       options: {
+      //         importLoaders: 1,
+      //         modules: true,
+      //       },
+      //     },
+      //   ],
+      // },
+
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
@@ -167,6 +181,7 @@ const config: Configuration = {
               },
             },
           },
+
           "resolve-url-loader", // Rewrites relative paths in url() statements
           "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
         ],

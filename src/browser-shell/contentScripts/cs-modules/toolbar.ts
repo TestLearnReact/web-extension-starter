@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 import {
-  // destroyFrontendToolbar,
+  destroyFrontendToolbar,
   setupFrontendToolbar,
 } from "@ui/content-scripts-frontends/toolbar";
 import { createInPageUI, destroyInPageUI, InPageUIRootMount } from "@ui/common";
@@ -11,14 +11,9 @@ import {
 } from "@utils/messages";
 
 export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
-  // const cssFile = ""; //browser.runtime.getURL(`css/contentScript_toolbar.css`);
-  // console.log(window.location, isCsBuild, __CS_BUILD__); //
-  // const cssFile =
-  //   !__CS_BUILD__ || isCsDevHtmlchrome() // isViteAndDev
-  //     ? ""
-  //     : browser.extension.getURL(`dist/contentScripts/toolbar.css`);
-
-  const cssFile = browser.runtime.getURL(`css/contentScripts/cs.toolbar.css`);
+  const cssFile = __IS_CRXJS__
+    ? ""
+    : browser.runtime.getURL(`css/contentScripts/cs.toolbar.css`);
 
   let mount: InPageUIRootMount;
   const createMount = () => {
@@ -47,13 +42,13 @@ export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
       ...dependencies,
     });
   };
-  //setUp();
+
   const destroy = () => {
     if (!mount) {
       return;
     }
 
     destroyInPageUI("toolbar");
-    //destroyFrontendToolbar(mount.rootElement, mount.shadowRoot);
+    destroyFrontendToolbar(mount.rootElement, mount.shadowRoot);
   };
 };

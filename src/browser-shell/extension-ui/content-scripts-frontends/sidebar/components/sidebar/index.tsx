@@ -20,7 +20,7 @@ export const Sidebar: React.FC<{}> = () => {
       </SidbarTopBar>
       <S.Content>Content...</S.Content>
 
-      <CssModuleTestButton>.</CssModuleTestButton>
+      {/* <CssModuleTestButton>.</CssModuleTestButton> */}
     </S.Container>
   );
 };

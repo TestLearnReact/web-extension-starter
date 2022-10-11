@@ -1,6 +1,7 @@
 import { csMainModule } from "../cs-modules/main";
 
 import { ms_sendExtensionReload } from "@utils/messages";
+import { _DEV_OPTIONS } from "@ui/common/dev_config";
 
 /**
  * Main content-script (manifest)
@@ -34,7 +35,7 @@ if (__IS_CRXJS__ && import.meta.hot) {
           // HMR sometimes doesnt work
           // !!! --> Hack: SAVE TWICE ALWAYS WORK TOO <-- !!!
           // call browser.tabs.reload() in background/dev.ts
-          // ms_sendExtensionReload();
+          _DEV_OPTIONS.DEV_RELOAD_EXTENSION && ms_sendExtensionReload();
         }
       }
     });
