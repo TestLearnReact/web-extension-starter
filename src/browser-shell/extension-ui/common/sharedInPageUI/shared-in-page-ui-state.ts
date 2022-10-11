@@ -132,6 +132,16 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     ms_sendComponentInit({ component: component });
   }
 
+  private async _maybeEmitShouldSetUp(
+    component: InPageUIComponent,
+    options: any = {}
+  ) {
+    if (this.componentsSetUp[component]) return;
+
+    this.componentsSetUp[component] = true;
+    await ms_sendComponentInit({ component: component });
+  }
+
   /** development -> no script injected */
   async setComponentShouldSetup({
     component,
@@ -143,15 +153,5 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsSetUp[component]) return;
 
     this.componentsSetUp[component] = shouldSetUp;
-  }
-
-  private async _maybeEmitShouldSetUp(
-    component: InPageUIComponent,
-    options: any = {}
-  ) {
-    if (this.componentsSetUp[component]) return;
-
-    this.componentsSetUp[component] = true;
-    await ms_sendComponentInit({ component: component });
   }
 }
