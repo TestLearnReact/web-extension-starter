@@ -1,0 +1,2 @@
+webpack:
+s/css modules

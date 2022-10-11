@@ -13,7 +13,7 @@ dist-ssr
 extension
 extension-vite
 *.local
-todo.txt
+todo_private.txt
 
 # Editor directories and files
 .vscode/*
