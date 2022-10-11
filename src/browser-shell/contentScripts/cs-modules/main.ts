@@ -1,8 +1,5 @@
-import {
-  ms_sendComponentInit,
-  ms_sendInjectScript,
-} from "@browser-shell/utils";
-import { SharedInPageUIState } from "../sharedInPageUI";
+import { ms_sendComponentInit, ms_sendInjectScript } from "@utils/messages";
+import { SharedInPageUIState } from "@ui/common/sharedInPageUI";
 import {
   ContentScriptComponent,
   ContentScriptRegistry,

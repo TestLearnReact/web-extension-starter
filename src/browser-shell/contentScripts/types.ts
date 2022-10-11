@@ -1,5 +1,5 @@
-import { ToolbarContainerDependencies } from "../frontends/toolbar";
-import { SidebarContainerDependencies } from "../frontends/sidebar";
+import { SidebarContainerDependencies } from "@ui/content-scripts-frontends/sidebar";
+import { ToolbarContainerDependencies } from "@ui/content-scripts-frontends/toolbar";
 
 export type ContentScriptComponent =
   | "sidebar"

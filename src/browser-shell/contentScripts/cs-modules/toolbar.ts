@@ -2,17 +2,13 @@ import browser from "webextension-polyfill";
 import {
   // destroyFrontendToolbar,
   setupFrontendToolbar,
-} from "@browser-shell/frontends/toolbar";
-import {
-  createInPageUI,
-  destroyInPageUI,
-  InPageUIRootMount,
-} from "@browser-shell/frontends/common";
+} from "@ui/content-scripts-frontends/toolbar";
+import { createInPageUI, destroyInPageUI, InPageUIRootMount } from "@ui/common";
 import { ToolbarScriptMain } from "../types";
 import {
   ms_componentDestroyStream,
   ms_componentInitStream,
-} from "@browser-shell/utils";
+} from "@utils/messages";
 
 export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
   // const cssFile = ""; //browser.runtime.getURL(`css/contentScript_toolbar.css`);

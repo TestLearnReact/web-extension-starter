@@ -75,7 +75,9 @@ const manifest = defineManifest({
 export default defineConfig({
   resolve: {
     alias: {
-      "@browser-shell": `${r("src/browser-shell")}/`,
+      //"@browser-shell": `${r("src/browser-shell")}/`,
+      "@ui": `${r("src/browser-shell/extension-ui")}/`,
+      "@utils": `${r("src/browser-shell/utils")}/`,
       "@message-system": r("src/message-system/index.ts"),
       "~icons/public-assets-icons/*": r("public/assets/icons/"),
     },

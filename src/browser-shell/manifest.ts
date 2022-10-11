@@ -3,6 +3,11 @@ import type PkgType from "../../package.json";
 import { r } from "../../build-tools/dev-scripts/utils";
 import type { ManifestV3Export } from "@crxjs/vite-plugin";
 
+/**
+ * ! IMPORTANT ! IMPORTANT ! IMPORTANT !
+ * for dev use build-tools/vite-config/vite.config.crxjs.ts manifest
+ */
+
 export async function getManifest(): Promise<ManifestV3Export> {
   const pkg = (await fs.readJSON(r("package.json"))) as typeof PkgType;
 

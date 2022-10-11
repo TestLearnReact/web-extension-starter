@@ -1,18 +1,14 @@
 import browser from "webextension-polyfill";
-import {
-  createInPageUI,
-  destroyInPageUI,
-  InPageUIRootMount,
-} from "@browser-shell/frontends/common";
+import { createInPageUI, destroyInPageUI, InPageUIRootMount } from "@ui/common";
 import {
   setupFrontendSidebar,
   //destroyFrontendSidebar,
-} from "@browser-shell/frontends/sidebar";
+} from "@ui/content-scripts-frontends/sidebar";
 import { SidebarScriptMain } from "../types";
 import {
   ms_componentInitStream,
   ms_componentDestroyStream,
-} from "@browser-shell/utils";
+} from "@utils/messages";
 
 // import exports from "./react-refresh.js";
 

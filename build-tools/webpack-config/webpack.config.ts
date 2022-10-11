@@ -86,63 +86,6 @@ const config: Configuration = {
     filename: "dist/[name].js",
   },
 
-  optimization: {
-    // todo no need webpack 5 // esbuild ?
-    minimize: true,
-    minimizer: [
-      new ESBuildMinifyPlugin({
-        target: "es2018", // Syntax to compile to (see options below for possible values)
-        tsconfigRaw: require("../../tsconfig.json"),
-      }),
-      // todo no need webpack 5 // esbuild ?
-      new TerserPlugin({
-        parallel: true,
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-        },
-        extractComments: false,
-      }),
-      // todo no need webpack 5 // esbuild ?
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: ["default", { discardComments: { removeAll: true } }],
-        },
-      }),
-      isProd &&
-        new FilemanagerPlugin({
-          events: {
-            onEnd: {
-              archive: [
-                {
-                  format: "zip",
-                  source: resRoot("extension", targetBrowser),
-                  destination: `${resRoot(
-                    "extension",
-                    targetBrowser
-                  )}.${getExtensionFileType(targetBrowser)}`,
-                  options: { zlib: { level: 6 } },
-                },
-              ],
-            },
-          },
-        }),
-    ].filter((n) => n),
-
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks(chunk) {
-            return chunk.name !== "background";
-          },
-        },
-      },
-    },
-  },
-
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json", ".svg"],
 
@@ -164,6 +107,8 @@ const config: Configuration = {
         __dirname,
         "../../public/assets/icons/"
       ),
+      "@ui": resRoot("src/browser-shell/extension-ui/"),
+      "@utils": resRoot("src/browser-shell/utils/"),
     },
     modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },
@@ -448,6 +393,63 @@ const config: Configuration = {
       ],
     }),
   ],
+
+  optimization: {
+    // todo no need webpack 5 // esbuild ?
+    minimize: true,
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: "es2018", // Syntax to compile to (see options below for possible values)
+        tsconfigRaw: require("../../tsconfig.json"),
+      }),
+      // todo no need webpack 5 // esbuild ?
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+      // todo no need webpack 5 // esbuild ?
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorPluginOptions: {
+          preset: ["default", { discardComments: { removeAll: true } }],
+        },
+      }),
+      isProd &&
+        new FilemanagerPlugin({
+          events: {
+            onEnd: {
+              archive: [
+                {
+                  format: "zip",
+                  source: resRoot("extension", targetBrowser),
+                  destination: `${resRoot(
+                    "extension",
+                    targetBrowser
+                  )}.${getExtensionFileType(targetBrowser)}`,
+                  options: { zlib: { level: 6 } },
+                },
+              ],
+            },
+          },
+        }),
+    ].filter((n) => n),
+
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks(chunk) {
+            return chunk.name !== "background";
+          },
+        },
+      },
+    },
+  },
 
   context: __dirname,
 };
