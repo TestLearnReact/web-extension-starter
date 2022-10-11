@@ -7,7 +7,7 @@ import { ms_inPageUiStateStream } from "@utils/messages";
 import ToolbarContainer from "../toolbar";
 
 import "./styles.css";
-import "@ui/common/styles/scss/abstracts";
+//import "@ui/common/styles/scss/abstracts";
 
 const TOOLBAR_HIDE_TIMEOUT = 2000;
 

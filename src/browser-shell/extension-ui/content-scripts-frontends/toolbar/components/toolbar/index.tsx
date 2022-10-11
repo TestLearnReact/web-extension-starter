@@ -6,6 +6,7 @@ import ToolbarActions from "../toolbar-components/toolbarActions";
 import { useThemeContext } from "@ui/common/context";
 
 import "./styles.scss";
+import { _DEV_OPTIONS } from "@ui/common/dev_config";
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -44,18 +45,24 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
   return (
     <div
       className={cx("toolbar", {
-        toolbarExpanded: sharedInPageUiState.toolbar,
-        toolbarSidebarOpen: sharedInPageUiState.sidebar,
+        toolbarExpanded:
+          sharedInPageUiState.toolbar || _DEV_OPTIONS.DEV_TOOLBAR_OPEN,
+        toolbarSidebarOpen:
+          sharedInPageUiState.sidebar || _DEV_OPTIONS.DEV_SDEBAR_OPEN,
       })}
     >
       <div
         ref={toolbarRef}
         className={cx("innerToolbar", "ignore-react-onclickoutside", {
-          innerToolbarExpanded: sharedInPageUiState.toolbar,
-          innerToolbarSidebarOpen: sharedInPageUiState.sidebar,
+          innerToolbarExpanded:
+            sharedInPageUiState.toolbar || _DEV_OPTIONS.DEV_TOOLBAR_OPEN,
+          innerToolbarSidebarOpen:
+            sharedInPageUiState.sidebar || _DEV_OPTIONS.DEV_SDEBAR_OPEN,
         })}
       >
-        {(sharedInPageUiState.toolbar || sidebar.isSidebarOpen) && (
+        {(sharedInPageUiState.toolbar ||
+          sidebar.isSidebarOpen ||
+          _DEV_OPTIONS.DEV_TOOLBAR_OPEN) && (
           <>
             <ToolbarActions
               sidebar={sidebar}

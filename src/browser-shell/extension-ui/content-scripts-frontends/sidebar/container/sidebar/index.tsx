@@ -16,6 +16,7 @@ import {
 import { Sidebar } from "../../components/sidebar";
 
 import * as S from "./styles";
+import { _DEV_OPTIONS } from "@ui/common/dev_config";
 
 interface SidebarHolderProps {
   dependencies: SidebarContainerDependencies;
@@ -58,7 +59,8 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
     ignoreClassNames: IGNORE_CLICK_OUTSIDE_CLASS,
   });
 
-  if (!sharedInPageUiState.sidebar) return null;
+  if (!sharedInPageUiState.sidebar && !_DEV_OPTIONS.DEV_SDEBAR_OPEN)
+    return null;
   return (
     <>
       {/* Theme styled-component */}

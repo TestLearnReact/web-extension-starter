@@ -53,3 +53,13 @@ declare module "*.json" {
   const content: string;
   export default content;
 }
+
+namespace NodeJS {
+  interface ProcessEnv {
+    NODE_ENV: string;
+    PORT: string;
+    MONGO_URI: string;
+    TOOLBAR_OPEN: string;
+    SIDEBAR_OPEN: string;
+  }
+}

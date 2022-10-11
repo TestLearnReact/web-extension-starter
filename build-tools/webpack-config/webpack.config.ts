@@ -24,6 +24,7 @@ import HtmlWebpackInlineSVGPlugin from "html-webpack-inline-svg-plugin";
 import { isDev, isProd } from "../dev-scripts/utils";
 
 import "webpack-dev-server";
+import { IGlobalVariables } from "build-tools/shared-config/types";
 
 const resRoot = (...args: string[]) => resolve(__dirname, "../../", ...args);
 
