@@ -1,0 +1,112 @@
+
+// $primary-color: #fe4e5e;
+// $background-color: #fefefe;
+// $padding: 124px;
+
+// :export {
+//   primaryColor: $primary-color;
+//   backgroundColor: $background-color;
+//   padding: $padding;
+// }
+
+
+$themes: (
+  light: (
+    // backgroundLight: #fff,
+    // backgroundDark: #f7f7f8,
+    textColor: #03121A, // hsl(200.87,79.31%,5.69%) rgb(3,18,26)
+    textDark: #000,
+    textLight: #919394,
+    contentColor: #333,  
+//*//
+    backgroundDark: #F9F9F9, // hsl(0,0%,97.65%) rgb(249,249,249)
+    backgroundLight: #FFFFFF, // rgb(255,255,255) hsl(0,0%,100%)
+    backgroundLight2: #FFFFFF, // rgb(255,255,255) hsl(0,0%,100%)
+    lineColor: #E0E0E0, // hsl(0,0%,87.84%) rgb(224,224,224)
+    iconColor: #030303, // hsl(0,0%,1.18%) rgb(3,3,3)
+    iconColorWhenBg: #FFFFFF,// rgb(255,255,255) hsl(0,0%,100%)
+    iconBackground:  #404040, // hsl(0,0%,25.1%) rgb(64,64,64)
+  ),
+  dark: (
+    // backgroundLight: #131b1f,
+    // backgroundDark: #000,
+    textColor: #FFFFFF, // rgb(255,255,255) hsl(0,0%,100%)
+    textDark: #fff,
+    textLight: #b9baba,
+    
+    backgroundDark: #181818, // hsl(0,0%,9.41%) rgb(24,24,24)
+    backgroundLight: #212121, // hsl(0,0%,12.94%) rgb(33,33,33)
+    backgroundLight2: #202020, // hsl(0,0%,12.55%) rgb(32,32,32)
+    lineColor: #303030, // hsl(0,0%,18.82%) rgb(48,48,48)
+    iconColor: #FFFFFF, // rgb(255,255,255) hsl(0,0%,100%)
+    iconColorWhenBg:#FFFFFF, // rgb(255,255,255) hsl(0,0%,100%)
+    iconBackground: #404040, // hsl(0,0%,25.1%) rgb(64,64,64)
+  ),
+);
+
+$color-schemes: (
+  scheme-default: (
+    backgroundColor: #00b4ff,
+  ),
+  scheme-cs1: (
+    backgroundColor: #e68a00,
+  )
+);
+
+// @mixin customize($arg: theme) {
+//   $array: $themes;
+//   $prefix: theme;
+
+//   @if ($arg == theme) {
+//     $array: $themes;
+//     $prefix: theme;
+//   } @else {
+//     $array: $color-schemes;
+//     $prefix: color;
+//   }
+
+//   @each $theme, $map in $array {
+//     //.#{$prefix}-#{$theme} & {
+//       .theme-#{$theme} & {
+//       $array-map: () !global;
+//       @each $key, $submap in $map {
+//         $value: map-get(map-get($array, $theme), '#{$key}');
+//         $array-map: map-merge($array-map, ($key: $value)) !global;
+//       }
+
+//       @content;
+//       $array-map: null !global;
+//     }
+//   }
+// }
+
+// @function getValue($key) {
+//   @return map-get($array-map, $key);
+// }
+
+// @mixin theme-aware($key, $color) {
+//     @each $theme-name, $theme-color in $themes {
+//         .theme-#{$theme-name} & {
+            
+//             #{$key}: map-get(map-get($themes, $theme-name), $color)
+//         }
+//     }
+// }
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+  
+@function t($key) {
+  @return map-get($theme-map, $key);
+}
