@@ -30,8 +30,6 @@ import {
   resSrc,
   nodeEnv,
   targetBrowser,
-  EXT_OUTDIR_WEBPACK,
-  res,
   OUTDIR_WEBPACK_NAME,
 } from "../shared";
 
