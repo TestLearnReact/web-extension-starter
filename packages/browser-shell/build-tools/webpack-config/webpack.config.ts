@@ -31,7 +31,18 @@ import {
   nodeEnv,
   targetBrowser,
   EXT_OUTDIR_WEBPACK,
+  res,
+  OUTDIR_WEBPACK_NAME,
 } from "../shared";
+
+const packages = ["browser-shell", "message-system"];
+
+let alias = {
+  "~icons/public-assets-icons": resSrc("../public/assets/icons/"),
+  "@browser-shell": resSrc(),
+  "@ui": resSrc("extension-ui/"),
+  "@utils": resSrc("utils/"),
+};
 
 export const getExtensionFileType = (browser) => {
   if (browser === "opera") return "crx";
@@ -78,7 +89,7 @@ const config: Configuration = {
   },
 
   output: {
-    path: resRoot(EXT_OUTDIR_WEBPACK, targetBrowser),
+    path: resRoot(OUTDIR_WEBPACK_NAME, targetBrowser),
     filename: "dist/[name].js",
   },
 
@@ -91,20 +102,14 @@ const config: Configuration = {
       stream: require.resolve("stream-browserify"),
     },
 
-    alias: {
-      "webextension-polyfill": resRoot(
-        "node_modules/webextension-polyfill/dist",
-        "browser-polyfill.js"
-      ),
-      "@workspace/browser-shell": resRoot("packages/browser-shell/src/"),
-      "@workspace/message-system": resRoot(
-        "packages/message-system/src/index.ts"
-      ),
-      "~icons/public-assets-icons": resSrc("../public/assets/icons/"),
-      "@browser-shell": resSrc(),
-      "@ui": resSrc("extension-ui/"),
-      "@utils": resSrc("utils/"),
-    },
+    alias: packages.reduce(
+      (alias, p) => ({
+        ...alias,
+        [`@workspace/${p}`]: path.resolve(__dirname, `../../../${p}/src`),
+      }),
+      alias
+    ),
+
     modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },
 
@@ -362,44 +367,38 @@ const config: Configuration = {
     // delete previous build files
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
-        path.join(process.cwd(), `../../extension/${targetBrowser}`),
-        path.join(
-          process.cwd(),
-          `../../extension/${targetBrowser}.${getExtensionFileType(
-            targetBrowser
-          )}`
+        resRoot(`extension/${targetBrowser}`),
+        resRoot(
+          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
         ),
       ],
+      dry: false,
       dangerouslyAllowCleanPatternsOutsideProject: true,
       cleanStaleWebpackAssets: false,
       verbose: true,
     }),
-    // new HtmlWebpackPlugin({
-    //   template: resSrc("popup", "index.html"),
-    //   inject: "body", //true
-    //   chunks: ["popup/popup"],
-    //   filename: "dist/popup/index.html",
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: resSrc("options", "index.html"),
-    //   inject: "body",
-    //   chunks: ["options/options"],
-    //   filename: "dist/options/index.html",
-    // }),
+    new HtmlWebpackPlugin({
+      template: resSrc("popup", "index.html"),
+      inject: "body", //true
+      chunks: ["popup/popup"],
+      filename: "dist/popup/index.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: resSrc("options", "index.html"),
+      inject: "body",
+      chunks: ["options/options"],
+      filename: "dist/options/index.html",
+    }),
     //new HtmlWebpackInlineSVGPlugin(),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: "css/[name].css" }),
     // copy static assets
     new CopyWebpackPlugin({
       patterns: [
-        { from: resRoot("public/assets"), to: "assets" },
-        // {
-        //   from: resRoot("public/libs/react-refresh.js"),
-        //   to: "lib/react-refresh.js",
-        // },
+        { from: resSrc("../public/assets"), to: "assets" },
         {
           from: resRoot(
-            "../../node_modules/webextension-polyfill/dist/browser-polyfill.js"
+            "node_modules/webextension-polyfill/dist/browser-polyfill.js"
           ),
           to: "lib/browser-polyfill.js",
         },
@@ -438,11 +437,12 @@ const config: Configuration = {
               archive: [
                 {
                   format: "zip",
-                  source: resRoot("../../extension", targetBrowser),
-                  destination: `${resRoot(
-                    "../../extension",
-                    targetBrowser
-                  )}.${getExtensionFileType(targetBrowser)}`,
+                  source: resRoot(OUTDIR_WEBPACK_NAME, targetBrowser),
+                  destination: resRoot(
+                    OUTDIR_WEBPACK_NAME,
+                    `${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+                  ),
+
                   options: { zlib: { level: 6 } },
                 },
               ],

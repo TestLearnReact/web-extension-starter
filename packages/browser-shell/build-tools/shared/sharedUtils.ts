@@ -11,11 +11,15 @@ export const resSrc = (...args: string[]) =>
 export const resRoot = (...args: string[]) =>
   resolve(__dirname, "../../../../", ...args);
 
+export const res = (...args: string[]) => resolve(__dirname, ...args);
 /**
  *
  */
 export const EXT_OUTDIR_WEBPACK = resRoot("extension/");
 export const EXT_OUTDIR_VITE = resRoot("dist/");
+
+export const OUTDIR_WEBPACK_NAME = "extension";
+export const OUTDIR_VITE_NAME = "dist";
 
 /**
  *
