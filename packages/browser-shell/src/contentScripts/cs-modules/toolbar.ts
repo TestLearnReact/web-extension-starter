@@ -49,6 +49,6 @@ export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
     }
 
     destroyInPageUI("toolbar");
-    // destroyFrontendToolbar(mount.rootElement, mount.shadowRoot);
+    destroyFrontendToolbar(mount.rootElement, mount.shadowRoot);
   };
 };

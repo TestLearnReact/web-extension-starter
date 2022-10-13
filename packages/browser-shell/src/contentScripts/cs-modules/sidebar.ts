@@ -49,6 +49,6 @@ export const sidebarMain: SidebarScriptMain = async (dependencies) => {
     }
 
     destroyInPageUI("sidebar");
-    // destroyFrontendSidebar(mount.rootElement, mount.shadowRoot);
+    destroyFrontendSidebar(mount.rootElement, mount.shadowRoot);
   };
 };

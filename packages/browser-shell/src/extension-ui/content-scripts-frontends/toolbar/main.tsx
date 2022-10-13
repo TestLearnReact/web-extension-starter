@@ -15,7 +15,7 @@ export function setupFrontendToolbar(
 ): void {
   ReactDOM.render(
     <React.StrictMode>
-      <StyleSheetManager target={mount.shadowRoot as any}>
+      <StyleSheetManager target={mount.rootElement as any}>
         <ThemeProviderContext>
           <ToolbarHolderContainer dependencies={dependencies} />
         </ThemeProviderContext>

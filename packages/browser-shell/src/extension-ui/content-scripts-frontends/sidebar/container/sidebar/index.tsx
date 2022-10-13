@@ -34,6 +34,7 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
   useEffect(() => {
     ms_sharedStateSettingsStream.subscribe(([{ theme }]) => {
       setCurrentTheme(theme);
+      // sharedInPageUiState.sidebar &&
     });
   }, []);
 
@@ -42,6 +43,7 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
 
   useEffect(() => {
     ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }]) => {
+      console.log(sharedInPageUiState);
       setSharedInPageUiState({ toolbar, sidebar });
     });
   }, []);

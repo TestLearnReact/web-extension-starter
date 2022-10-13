@@ -3,25 +3,21 @@ export function createInPageUI(
   cssFile: string,
   containerClassNames?: string[]
 ) {
-  const containerId = `memex-${name}-container`;
-  // const mountDev = document.querySelector(`#${containerId}`);
-  // if (mountDev) return { rootElement: mountDev, shadowRoot: mountDev };
+  const containerId = `crxjs_mount-${name}-container`;
 
   const mount = createInPageUIRoot({
-    containerId, //: `memex-${name}-container`,
-    rootId: `memex-${name}`,
-    rootClassNames: [`memex-${name}`],
+    containerId,
+    rootId: `crxjs_mount-${name}`,
+    rootClassNames: [`crxjs_mount-${name}`],
     containerClassNames,
     cssFile,
   });
-
-  // retargetEvents(mount.shadowRoot)
 
   return mount;
 }
 
 export function destroyInPageUI(name: string) {
-  return destroyRootElement(`memex-${name}-container`);
+  return destroyRootElement(`crxjs_mount-${name}-container`);
 }
 
 export function createInPageUIRoot({
@@ -50,9 +46,9 @@ export function createInPageUIRoot({
     rootClassNames,
     cssFile
   );
-  // todo besser schneller machen
+
+  // dont add twice in dev mode
   const mountDev = document.querySelector(`#${containerId}`);
-  // if (mountDev) return { rootElement, shadowRoot: shadow };
 
   if (!mountDev) {
     document.body.appendChild(container);
@@ -82,11 +78,8 @@ export function createShadowRootIfSupported(
   }
 
   let shadow: ShadowRoot | null = null; // todo
-  if (!true && container.attachShadow) {
-    //isCsDevHtmlchrome()
-    //!isViteAndDev &&
-    // todo dev style tag head  no shadow
-    // container.attachShadow
+  if (!__DEV__ && container.attachShadow) {
+    console.log("--------------");
     /** 'open' mode to access shadow dom elements from outisde the shadow root.
      * More info: https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#Parameters
      */
@@ -113,7 +106,6 @@ export function createShadowRootIfSupported(
  * @param {string} cssUrl URL of the stylesheet to inject
  */
 export function injectCSS(cssUrl: string, root?: ShadowRoot | Element) {
-  //Element =
   // Check if the css file is already present in the webpage
   const node = (root || document).querySelector(`link[href="${cssUrl}"]`);
   if (node) {

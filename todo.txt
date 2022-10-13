@@ -4,3 +4,8 @@ s/css modules
 message-system send<void>() bug   dependencies-> peerDependencies
 
 alias @ui vs @browser-shell/
+
+bug rerender sidebarcontainer when closed and theme toggled
+todo toolbar theme change from other component
+utis shadowdom bug
+clickoutside shadowroot bug
