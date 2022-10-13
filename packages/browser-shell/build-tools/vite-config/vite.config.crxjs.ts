@@ -45,7 +45,7 @@ const manifest = defineManifest({
       matches: ["https://www.google.com/*"],
     }),
     {
-      resources: ["public/*"],
+      resources: ["public/*", "dist/*", "src/*"],
       matches: ["<all_urls>"],
     },
   ],

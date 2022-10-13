@@ -5,7 +5,7 @@
   "description": "vite/webpack multi browser extension",
   "scripts": {
     "dev": "cross-env IS_CRXJS=true rimraf ./dist && vite --config build-tools/vite-config/vite.config.crxjs.ts",
-    "build": "vite build --config build-tools/vite-config/vite.config.crxjs.ts",
+    "build": "rimraf ../../dist && vite build --config build-tools/vite-config/vite.config.crxjs.ts",
     "webpack:build": "run-p build:chrome build:firefox build:opera",
     "dev:chrome": "cross-env TARGET_BROWSER=\"chrome\" NODE_ENV=\"development\" webpack --config build-tools/webpack-config/webpack.config.ts --watch",
     "dev:firefox": "cross-env TARGET_BROWSER=\"firefox\" NODE_ENV=\"development\" webpack --config build-tools/webpack-config/webpack.config.ts --watch",
