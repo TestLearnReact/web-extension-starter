@@ -1,10 +1,31 @@
 {
-  "name": "@workspace/xxx",
+  "name": "vite-project",
+  "displayName": "Browser extension",
+  "description": "Multi browser extension with real HMR",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "lerna run build --stream  --concurrency 99",
-    "dev": "cross-env NODE_ENV=development lerna run dev --parallel"
+    "dev": "cross-env IS_CRXJS=true rimraf ./dist && vite --config build-tools/vite-config/vite.config.crxjs.ts",
+    "build": "tsc && vite build --config build-tools/vite-config/vite.config.crxjs.ts",
+    "webpack:build": "run-p build:chrome build:firefox build:opera",
+    "dev:chrome": "cross-env TARGET_BROWSER=\"chrome\" NODE_ENV=\"development\" webpack --config build-tools/webpack-config/webpack.config.ts --watch",
+    "dev:firefox": "cross-env TARGET_BROWSER=\"firefox\" NODE_ENV=\"development\" webpack --config build-tools/webpack-config/webpack.config.ts --watch",
+    "dev:opera": "cross-env TARGET_BROWSER=\"opera\" NODE_ENV=\"development\" webpack --config build-tools/webpack-config/webpack.config.ts --watch",
+    "build:chrome": "cross-env TARGET_BROWSER=\"chrome\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
+    "build:firefox": "cross-env TARGET_BROWSER=\"firefox\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
+    "build:opera": "cross-env TARGET_BROWSER=\"opera\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
+    "write:manifest": "esno build-tools/dev-scripts/manifest.ts",
+    "clear": "rimraf extension/dist extension/manifest.json extension/.*"
+  },
+  "dependencies": {
+    "-": "^0.0.1",
+    "D": "^1.0.0",
+    "classnames": "^2.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rxjs": "^7.5.5",
+    "styled-components": "^5.3.5",
+    "webextension-polyfill": "^0.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
@@ -34,10 +55,8 @@
     "copy-webpack-plugin": "^11.0.0",
     "core-js-pure": "^3.25.0",
     "cross-env": "^7.0.3",
-    "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.3",
-    "esbuild": "^0.15.10",
     "esbuild-loader": "^2.19.0",
     "esno": "^0.16.3",
     "filemanager-webpack-plugin": "^7.0.0",
@@ -46,7 +65,6 @@
     "html-webpack-plugin": "^5.5.0",
     "i": "^0.3.7",
     "kolorist": "^1.5.1",
-    "lerna": "^5.6.2",
     "mini-css-extract-plugin": "^2.6.1",
     "npm-run-all": "^4.1.5",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
@@ -73,7 +91,7 @@
     "unplugin-auto-import": "^0.9.2",
     "unplugin-icons": "^0.14.11",
     "url-loader": "^4.1.1",
-    "vite": "^3.1.8",
+    "vite": "^3.1.0",
     "vite-plugin-react-svg": "^0.2.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-svgr": "^2.2.1",
@@ -89,8 +107,5 @@
       "@babel/preset-react",
       "@babel/preset-typescript"
     ]
-  },
-  "workspaces": [
-    "packages/**/*"
-  ]
+  }
 }

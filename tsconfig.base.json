@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "useDefineForClassFields": true,
+      "lib": ["DOM", "DOM.Iterable", "ESNext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true, 
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "jsx": "react-jsx",    
+      "noImplicitAny": false,
+      "paths": { 
+        "@workspace/message-system": ["packages/message-system/src/index.ts"],
+        "@workspace/browser-shell/*": ["packages/browser-shell/src/*"],
+        "~icons/public-assets-icons/*": ["packages/browser-shell/public/assets/icons/*"],
+        "@ui/*": ["packages/browser-shell/src/extension-ui/*"],
+        "@browser-shell/*": ["packages/browser-shell/src/*"],
+        "@utils/*": ["packages/browser-shell/src/utils/*"]
+       },
+      "types": [
+        "unplugin-icons/types/react",
+        "chrome"
+      ]  
+    },
+    "ts-node": {
+      "compilerOptions": {
+        "module": "CommonJS"
+      }
+    }
+  }
+  

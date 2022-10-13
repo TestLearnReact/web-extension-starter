@@ -14,6 +14,7 @@ extension
 extension-vite
 *.local
 todo_private.txt
+README.md
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +26,6 @@ todo_private.txt
 *.njsproj
 *.sln
 *.sw?
+
+
+*.md*

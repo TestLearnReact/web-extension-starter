@@ -1,0 +1,43 @@
+import { csMainModule } from "../cs-modules/main";
+import { ms_sendExtensionReload } from "@utils/messages";
+import { _DEV_OPTIONS } from "@ui/common/dev_config";
+
+// /**
+//  * Main content-script (manifest)
+//  * inject in all webpages
+//  *  */
+export const main = async () => await csMainModule();
+
+(async () => {
+  await main();
+
+  /**
+   * development
+   *  */
+  if (__IS_CRXJS__ && import.meta.hot) {
+    // hack: crxjs dont create loader-scripts in dist/assets/
+    const scriptPath_toolbar = await import("./toolbar?script");
+    const scriptPath_sidebar = await import("./sidebar?script");
+
+    function isCrxHMRPayload(x) {
+      return x.type === "custom" && x.event.startsWith("crx:");
+    }
+
+    const port = chrome.runtime.connect({ name: "@crx/client" });
+
+    port.onMessage.addListener((m) => {
+      const payload = JSON.parse(m.data);
+      console.log("pay", payload);
+      if (isCrxHMRPayload(payload)) {
+        if (payload.event === "crx:runtime-reload") {
+          // reload Tab always work
+        } else {
+          // HMR sometimes doesnt work
+          // !!! --> Hack: SAVE TWICE ALWAYS WORK TOO <-- !!!
+          // call browser.tabs.reload() in background/dev.ts
+          _DEV_OPTIONS.DEV_RELOAD_EXTENSION && ms_sendExtensionReload();
+        }
+      }
+    });
+  }
+})();

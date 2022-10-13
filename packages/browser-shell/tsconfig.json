@@ -1,0 +1,14 @@
+{  
+  "extends": "../../tsconfig.settings.json",
+  "compilerOptions": {},
+  "references": [
+    { "path": "../message-system" }
+  ],
+  "include": [
+    "./src/**/*",
+    "package.json",
+    "build-tools/**/*",
+    "packages/**/src/**/*"
+  ]
+}
+  
