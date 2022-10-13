@@ -1,6 +1,6 @@
 webpack:
 s/css modules
 
-message-system send<void>() bug
+message-system send<void>() bug   dependencies-> peerDependencies
 
 alias @ui vs @browser-shell/

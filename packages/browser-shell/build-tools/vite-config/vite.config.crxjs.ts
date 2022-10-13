@@ -1,64 +1,28 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import Icons from "unplugin-icons/vite";
-import { crx, defineDynamicResource, defineManifest } from "@crxjs/vite-plugin";
+import { crx } from "@crxjs/vite-plugin";
 import AutoImport from "unplugin-auto-import/vite";
-import { isDev, r } from "../dev-scripts/utils";
 import { promises as fs } from "fs";
 import { FileSystemIconLoader } from "unplugin-icons/loaders";
 
-import packageJson from "../../package.json";
+import { manifest } from "./manifest.vite";
+import { isDev, OUTDIR_VITE_NAME, resSrc } from "../shared";
+import path from "path";
+import { aliasVite, getAlias, packages } from "../shared/sharedConfig";
 
-const { version } = packageJson;
-
-const manifest = defineManifest({
-  manifest_version: 3,
-  name: "V3 -> CRXJS <-",
-  version: version,
-  action: {
-    default_popup: "src/popup/index.html",
-  },
-  options_ui: {
-    page: "src/options/index.html",
-    open_in_tab: true,
-  },
-  icons: {
-    16: "public/assets/icons/icon-512.png",
-    48: "public/assets/icons/icon-512.png",
-    128: "public/assets/icons/icon-512.png",
-  },
-  content_scripts: [
-    {
-      js: ["src/contentScripts/cs-scripts/main.ts"],
-      matches: ["https://www.google.com/*"],
-      run_at: "document_idle",
-    },
-  ],
-  background: {
-    service_worker: "src/background/dev.ts",
-    type: "module",
-  },
-  permissions: ["scripting", "tabs", "storage", "activeTab", "webNavigation"],
-  host_permissions: ["https://www.google.com/*"],
-  web_accessible_resources: [
-    defineDynamicResource({
-      matches: ["https://www.google.com/*"],
-    }),
-    {
-      resources: ["public/*", "dist/*", "src/*"],
-      matches: ["<all_urls>"],
-    },
-  ],
-});
+// alias: {
+//   "@workspace/browser-shell": resSrc("../../browser-shell/src/"),
+//   "@workspace/message-system": resSrc("../../message-system/src/index.ts"),
+//   "@browser-shell": resSrc(),
+//   "@ui": `${resSrc("extension-ui")}/`,
+//   "@utils": `${resSrc("utils")}/`,
+//   "~icons/public-assets-icons/*": resSrc("../public/assets/icons/"),
+// },
 
 export default defineConfig({
   resolve: {
-    alias: {
-      "@ui": `${r("src/extension-ui")}/`,
-      "@utils": `${r("src/utils")}/`,
-      "@workspace/message-system": r("../message-system/src/index.ts"),
-      "~icons/public-assets-icons/*": r("public/assets/icons/"),
-    },
+    alias: getAlias(aliasVite),
   },
   define: {
     __DEV__: isDev,
@@ -90,7 +54,7 @@ export default defineConfig({
         // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
         // you can also provide a transform callback to change each icon (optional)
         "public-assets-icons": FileSystemIconLoader(
-          r("./public/assets/icons"),
+          resSrc("../public/assets/icons"),
           (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
         ),
       },
@@ -103,11 +67,11 @@ export default defineConfig({
           "webextension-polyfill": [["*", "browser"]],
         },
       ],
-      dts: r("src/auto-imports.d.ts"),
+      dts: resSrc("auto-imports.d.ts"),
     }),
   ],
   build: {
-    outDir: "../../dist",
+    outDir: `../../${OUTDIR_VITE_NAME}`,
     rollupOptions: {
       // add any html pages here
       input: {

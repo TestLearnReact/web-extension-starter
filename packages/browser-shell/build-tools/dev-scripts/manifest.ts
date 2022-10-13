@@ -1,11 +1,11 @@
 import fs from "fs-extra";
 import { getManifest } from "../../src/manifest";
-import { log, r } from "./utils";
+import { log, res } from "../shared";
 
 export async function writeManifest() {
-  await fs.ensureDir(r(`../../extension/${process.env.TARGET_BROWSER}/`));
+  await fs.ensureDir(res(`../../extension/${process.env.TARGET_BROWSER}/`));
   await fs.writeJSON(
-    r(`../../extension/${process.env.TARGET_BROWSER}/manifest.json`),
+    res(`../../extension/${process.env.TARGET_BROWSER}/manifest.json`),
     await getManifest(),
     {
       spaces: 2,

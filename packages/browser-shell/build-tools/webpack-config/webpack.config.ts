@@ -13,13 +13,12 @@ import TerserPlugin from "terser-webpack-plugin";
 
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 
-import Icons from "unplugin-icons/webpack";
-import { promises as fs } from "fs";
-// loader helpers
-import { FileSystemIconLoader } from "unplugin-icons/loaders";
-//const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
-
-import HtmlWebpackInlineSVGPlugin from "html-webpack-inline-svg-plugin";
+// import Icons from "unplugin-icons/webpack";
+// import { promises as fs } from "fs";
+// // loader helpers
+// import { FileSystemIconLoader } from "unplugin-icons/loaders";
+// //const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
+// import HtmlWebpackInlineSVGPlugin from "html-webpack-inline-svg-plugin";
 
 import "webpack-dev-server";
 
@@ -32,6 +31,7 @@ import {
   targetBrowser,
   OUTDIR_WEBPACK_NAME,
 } from "../shared";
+import { aliasWebpack, getAlias } from "../shared/sharedConfig";
 
 const packages = ["browser-shell", "message-system"];
 
@@ -100,13 +100,14 @@ const config: Configuration = {
       stream: require.resolve("stream-browserify"),
     },
 
-    alias: packages.reduce(
-      (alias, p) => ({
-        ...alias,
-        [`@workspace/${p}`]: path.resolve(__dirname, `../../../${p}/src`),
-      }),
-      alias
-    ),
+    alias: getAlias(aliasWebpack),
+    //  packages.reduce(
+    //   (alias, p) => ({
+    //     ...alias,
+    //     [`@workspace/${p}`]: path.resolve(__dirname, `../../../${p}/src`),
+    //   }),
+    //   alias
+    // ),
 
     modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
   },

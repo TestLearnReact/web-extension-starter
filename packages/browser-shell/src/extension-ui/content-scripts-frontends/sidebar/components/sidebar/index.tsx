@@ -18,7 +18,7 @@ export const Sidebar: React.FC<{}> = () => {
           onClick={() => console.log("...")}
         />
       </SidbarTopBar>
-      <S.Content>..Content..</S.Content>
+      <S.Content>.. Content ..</S.Content>
 
       {/* <CssModuleTestButton>.</CssModuleTestButton> */}
     </S.Container>
