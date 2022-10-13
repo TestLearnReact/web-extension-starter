@@ -13,7 +13,10 @@
     "build:chrome": "cross-env TARGET_BROWSER=\"chrome\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
     "build:firefox": "cross-env TARGET_BROWSER=\"firefox\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
     "build:opera": "cross-env TARGET_BROWSER=\"opera\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
-    "write:manifest": "esno build-tools/dev-scripts/manifest.ts"
+    "write:manifest": "esno build-tools/dev-scripts/manifest.ts",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,json}'",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
     "@workspace/message-system": "*",

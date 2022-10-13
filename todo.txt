@@ -9,3 +9,7 @@ bug rerender sidebarcontainer when closed and theme toggled
 todo toolbar theme change from other component
 utis shadowdom bug
 clickoutside shadowroot bug
+
+
+opera firefox chrome manifest update opera.push() etc
+support manifest v2 ? firefox
