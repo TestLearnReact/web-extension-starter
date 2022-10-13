@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SidebarContainerDependencies } from "../../main";
 import {
-  InPageUIComponentShowState,
   ms_inPageUiStateStream,
   ms_sharedStateSettingsStream,
 } from "@utils/messages";
@@ -13,10 +12,11 @@ import {
   ThemeProvider as StyledComponentThemeProvider,
 } from "@ui/common/styles";
 
-import { Sidebar } from "../../components/sidebar";
-
 import * as S from "./styles";
 import { _DEV_OPTIONS } from "@ui/common/dev_config";
+import { InPageUIComponentShowState } from "@ui/common";
+
+import { Sidebar } from "../../components/sidebar";
 
 interface SidebarHolderProps {
   dependencies: SidebarContainerDependencies;

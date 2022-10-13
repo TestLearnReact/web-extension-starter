@@ -35,7 +35,7 @@ export const main = async () => await csMainModule();
           // HMR sometimes doesnt work
           // !!! --> Hack: SAVE TWICE ALWAYS WORK TOO <-- !!!
           // call browser.tabs.reload() in background/dev.ts
-          _DEV_OPTIONS.DEV_RELOAD_EXTENSION && ms_sendExtensionReload();
+          _DEV_OPTIONS.DEV_RELOAD_EXTENSION && ms_sendExtensionReload({});
         }
       }
     });

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ToolbarContainerDependencies } from "../../main";
-import {
-  InPageUIComponentShowState,
-  ms_inPageUiStateStream,
-} from "@utils/messages";
+import { ms_inPageUiStateStream } from "@utils/messages";
 
 import { useThemeContext } from "@ui/common/context";
 import { darkTheme, lightTheme, ThemeProvider } from "@ui/common/styles";
 
 import Toolbar from "../../components/toolbar";
+import { InPageUIComponentShowState } from "@ui/common";
 
 interface IToolbarContainer {
   dependencies: ToolbarContainerDependencies;

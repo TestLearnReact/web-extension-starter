@@ -1,6 +1,6 @@
 import getMessage from "@workspace/message-system";
 import { ContentScriptComponent } from "../contentScripts/types";
-import { InPageUIComponentShowState } from "@ui/common";
+import type { InPageUIComponentShowState } from "@ui/common";
 
 /** extension messages */
 export const [
@@ -45,4 +45,4 @@ export const [
   ms_sendExtensionReload,
   ms_extensionReloadStream,
   ms_waitForExtensionReload,
-] = getMessage<void>("EXTENSION_RELOAD");
+] = getMessage<{}>("EXTENSION_RELOAD");
