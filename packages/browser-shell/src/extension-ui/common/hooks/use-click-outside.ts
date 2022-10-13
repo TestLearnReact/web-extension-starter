@@ -33,24 +33,10 @@ const useClickOutside = ({
   useEffect(() => {
     const listener: any = (event: ListenerEvent) => {
       if (ref && ref.current) {
-        // todo check shadow
-        // event.target.parentElement?.classList;
-        // console.log(
-        //   "???",
-        //   event.target.parentElement?.classList,
-        //   event.currentTarget,
-        //   event.target.classList,
-        //   event.target
-        // );
-        // console.log(
-        //   event.target.parentElement,
-        //   event.target.closest("SVG")
-        // );
         if (
-          // todo svg path bug
           ignoreClassNames &&
-          (event.target.classList.contains(ignoreClassNames) ||
-            event.target.closest("SVG")?.classList.contains(ignoreClassNames)) // event.target.parentElement?.classList.contains(ignoreClassNames)
+          (event.target.shadowRoot?.querySelectorAll(ignoreClassNames) ||
+            event.target.classList.contains(ignoreClassNames))
         )
           return;
 
