@@ -1,12 +1,12 @@
-import { main as BackgroundMainModule } from "./main";
+import { main as BackgroundMainModule } from './main';
 
 // import scriptPath_main from "../contentScripts/cs-modules/main?script"; //&module
 
-import scriptPath_toolbar from "../contentScripts/cs-scripts/toolbar?script";
-import scriptPath_sidebar from "../contentScripts/cs-scripts/sidebar?script";
-import { ms_extensionReloadStream } from "../utils/messages";
+import scriptPath_toolbar from '../contentScripts/cs-scripts/toolbar?script';
+import scriptPath_sidebar from '../contentScripts/cs-scripts/sidebar?script';
+import { ms_extensionReloadStream } from '../utils/messages';
 
-console.log(" -BG CRXJS DEV- ");
+console.log(' -BG CRXJS DEV- ');
 
 ms_extensionReloadStream.subscribe(([_, sender]) => {
   console.log("services worker 'dev.ts' browser.runtime.reload();");

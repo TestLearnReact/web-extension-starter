@@ -1,4 +1,4 @@
-import { Runtime } from "webextension-polyfill";
+import { Runtime } from 'webextension-polyfill';
 
 /**
  * Private interface.
@@ -37,7 +37,7 @@ export interface AsyncMessageListener {
   (
     message: any, // void
     sender: Runtime.MessageSender,
-    sendResponse: (response: any) => void
+    sendResponse: (response: any) => void,
   ): void;
 }
 
@@ -45,7 +45,7 @@ export interface CoreListener {
   (
     coreMessage: CoreMessage,
     sender: Runtime.MessageSender,
-    sendResponse?: (response: any) => void
+    sendResponse?: (response: any) => void,
   ): void;
 }
 

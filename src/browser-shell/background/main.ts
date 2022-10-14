@@ -1,5 +1,5 @@
-import browser, { Tabs } from "webextension-polyfill";
-import { ContentScriptComponent } from "../contentScripts/types";
+import browser, { Tabs } from 'webextension-polyfill';
+import { ContentScriptComponent } from '../contentScripts/types';
 import {
   ms_injectScriptStream,
   ms_componentInitStream,
@@ -10,7 +10,7 @@ import {
   ms_sendComponentDestroy,
   ms_sharedStateSettingsStream,
   ms_sendSharedStateSettings,
-} from "../utils";
+} from '../utils';
 
 export const main = async ({
   contentScriptsPaths,
@@ -19,7 +19,7 @@ export const main = async ({
 }) => {
   browser.runtime.onInstalled.addListener((): void => {
     // eslint-disable-next-line no-console
-    console.log("Extension instal.led");
+    console.log('Extension instal.led');
   });
 
   ms_injectScriptStream.subscribe(async ([{ filename }, sender]) => {
@@ -33,7 +33,7 @@ export const main = async ({
     tabId,
     component,
   }: {
-    tabId: Tabs.Tab["id"];
+    tabId: Tabs.Tab['id'];
     component: ContentScriptComponent;
   }): Promise<void> => {
     await browser.scripting
@@ -45,7 +45,7 @@ export const main = async ({
         console.log(`worker.ts inject script '${component}' in Tab ${tabId}`);
       })
       .catch((error) =>
-        console.error(`worker.ts inject error Tab ${tabId}`, error)
+        console.error(`worker.ts inject error Tab ${tabId}`, error),
       );
   };
 

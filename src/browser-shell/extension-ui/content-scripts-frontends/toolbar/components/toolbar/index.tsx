@@ -1,12 +1,12 @@
-import React from "react";
-import cx from "classnames";
-import { ToolbarContainerDependencies } from "../../main";
-import { InPageUIComponentShowState } from "@ui/common/sharedInPageUI";
-import ToolbarActions from "../toolbar-components/toolbarActions";
-import { useThemeContext } from "@ui/common/context";
+import React from 'react';
+import cx from 'classnames';
+import { ToolbarContainerDependencies } from '../../main';
+import { InPageUIComponentShowState } from '@ui/common/sharedInPageUI';
+import ToolbarActions from '../toolbar-components/toolbarActions';
+import { useThemeContext } from '@ui/common/context';
 
-import "./styles.scss";
-import { _DEV_OPTIONS } from "@ui/common/dev_config";
+import './styles.scss';
+import { _DEV_OPTIONS } from '@ui/common/dev_config';
 
 export interface ToolbarSubcomponentProps {
   sidebar: ToolbarSidebarProps;
@@ -26,7 +26,7 @@ interface IToolbarProps extends ToolbarSubcomponentProps {
 }
 
 const Toolbar: React.FC<IToolbarProps> = (props) => {
-  console.log("r.e.r.e.n.d.e.r Toolbar");
+  console.log('r.e.r.e.n.d.e.r Toolbar');
 
   const {
     dependencies, // no need container/component structure
@@ -44,7 +44,7 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
 
   return (
     <div
-      className={cx("toolbar", {
+      className={cx('toolbar', {
         toolbarExpanded:
           sharedInPageUiState.toolbar || _DEV_OPTIONS.DEV_TOOLBAR_OPEN,
         toolbarSidebarOpen:
@@ -53,7 +53,7 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
     >
       <div
         ref={toolbarRef}
-        className={cx("innerToolbar", "ignore-react-onclickoutside", {
+        className={cx('innerToolbar', 'ignore-react-onclickoutside', {
           innerToolbarExpanded:
             sharedInPageUiState.toolbar || _DEV_OPTIONS.DEV_TOOLBAR_OPEN,
           innerToolbarSidebarOpen:
@@ -69,7 +69,7 @@ const Toolbar: React.FC<IToolbarProps> = (props) => {
               handleRemoveToolbar={handleRemoveToolbar}
               toggleSidebar={toggleSidebar}
               toggleTheme={() =>
-                setCurrentTheme(themeType === "dark" ? "light" : "dark")
+                setCurrentTheme(themeType === 'dark' ? 'light' : 'dark')
               }
             />
             {/* <div className="generalActions">

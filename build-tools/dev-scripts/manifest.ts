@@ -1,17 +1,19 @@
-import fs from "fs-extra";
-import { getManifest } from "../../src/browser-shell/manifest";
-import { log, r } from "./utils";
+import fs from 'fs-extra';
+import { getManifest } from '../../src/browser-shell/manifest';
+import { OUTDIR_WEBPACK_NAME, res, log } from 'build-tools/shared-config';
 
 export async function writeManifest() {
-  await fs.ensureDir(r(`extension/${process.env.TARGET_BROWSER}/`));
+  await fs.ensureDir(
+    res(`${OUTDIR_WEBPACK_NAME}/${process.env.TARGET_BROWSER}/`),
+  );
   await fs.writeJSON(
-    r(`extension/${process.env.TARGET_BROWSER}/manifest.json`),
+    res(`${OUTDIR_WEBPACK_NAME}/${process.env.TARGET_BROWSER}/manifest.json`),
     await getManifest(),
     {
       spaces: 2,
-    }
+    },
   );
-  log("PRE", "write manifest.json");
+  log('PRE', 'write manifest.json');
 }
 
 writeManifest();

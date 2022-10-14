@@ -1,8 +1,8 @@
-import { sidebarMain } from "../cs-modules/sidebar";
-import { ContentScriptRegistry } from "../types";
+import { sidebarMain } from '../cs-modules/sidebar';
+import { ContentScriptRegistry } from '../types';
 
 export const csSidebar = async () => {
-  const registry = window["contentScriptRegistry"] as ContentScriptRegistry;
+  const registry = window['contentScriptRegistry'] as ContentScriptRegistry;
   await registry?.registerSidebarScript(sidebarMain);
   return;
 };

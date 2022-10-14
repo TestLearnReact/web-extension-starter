@@ -3,15 +3,15 @@ import {
   ms_sendComponentDestroy,
   ms_sendComponentInit,
   ms_sendInPageUiState,
-} from "@utils/messages";
+} from '@utils/messages';
 import {
   InPageUIComponentShowState,
   InPageUIComponent,
   SharedInPageUIInterface,
-} from "./types";
+} from './types';
 
 export const isCsDevHtmlFirefox = (url: string) =>
-  url.includes("moz-extension://") && url.includes("/dist/csdev/index.html");
+  url.includes('moz-extension://') && url.includes('/dist/csdev/index.html');
 
 export interface SharedInPageUIDependencies {
   loadComponent: (component: InPageUIComponent) => void;
@@ -69,7 +69,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsShown.sidebar) {
       await this.hideSidebar();
     } else {
-      await this.showSidebar({ action: "comment" });
+      await this.showSidebar({ action: 'comment' });
     }
   }
 
@@ -110,14 +110,14 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
   async removeToolbar() {
     if (this.componentsSetUp.sidebar) {
-      await this._removeComponent("sidebar");
+      await this._removeComponent('sidebar');
     }
-    await this._removeComponent("toolbar");
+    await this._removeComponent('toolbar');
   }
 
   async reloadToolbar() {
-    await this.reloadComponent("toolbar");
-    await this.reloadComponent("sidebar");
+    await this.reloadComponent('toolbar');
+    await this.reloadComponent('sidebar');
   }
 
   _removeComponent(component: InPageUIComponent) {
@@ -134,7 +134,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
   private async _maybeEmitShouldSetUp(
     component: InPageUIComponent,
-    options: any = {}
+    options: any = {},
   ) {
     if (this.componentsSetUp[component]) return;
 

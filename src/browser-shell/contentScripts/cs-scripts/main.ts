@@ -1,7 +1,7 @@
-import { csMainModule } from "../cs-modules/main";
+import { csMainModule } from '../cs-modules/main';
 
-import { ms_sendExtensionReload } from "@utils/messages";
-import { _DEV_OPTIONS } from "@ui/common/dev_config";
+import { ms_sendExtensionReload } from '@utils/messages';
+import { _DEV_OPTIONS } from '@ui/common/dev_config';
 
 /**
  * Main content-script (manifest)
@@ -16,20 +16,20 @@ export {};
 if (__IS_CRXJS__ && import.meta.hot) {
   (async () => {
     // hack: crxjs dont create loader-scripts in dist/assets/
-    const scriptPath_toolbar = await import("./toolbar?script");
-    const scriptPath_sidebar = await import("./sidebar?script");
+    const scriptPath_toolbar = await import('./toolbar?script');
+    const scriptPath_sidebar = await import('./sidebar?script');
 
     function isCrxHMRPayload(x) {
-      return x.type === "custom" && x.event.startsWith("crx:");
+      return x.type === 'custom' && x.event.startsWith('crx:');
     }
 
-    const port = chrome.runtime.connect({ name: "@crx/client" });
+    const port = chrome.runtime.connect({ name: '@crx/client' });
 
     port.onMessage.addListener((m) => {
       const payload = JSON.parse(m.data);
-      console.log("pay", payload);
+      console.log('pay', payload);
       if (isCrxHMRPayload(payload)) {
-        if (payload.event === "crx:runtime-reload") {
+        if (payload.event === 'crx:runtime-reload') {
           // reload Tab always work
         } else {
           // HMR sometimes doesnt work

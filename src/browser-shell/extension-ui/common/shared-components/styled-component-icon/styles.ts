@@ -1,8 +1,8 @@
-import { styled } from "@ui/common/styles";
-import { IIconProps } from "./Icon";
+import { styled } from '@ui/common/styles';
+import { IIconProps } from './Icon';
 
 export const Wrapper = styled.div<
-  Pick<IIconProps, "height" | "width" | "fill">
+  Pick<IIconProps, 'height' | 'width' | 'fill'>
 >`
   height: ${({ height }) => height};
   width: ${({ width }) => width};

@@ -1,15 +1,15 @@
-import React from "react";
-import { IPropsStyledComponentsSvg } from ".";
+import React from 'react';
+import { IPropsStyledComponentsSvg } from '.';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 export type IIconProps = Pick<
-  IPropsStyledComponentsSvg["iconProps"],
-  "icon" | "className" | "height" | "width" | "fill"
+  IPropsStyledComponentsSvg['iconProps'],
+  'icon' | 'className' | 'height' | 'width' | 'fill'
 >;
 
 export const Icon: React.FC<IIconProps> = (props) => {
-  const { icon, className, height = "20px", width = "18px", fill } = props;
+  const { icon, className, height = '20px', width = '18px', fill } = props;
 
   const Icon = icon;
 

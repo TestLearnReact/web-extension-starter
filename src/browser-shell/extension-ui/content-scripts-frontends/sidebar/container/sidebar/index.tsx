@@ -1,29 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
-import { SidebarContainerDependencies } from "../../main";
+import React, { useEffect, useRef, useState } from 'react';
+import { SidebarContainerDependencies } from '../../main';
 import {
   InPageUIComponentShowState,
   ms_inPageUiStateStream,
   ms_sharedStateSettingsStream,
-} from "@utils/messages";
-import { useThemeContext } from "@ui/common/context";
-import { useClickOutside } from "@ui/common/hooks";
+} from '@utils/messages';
+import { useThemeContext } from '@ui/common/context';
+import { useClickOutside } from '@ui/common/hooks';
 import {
   darkTheme,
   lightTheme,
   ThemeProvider as StyledComponentThemeProvider,
-} from "@ui/common/styles";
+} from '@ui/common/styles';
 
-import { Sidebar } from "../../components/sidebar";
+import { Sidebar } from '../../components/sidebar';
 
-import * as S from "./styles";
-import { _DEV_OPTIONS } from "@ui/common/dev_config";
+import * as S from './styles';
+import { _DEV_OPTIONS } from '@ui/common/dev_config';
 
 interface SidebarHolderProps {
   dependencies: SidebarContainerDependencies;
 }
 
 const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
-  console.log("r.e.r.e.n.d.e.r SidebarContainer");
+  console.log('r.e.r.e.n.d.e.r SidebarContainer');
 
   const { inPageUI } = dependencies;
 
@@ -47,11 +47,11 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
   }, []);
 
   const handleClickOutside = () => {
-    console.log("clicked outside");
+    console.log('clicked outside');
     inPageUI.hideSidebar();
   };
 
-  const IGNORE_CLICK_OUTSIDE_CLASS = "ignore-react-onclickoutside";
+  const IGNORE_CLICK_OUTSIDE_CLASS = 'ignore-react-onclickoutside';
 
   useClickOutside({
     ref,
@@ -65,13 +65,13 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
     <>
       {/* Theme styled-component */}
       <StyledComponentThemeProvider
-        theme={themeType === "light" ? lightTheme : darkTheme}
+        theme={themeType === 'light' ? lightTheme : darkTheme}
       >
         {/* Theme scss + css variables in style={} */}
         <div
           className={
-            "_sidbarContainer theme-" +
-            (themeType === "dark" ? "dark" : "light")
+            '_sidbarContainer theme-' +
+            (themeType === 'dark' ? 'dark' : 'light')
           }
           style={
             {
@@ -79,14 +79,14 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
             } as React.CSSProperties
           }
         >
-          <S.GlobalStyle sidebarWidth={"350px"} />
+          <S.GlobalStyle sidebarWidth={'350px'} />
 
           <S.OuterContainerStyled
             ref={ref}
-            id="outerContainer"
-            className="ContainerStyled _outerContainerStyled"
+            id='outerContainer'
+            className='ContainerStyled _outerContainerStyled'
           >
-            <S.InnerContainerStyled className="_innerContainerStyled">
+            <S.InnerContainerStyled className='_innerContainerStyled'>
               <Sidebar />
             </S.InnerContainerStyled>
           </S.OuterContainerStyled>

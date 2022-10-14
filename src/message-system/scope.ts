@@ -1,16 +1,16 @@
 /* eslint-disable */
-import { fromEventPattern, merge, Observable, filter, map } from "rxjs";
+import { fromEventPattern, merge, Observable, filter, map } from 'rxjs';
 //import * as rxjsLib from "rxjs";
-import { scopeAsyncOn, scopeOff, scopeOn } from "./events";
-import { scopeAsyncSend, scopeSend } from "./send";
+import { scopeAsyncOn, scopeOff, scopeOn } from './events';
+import { scopeAsyncSend, scopeSend } from './send';
 import {
   AsyncMessageListener,
   AsyncSendOptions,
   MessageListener,
   Sender,
   SendOptions,
-} from "./types";
-import { setupWaitForFirst } from "./waitForFirst";
+} from './types';
+import { setupWaitForFirst } from './waitForFirst';
 
 //const { fromEventPattern, merge, Observable, filter, map } = rxjsLib;
 
@@ -53,7 +53,7 @@ export function getScope(scope: string) {
 
   /** Listen for messages. */
   function on<T, R>(
-    callback: (data: T, sender: Sender, respond: (data: R) => void) => void
+    callback: (data: T, sender: Sender, respond: (data: R) => void) => void,
   ): void;
   function on<T>(callback: (data: T, sender: Sender) => void): void;
   function on(callback: MessageListener | AsyncMessageListener) {
@@ -77,7 +77,7 @@ export function getScope(scope: string) {
   const stream = merge(
     // use data from 1 obs in an other obs todo mergeMap()
     fromEventPattern<[any, Sender]>(_on, _off),
-    fromEventPattern<[any, Sender, (data: any) => void]>(_asyncOn, _off)
+    fromEventPattern<[any, Sender, (data: any) => void]>(_asyncOn, _off),
   );
 
   /* ------------------ GET MESSAGE ----------------- */
@@ -92,28 +92,26 @@ export function getScope(scope: string) {
    */
   function getMessage<T, R>(
     greeting: string,
-    options: { async: true }
+    options: { async: true },
   ): [
     ((data: T, options?: SendOptions) => Promise<R>) & {
       //| undefined
       toTab: (options?: SendOptions) => Promise<R>;
     },
     Observable<[T, Sender, (response: R) => void]>,
-    (predicate?: (x: T) => boolean) => Promise<T>
+    (predicate?: (x: T) => boolean) => Promise<T>,
   ];
-  function getMessage<T>(
-    greeting: string
-  ): [
+  function getMessage<T>(greeting: string): [
     ((data: T, options?: SendOptions) => Promise<void>) & {
       //| undefined
       toTab: (options?: SendOptions) => Promise<void>;
     },
     Observable<[T, Sender]>,
-    (predicate?: (x: T) => boolean) => Promise<T>
+    (predicate?: (x: T) => boolean) => Promise<T>,
   ];
   function getMessage<T, R>(greeting: string, options?: { async: true }) {
     if (_greetings.has(greeting)) {
-      throw new Error("greeting is not unique");
+      throw new Error('greeting is not unique');
     }
 
     _greetings.add(greeting);
@@ -128,18 +126,18 @@ export function getScope(scope: string) {
 
       _options = _options || ({} as SendOptions);
       let tabId: number | undefined;
-      if (typeof _options.tabId === "number") {
+      if (typeof _options.tabId === 'number') {
         tabId = _options.tabId;
       }
       let frameId: number | undefined;
-      if (typeof _options.frameId === "number") {
+      if (typeof _options.frameId === 'number') {
         frameId = _options.frameId;
       }
 
       if (async) {
         return send<WrappedMessage, R>(
           { greeting, data },
-          { async, tabId, frameId }
+          { async, tabId, frameId },
         );
       }
       return send<WrappedMessage>({ greeting, data }, { tabId, frameId });
@@ -158,17 +156,16 @@ export function getScope(scope: string) {
     };
 
     if (async) {
-      const _stream: Observable<[
-        T,
-        Sender,
-        (response: R) => void
-      ]> = stream.pipe(
-        // Filter line messages
-        filter(isMatchingMessage),
-        // Map message to data
-        map(([{ data }, s, r]) => [data, s, r]),
-        filter((x): x is [T, Sender, (response: R) => void] => x.length === 3)
-      );
+      const _stream: Observable<[T, Sender, (response: R) => void]> =
+        stream.pipe(
+          // Filter line messages
+          filter(isMatchingMessage),
+          // Map message to data
+          map(([{ data }, s, r]) => [data, s, r]),
+          filter(
+            (x): x is [T, Sender, (response: R) => void] => x.length === 3,
+          ),
+        );
 
       return [_send, _stream, setupWaitForFirst(stream)];
     }
@@ -177,13 +174,13 @@ export function getScope(scope: string) {
       filter(isMatchingMessage),
       // Map message to data
       map(([{ data }, s]) => [data, s]),
-      filter((x): x is [T, Sender] => x.length < 3)
+      filter((x): x is [T, Sender] => x.length < 3),
     );
 
     return [_send, _stream, setupWaitForFirst(_stream)];
 
     function isMatchingMessage([x]: any[]) {
-      return x && typeof x === "object" && x.greeting === greeting;
+      return x && typeof x === 'object' && x.greeting === greeting;
     }
   }
 

@@ -1,7 +1,7 @@
-import { csMainModule } from "./main";
+import { csMainModule } from './main';
 
-import { sidebarMain } from "./sidebar";
-import { toolbarMain } from "./toolbar";
+import { sidebarMain } from './sidebar';
+import { toolbarMain } from './toolbar';
 
 /**
  * CS Module for development without injecting
@@ -9,7 +9,7 @@ import { toolbarMain } from "./toolbar";
  */
 export const MakeHMRworking = async () => {
   //console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
-  console.log("! contentScripts/cs-modules/dev-main.ts !");
+  console.log('! contentScripts/cs-modules/dev-main.ts !');
   await csMainModule({
     loadRemotely: true,
     devScripts: {

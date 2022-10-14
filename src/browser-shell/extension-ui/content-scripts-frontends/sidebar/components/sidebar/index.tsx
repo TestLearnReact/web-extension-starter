@@ -1,10 +1,10 @@
-import React from "react";
-import * as S from "./styles";
+import React from 'react';
+import * as S from './styles';
 
-import IconClose from "~icons/public-assets-icons/close.svg";
-import { TooltipButtonIcon } from "@ui/common/shared-components";
+import IconClose from '~icons/public-assets-icons/close.svg';
+import { TooltipButtonIcon } from '@ui/common/shared-components';
 
-import styles from "./Button.module.css";
+import styles from './Button.module.css';
 
 export const Sidebar: React.FC<{}> = () => {
   return (
@@ -14,8 +14,8 @@ export const Sidebar: React.FC<{}> = () => {
           iconProps={{
             icon: IconClose,
           }}
-          tooltipProps={{ tooltipText: "Close" }}
-          onClick={() => console.log("...")}
+          tooltipProps={{ tooltipText: 'Close' }}
+          onClick={() => console.log('...')}
         />
       </SidbarTopBar>
       <S.Content>Content...</S.Content>

@@ -1,7 +1,7 @@
-import * as React from "react";
-import { ThemedStyledComponentsModule } from "styled-components";
+import * as React from 'react';
+import { ThemedStyledComponentsModule } from 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface ThemedStyledComponentsModule<T> {
     createGlobalStyle(
       strings: TemplateStringsArray,
