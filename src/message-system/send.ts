@@ -30,7 +30,9 @@ export const scopeSend =
           } else {
             resolve();
           }
-        } catch (error) {}
+        } catch (error) {
+          //
+        }
       };
 
       if (typeof tabId === 'number' && typeof frameId === 'number') {
@@ -42,7 +44,7 @@ export const scopeSend =
           .sendMessage(tabId, coreMessage)
           .then(() => {
             callback;
-            //console.log("Tru: ", coreMessage, tabId, coreMessage);
+            // console.log("Tru: ", coreMessage, tabId, coreMessage);
           })
           .catch((err) => console.log('Err: ', err, tabId, coreMessage));
       } else {

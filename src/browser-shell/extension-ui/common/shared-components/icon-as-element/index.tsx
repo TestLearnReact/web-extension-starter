@@ -1,5 +1,5 @@
 import React, { ReactElement, SVGProps } from 'react';
-import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; //"@ui/common/shared-components";
+import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; // "@ui/common/shared-components";
 
 import '../style-element.scss';
 

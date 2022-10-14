@@ -7,19 +7,20 @@ import { crx } from '@crxjs/vite-plugin';
 import AutoImport from 'unplugin-auto-import/vite';
 import { promises as fs } from 'fs';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
-import { isDev, res, resSrc } from 'build-tools/shared-config';
+import { aliasVite, getAlias, isDev, res, resSrc } from '../shared-config';
 
 import { manifest } from './manifest';
 
 export default defineConfig({
   resolve: {
-    alias: {
-      // "@browser-shell": `${r("src/browser-shell")}/`,
-      '@ui': `${resSrc('browser-shell/extension-ui')}/`,
-      '@utils': `${resSrc('browser-shell/utils')}/`,
-      '@message-system': resSrc('message-system/index.ts'),
-      '~icons/public-assets-icons/*': res('public/assets/icons/'),
-    },
+    alias: getAlias(aliasVite),
+    // alias: {
+    //   // "@browser-shell": `${r("src/browser-shell")}/`,
+    //   '@ui': `${resSrc('browser-shell/extension-ui')}/`,
+    //   '@utils': `${resSrc('browser-shell/utils')}/`,
+    //   '@message-system': resSrc('message-system/index.ts'),
+    //   '~icons/public-assets-icons/*': res('public/assets/icons/'),
+    // },
   },
   define: {
     __DEV__: isDev,

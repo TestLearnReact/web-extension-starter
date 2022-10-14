@@ -1,5 +1,5 @@
 import { main as BackgroundMainModule } from './main';
-import { isFirefox } from '../env'; //"@browser-shell/env";
+import { isFirefox } from '../env'; // "@browser-shell/env";
 
 console.log(' -BG WEBPACK PROD- ');
 

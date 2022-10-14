@@ -1,4 +1,4 @@
-import { ms_sendComponentInit, ms_sendInjectScript } from '@utils/messages';
+import { msSendComponentInit, msSendInjectScript } from '@utils/messages';
 import { SharedInPageUIState } from '@ui/common/sharedInPageUI';
 import {
   ContentScriptComponent,
@@ -100,13 +100,13 @@ const csMainModule = async (
     // await toolbarMain(csDeps.toolbar);
     // await sidebarMain(csDeps.sidebar);
 
-    ms_sendComponentInit({ component: 'toolbar' }).then(() =>
+    msSendComponentInit({ component: 'toolbar' }).then(() =>
       inPageUI.setComponentShouldSetup({
         component: 'toolbar',
         shouldSetUp: true,
       }),
     );
-    ms_sendComponentInit({ component: 'sidebar' }).then(() =>
+    msSendComponentInit({ component: 'sidebar' }).then(() =>
       inPageUI.setComponentShouldSetup({
         component: 'sidebar',
         shouldSetUp: true,
@@ -118,8 +118,8 @@ const csMainModule = async (
     await inPageUI.loadComponent('sidebar');
   }
 
-  // ms_sendComponentInit({ component: "toolbar" });
-  // ms_sendComponentInit({ component: "sidebar" });
+  // msSendComponentInit({ component: "toolbar" });
+  // msSendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };
@@ -131,7 +131,7 @@ export function createContentScriptLoader(args: { loadRemotely?: boolean }) {
   const remoteLoader: ContentScriptLoader = async (
     component: ContentScriptComponent,
   ) => {
-    await ms_sendInjectScript({ filename: component });
+    await msSendInjectScript({ filename: component });
   };
 
   const localLoader: ContentScriptLoader = async (

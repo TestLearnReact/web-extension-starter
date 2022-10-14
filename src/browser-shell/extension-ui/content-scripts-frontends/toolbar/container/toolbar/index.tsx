@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ToolbarContainerDependencies } from '../../main';
 import {
   InPageUIComponentShowState,
-  ms_inPageUiStateStream,
+  msInPageUiStateStream,
 } from '@utils/messages';
 
 import { useThemeContext } from '@ui/common/context';
@@ -29,7 +29,7 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
   useEffect(() => {
-    ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
+    msInPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       setSharedInPageUiState({ toolbar, sidebar });
     });
   }, []);

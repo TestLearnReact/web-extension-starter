@@ -13,13 +13,12 @@ import TerserPlugin from 'terser-webpack-plugin';
 
 import { ESBuildMinifyPlugin } from 'esbuild-loader';
 
-import Icons from 'unplugin-icons/webpack';
-import { promises as fs } from 'fs';
-// loader helpers
-import { FileSystemIconLoader } from 'unplugin-icons/loaders';
-// const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
-
-import HtmlWebpackInlineSVGPlugin from 'html-webpack-inline-svg-plugin';
+// import Icons from 'unplugin-icons/webpack';
+// import { promises as fs } from 'fs';
+// // loader helpers
+// import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+// // const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
+// import HtmlWebpackInlineSVGPlugin from 'html-webpack-inline-svg-plugin';
 
 import 'webpack-dev-server';
 import {
@@ -32,7 +31,7 @@ import {
   OUTDIR_WEBPACK_NAME,
   resRoot,
   resSrc,
-} from 'build-tools/shared-config';
+} from '../shared-config';
 
 // const nodeEnv = (process.env.NODE_ENV ||
 //   'development') as Configuration['mode'];
@@ -399,13 +398,13 @@ const config: Configuration = {
     }),
     new HtmlWebpackPlugin({
       template: resSrc('browser-shell', 'popup', 'index.html'),
-      inject: 'body', // true
+      inject: 'head', // 'body', // true
       chunks: ['popup/popup'],
       filename: 'dist/popup/index.html',
     }),
     new HtmlWebpackPlugin({
       template: resSrc('browser-shell', 'options', 'index.html'),
-      inject: 'body',
+      inject: 'head', // 'body',
       chunks: ['options/options'],
       filename: 'dist/options/index.html',
     }),

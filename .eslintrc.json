@@ -35,10 +35,10 @@
     "settings": {
         "import/resolver": {
           "typescript": {
-            "project": [
-            "packages/browser-shell/tsconfig.json",
-            "packages/message-system/tsconfig.json"
-            ]
+            // "project": [
+            // "packages/browser-shell/tsconfig.json",
+            // "packages/message-system/tsconfig.json"
+            // ]
 
           }
         }

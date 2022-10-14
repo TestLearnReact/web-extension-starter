@@ -6,14 +6,14 @@ import {
 } from '@ui/content-scripts-frontends/sidebar';
 import { SidebarScriptMain } from '../types';
 import {
-  ms_componentInitStream,
-  ms_componentDestroyStream,
+  msComponentInitStream,
+  msComponentDestroyStream,
 } from '@utils/messages';
 
 export const sidebarMain: SidebarScriptMain = async (dependencies) => {
   const cssFile = __IS_CRXJS__
     ? ''
-    : browser.runtime.getURL(`css/contentScripts/cs.sidebar.css`);
+    : browser.runtime.getURL('css/contentScripts/cs.sidebar.css');
 
   let mount: InPageUIRootMount;
   const createMount = () => {
@@ -23,13 +23,13 @@ export const sidebarMain: SidebarScriptMain = async (dependencies) => {
   };
   createMount();
 
-  ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
+  msComponentInitStream.subscribe(async ([{ component }, sender]) => {
     if (component !== 'sidebar') return;
     console.log('SIDEBAR -> S ETU P <-', component);
     await setUp();
   });
 
-  ms_componentDestroyStream.subscribe(async ([{ component }, sender]) => {
+  msComponentDestroyStream.subscribe(async ([{ component }, sender]) => {
     if (component !== 'sidebar') return;
     console.log('SIDEBAR -> DESTROY <-', component);
     destroy();

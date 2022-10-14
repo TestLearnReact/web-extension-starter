@@ -33,10 +33,6 @@ export const ButtonTooltip: React.FC<IButtonTooltipProps> = ({
     displayTooltip: false,
   });
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
   const handleMouseEnter = () => setState({ displayTooltip: true });
   const handleMouseLeave = () => setState({ displayTooltip: false });
 

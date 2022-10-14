@@ -1,7 +1,5 @@
-import React, { ReactNode, ReactElement, useState } from 'react';
+import React, { type SVGProps, ReactElement, useState } from 'react';
 import { ButtonTooltip, TooltipPosition } from '../button-tooltip';
-
-import type { SVGProps } from 'react';
 
 export type IconPropsRenderFunction = {
   fontSize?: SVGProps<SVGSVGElement>['fontSize'];
@@ -13,7 +11,7 @@ export type IconPropsRenderFunction = {
 };
 
 type ButtonProps = {
-  //children?: ReactNode;
+  // children?: ReactNode;
   renderIcon: (settings: {
     fontSize: IconPropsRenderFunction['fontSize'];
     color: IconPropsRenderFunction['color'];
@@ -27,7 +25,7 @@ type ButtonProps = {
 };
 
 export const ButtonWithIconRenderFunc: React.FC<ButtonProps> = ({
-  //children,
+  // children,
   renderIcon,
   tooltip,
   height = '28px',

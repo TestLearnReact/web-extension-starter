@@ -8,7 +8,7 @@ import { toolbarMain } from './toolbar';
  * Change MakeHMRworking to makeHMRworking for vite reload instead of hmr
  */
 export const MakeHMRworking = async () => {
-  //console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
+  // console.log("- - - HMR - - - HMR - - - HMR- - - HMR - - -");
   console.log('! contentScripts/cs-modules/dev-main.ts !');
   await csMainModule({
     loadRemotely: true,

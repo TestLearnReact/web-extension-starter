@@ -124,7 +124,7 @@ const constants = {
 };
 
 const variables = {
-  sidebarInnerWidth: `calc(${constants.sidebarOuterWidth} - ${constants.toolbarWidtExpanded})`, //constants.toolbarWidtExpanded
+  sidebarInnerWidth: `calc(${constants.sidebarOuterWidth} - ${constants.toolbarWidtExpanded})`, // constants.toolbarWidtExpanded
 };
 
 const themeColorsDark = {
@@ -141,7 +141,7 @@ const themeColorsDark = {
   iconColor: '#FFFFFF',
   iconColorWhenBg: '#FFFFFF',
   iconBackground: '#404040',
-  //**** */
+  //* *** */
 };
 
 const themeColorsLight = {

@@ -1,5 +1,5 @@
 import React, { ReactElement, SVGProps } from 'react';
-import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; //"@ui/common/shared-components";
+import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; // "@ui/common/shared-components";
 
 import '../style-element.scss';
 
@@ -29,7 +29,7 @@ export const SvgTooltipComponent: React.FC<ISvgTooltipComponentProps> = ({
   const {
     height = 20,
     width = 18,
-    //fill = "currentColor",
+    // fill = "currentColor",
     className,
   } = iconProps;
 
@@ -39,7 +39,7 @@ export const SvgTooltipComponent: React.FC<ISvgTooltipComponentProps> = ({
     <ButtonTooltip tooltipText={tooltipText} position={position}>
       <div onClick={onClick} className={wrapperClassName}>
         <Icon
-          //fill={fill}
+          // fill={fill}
           className={
             className ? `${className} buttonElemenet` : 'buttonElemenet'
           }

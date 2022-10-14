@@ -1,8 +1,8 @@
 /* eslint-disable */
 import {
-  ms_sendComponentDestroy,
-  ms_sendComponentInit,
-  ms_sendInPageUiState,
+  msSendComponentDestroy,
+  msSendComponentInit,
+  msSendInPageUiState,
 } from '@utils/messages';
 import {
   InPageUIComponentShowState,
@@ -35,7 +35,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     // if (this.componentsShown.sidebar) return;
     // this.componentsShown.sidebar = true;
     // this.componentsShown.toolbar = true;
-    // await ms_sendInPageUiState({
+    // await msSendInPageUiState({
     //   ...this.componentsShown,
     //   toolbar: true,
     //   sidebar: true,
@@ -47,7 +47,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.sidebar = true;
     this.componentsShown.toolbar = true;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
       sidebar: true,
@@ -59,7 +59,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.sidebar = false;
 
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       sidebar: false,
     });
@@ -82,7 +82,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = true;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
     });
@@ -93,7 +93,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.toolbar = false;
     this.componentsShown.sidebar = false;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: false,
       sidebar: false,
@@ -124,12 +124,12 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     this.options.unloadComponent(component);
     this.componentsShown[component] = false;
     this.componentsSetUp[component] = false;
-    ms_sendComponentDestroy({ component });
+    msSendComponentDestroy({ component });
   }
 
   async reloadComponent(component: InPageUIComponent, options: any = {}) {
     await this.options.loadComponent(component);
-    ms_sendComponentInit({ component: component });
+    msSendComponentInit({ component: component });
   }
 
   private async _maybeEmitShouldSetUp(
@@ -139,7 +139,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsSetUp[component]) return;
 
     this.componentsSetUp[component] = true;
-    await ms_sendComponentInit({ component: component });
+    await msSendComponentInit({ component: component });
   }
 
   /** development -> no script injected */

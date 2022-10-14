@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SidebarContainerDependencies } from '../../main';
 import {
   InPageUIComponentShowState,
-  ms_inPageUiStateStream,
-  ms_sharedStateSettingsStream,
+  msInPageUiStateStream,
+  msSharedStateSettingsStream,
 } from '@utils/messages';
 import { useThemeContext } from '@ui/common/context';
 import { useClickOutside } from '@ui/common/hooks';
@@ -32,7 +32,7 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
   const { themeType, setCurrentTheme, theme } = useThemeContext();
 
   useEffect(() => {
-    ms_sharedStateSettingsStream.subscribe(([{ theme }]) => {
+    msSharedStateSettingsStream.subscribe(([{ theme }]) => {
       setCurrentTheme(theme);
     });
   }, []);
@@ -41,7 +41,7 @@ const SidebarContainer: React.FC<SidebarHolderProps> = ({ dependencies }) => {
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
   useEffect(() => {
-    ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }]) => {
+    msInPageUiStateStream.subscribe(([{ toolbar, sidebar }]) => {
       setSharedInPageUiState({ toolbar, sidebar });
     });
   }, []);

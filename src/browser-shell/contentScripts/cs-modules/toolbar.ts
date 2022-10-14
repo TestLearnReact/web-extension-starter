@@ -6,14 +6,14 @@ import {
 import { createInPageUI, destroyInPageUI, InPageUIRootMount } from '@ui/common';
 import { ToolbarScriptMain } from '../types';
 import {
-  ms_componentDestroyStream,
-  ms_componentInitStream,
+  msComponentDestroyStream,
+  msComponentInitStream,
 } from '@utils/messages';
 
 export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
   const cssFile = __IS_CRXJS__
     ? ''
-    : browser.runtime.getURL(`css/contentScripts/cs.toolbar.css`);
+    : browser.runtime.getURL('css/contentScripts/cs.toolbar.css');
 
   let mount: InPageUIRootMount;
   const createMount = () => {
@@ -23,14 +23,14 @@ export const toolbarMain: ToolbarScriptMain = async (dependencies) => {
   };
   createMount();
 
-  ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
+  msComponentInitStream.subscribe(async ([{ component }, sender]) => {
     if (component !== 'toolbar') return;
     console.log('TOOLBAR -> S ETU P <-', component);
 
     await setUp();
   });
 
-  ms_componentDestroyStream.subscribe(async ([{ component }, sender]) => {
+  msComponentDestroyStream.subscribe(async ([{ component }, sender]) => {
     if (component !== 'toolbar') return;
     console.log('TOOLBAR -> DESTROY <-', component);
     destroy();

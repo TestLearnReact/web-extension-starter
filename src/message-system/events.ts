@@ -10,7 +10,7 @@ import {
 export const scopeOn = (scope: string) => (callback: MessageListener) => {
   const listener: CoreListener = (message, sender) => {
     if (message.async || message.scope !== scope) {
-      //console.log("false:: ", scope, message); todo 1000 mal bei inject
+      // console.log("false:: ", scope, message); todo 1000 mal bei inject
       return false;
     }
     // console.log(

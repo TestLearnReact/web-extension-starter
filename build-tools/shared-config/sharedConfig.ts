@@ -18,7 +18,7 @@ export const packages = ['browser-shell', 'message-system'];
 
 export const aliasVite = {
   '~icons/public-assets-icons/*': res('public/assets/icons/'),
-  '@browser-shell': resSrc('browser-shell'),
+  // '@browser-shell': resSrc('browser-shell'),
   '@ui': resSrc('browser-shell/extension-ui/'),
   '@utils': resSrc('browser-shell/utils/'),
 };
