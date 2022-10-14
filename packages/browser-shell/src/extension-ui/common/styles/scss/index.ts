@@ -1,2 +1,2 @@
-export * from "./components";
-export * from "./style.scss";
+export * from './components';
+export * from './style.scss';

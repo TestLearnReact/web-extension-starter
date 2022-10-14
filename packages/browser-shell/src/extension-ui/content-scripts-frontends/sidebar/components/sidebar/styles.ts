@@ -1,5 +1,5 @@
 // Bug CRXJS do not compile to dist
-import { styled } from "@ui/common/styles";
+import { styled } from '@ui/common/styles';
 
 export const Container = styled.div`
   position: absolute;

@@ -1,37 +1,37 @@
-import browser from "webextension-polyfill";
-import { createInPageUI, destroyInPageUI, InPageUIRootMount } from "@ui/common";
+import browser from 'webextension-polyfill';
+import { createInPageUI, destroyInPageUI, InPageUIRootMount } from '@ui/common';
 import {
   setupFrontendSidebar,
   destroyFrontendSidebar,
-} from "@ui/content-scripts-frontends/sidebar";
-import { SidebarScriptMain } from "../types";
+} from '@ui/content-scripts-frontends/sidebar';
+import { SidebarScriptMain } from '../types';
 import {
-  ms_componentInitStream,
-  ms_componentDestroyStream,
-} from "@utils/messages";
+  msComponentInitStream,
+  msComponentDestroyStream,
+} from '@utils/messages';
 
 export const sidebarMain: SidebarScriptMain = async (dependencies) => {
   const cssFile = __IS_CRXJS__
-    ? ""
-    : browser.runtime.getURL(`css/contentScripts/cs.sidebar.css`);
+    ? ''
+    : browser.runtime.getURL('css/contentScripts/cs.sidebar.css');
 
   let mount: InPageUIRootMount;
   const createMount = () => {
     if (!mount) {
-      mount = createInPageUI("sidebar", cssFile);
+      mount = createInPageUI('sidebar', cssFile);
     }
   };
   createMount();
 
-  ms_componentInitStream.subscribe(async ([{ component }, sender]) => {
-    if (component !== "sidebar") return;
-    console.log("SIDEBAR -> S ETU P <-", component);
+  msComponentInitStream.subscribe(async ([{ component }, sender]) => {
+    if (component !== 'sidebar') return;
+    console.log('SIDEBAR -> S ETU P <-', component);
     await setUp();
   });
 
-  ms_componentDestroyStream.subscribe(async ([{ component }, sender]) => {
-    if (component !== "sidebar") return;
-    console.log("SIDEBAR -> DESTROY <-", component);
+  msComponentDestroyStream.subscribe(async ([{ component }, sender]) => {
+    if (component !== 'sidebar') return;
+    console.log('SIDEBAR -> DESTROY <-', component);
     destroy();
   });
 
@@ -48,7 +48,7 @@ export const sidebarMain: SidebarScriptMain = async (dependencies) => {
       return;
     }
 
-    destroyInPageUI("sidebar");
+    destroyInPageUI('sidebar');
     destroyFrontendSidebar(mount.rootElement, mount.shadowRoot);
   };
 };

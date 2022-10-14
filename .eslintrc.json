@@ -1,6 +1,7 @@
 {
     "env": {
         "browser": true,
+        "node": true, //
         "es2021": true,
         "jest": true // Add this line!
     },
@@ -24,11 +25,21 @@
         "camelcase": "error",
         "spaced-comment": "error",
         "quotes": ["error", "single"],
-        "no-duplicate-imports": "error"
+        "no-duplicate-imports": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars":"off"
+        // "prettier/prettier": 2 //,
     },
     "settings": {
         "import/resolver": {
-          "typescript": {}
+          "typescript": {
+            "project": [
+            "packages/browser-shell/tsconfig.json",
+            "packages/message-system/tsconfig.json"
+            ]
+
+          }
         }
     }
 }

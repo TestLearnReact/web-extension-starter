@@ -1,12 +1,12 @@
-import React from "react";
-import * as S from "./styles";
+import React, { ReactNode } from 'react';
+import * as S from './styles';
 
-import IconClose from "~icons/public-assets-icons/close.svg";
-import { TooltipButtonIcon } from "@ui/common/shared-components";
+import IconClose from '~icons/public-assets-icons/close.svg';
+import { TooltipButtonIcon } from '@ui/common/shared-components';
 
-import styles from "./Button.module.css";
+// import styles from './Button.module.css';
 
-export const Sidebar: React.FC<{}> = () => {
+export const Sidebar: React.FC = () => {
   return (
     <S.Container>
       <SidbarTopBar>
@@ -14,8 +14,8 @@ export const Sidebar: React.FC<{}> = () => {
           iconProps={{
             icon: IconClose,
           }}
-          tooltipProps={{ tooltipText: "Close" }}
-          onClick={() => console.log("...")}
+          tooltipProps={{ tooltipText: 'Close' }}
+          onClick={() => console.log('...')}
         />
       </SidbarTopBar>
       <S.Content>.. Content ..</S.Content>
@@ -25,14 +25,16 @@ export const Sidebar: React.FC<{}> = () => {
   );
 };
 
-const SidbarTopBar = ({ children }) => (
+const SidbarTopBar: React.FC<{ children: ReactNode }> = ({ children }) => (
   <>
     <S.TopBarContainer>{children}</S.TopBarContainer>
   </>
 );
 
-const CssModuleTestButton = ({ children }) => (
+const CssModuleTestButton: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => (
   <>
-    <button className={styles.error}>Error Button</button>
+    <button className={'styles.error'}>Error Button</button>
   </>
 );

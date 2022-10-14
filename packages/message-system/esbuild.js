@@ -1,7 +1,7 @@
-//const { build } = require("esbuild");
-//const { dependencies } = require("./package.json");
+// const { build } = require("esbuild");
+// const { dependencies } = require("./package.json");
 
-import { build } from "esbuild";
+import { build } from 'esbuild';
 
 // const define = {};
 
@@ -11,18 +11,18 @@ import { build } from "esbuild";
 //   }
 // }
 
-//const external = Object.entries(dependencies).map(([key]) => key);
+// const external = Object.entries(dependencies).map(([key]) => key);
 
 const sharedConfig = {
   bundle: true,
-  entryPoints: ["src/index.ts"],
-  //platform: "node",
-  outbase: "src",
+  entryPoints: ['src/index.ts'],
+  // platform: "node",
+  outbase: 'src',
   // define,
-  tsconfig: "./tsconfig.json",
-  sourcemap: process.env.NODE_ENV === "production",
-  watch: process.env.NODE_ENV === "development",
-  //external: [...external, "esbuild", "rollup", "vite"],
+  tsconfig: './tsconfig.json',
+  sourcemap: process.env.NODE_ENV === 'production',
+  watch: process.env.NODE_ENV === 'development',
+  // external: [...external, "esbuild", "rollup", "vite"],
 };
 
 console.log(process.env.NODE_ENV);
@@ -30,16 +30,16 @@ console.log(process.env.NODE_ENV);
 async function buildCommon() {
   return build({
     ...sharedConfig,
-    format: "cjs",
-    outfile: "dist/index.cjs.js",
+    format: 'cjs',
+    outfile: 'dist/index.cjs.js',
   });
 }
 
 async function buildEsm() {
   return build({
     ...sharedConfig,
-    format: "esm",
-    outfile: "dist/index.es.js",
+    format: 'esm',
+    outfile: 'dist/index.es.js',
   });
 }
 

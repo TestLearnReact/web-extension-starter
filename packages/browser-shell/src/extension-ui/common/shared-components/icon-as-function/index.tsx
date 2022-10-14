@@ -1,46 +1,44 @@
-import React, { ReactNode, ReactElement, useState } from "react";
-import { ButtonTooltip, TooltipPosition } from "../button-tooltip";
-
-import type { SVGProps } from "react";
+import React, { ReactNode, ReactElement, useState, type SVGProps } from 'react';
+import { ButtonTooltip, TooltipPosition } from '../button-tooltip';
 
 export type IconPropsRenderFunction = {
-  fontSize?: SVGProps<SVGSVGElement>["fontSize"];
-  color?: SVGProps<SVGSVGElement>["color"];
-  height?: SVGProps<SVGSVGElement>["height"];
-  width?: SVGProps<SVGSVGElement>["width"];
+  fontSize?: SVGProps<SVGSVGElement>['fontSize'];
+  color?: SVGProps<SVGSVGElement>['color'];
+  height?: SVGProps<SVGSVGElement>['height'];
+  width?: SVGProps<SVGSVGElement>['width'];
   className?: string;
   // isHovered: boolean;
 };
 
 type ButtonProps = {
-  //children?: ReactNode;
+  // children?: ReactNode;
   renderIcon: (settings: {
-    fontSize: IconPropsRenderFunction["fontSize"];
-    color: IconPropsRenderFunction["color"];
+    fontSize: IconPropsRenderFunction['fontSize'];
+    color: IconPropsRenderFunction['color'];
     isHovered: boolean;
-    height?: IconPropsRenderFunction["height"];
-    width: IconPropsRenderFunction["width"];
+    height?: IconPropsRenderFunction['height'];
+    width: IconPropsRenderFunction['width'];
   }) => ReactElement<IconPropsRenderFunction>;
   tooltip: { tooltipText: string; position: TooltipPosition };
-  height?: IconPropsRenderFunction["height"];
-  width?: IconPropsRenderFunction["width"];
+  height?: IconPropsRenderFunction['height'];
+  width?: IconPropsRenderFunction['width'];
 };
 
 export const ButtonWithIconRenderFunc: React.FC<ButtonProps> = ({
-  //children,
+  // children,
   renderIcon,
   tooltip,
-  height = "28px",
-  width = "28px",
+  height = '28px',
+  width = '28px',
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const { tooltipText, position } = tooltip;
 
   const icon = renderIcon({
-    fontSize: "small",
+    fontSize: 'small',
     isHovered: isHovered,
-    color: "#66593d",
+    color: '#66593d',
     height: height,
     width: width,
   });

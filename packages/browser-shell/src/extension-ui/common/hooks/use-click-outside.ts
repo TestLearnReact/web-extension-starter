@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from 'react';
 
 // https://github.com/ElForastero/use-click-outside
 
@@ -9,12 +9,12 @@ type ListenerEvent = MouseEvent & {
 const useClickOutside = ({
   ref,
   callback,
-  eventType = "click",
+  eventType = 'click',
   ignoreClassNames,
 }: {
   ref: RefObject<HTMLElement>;
   callback: (event: MouseEvent) => void;
-  eventType?: "click" | "mousedown" | "mouseup"; //= "mousedown" //string = "click"
+  eventType?: 'click' | 'mousedown' | 'mouseup'; // = "mousedown" //string = "click"
   ignoreClassNames?: string;
 }) => {
   const handlerRef = useRef(callback);
@@ -53,11 +53,11 @@ const useClickOutside = ({
     };
 
     document.addEventListener(eventType, listener);
-    document.addEventListener("touchstart", listener);
+    document.addEventListener('touchstart', listener);
 
     return () => {
       document.removeEventListener(eventType, listener);
-      document.removeEventListener("touchstart", listener);
+      document.removeEventListener('touchstart', listener);
     };
   });
 };

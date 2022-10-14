@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import cx from "classnames";
-import { ToolbarContainerDependencies } from "../../main";
-import { useEventListener } from "@ui/common/hooks";
-import { ms_inPageUiStateStream } from "@utils/messages";
+import React, { useEffect, useRef } from 'react';
+import cx from 'classnames';
+import { ToolbarContainerDependencies } from '../../main';
+import { useEventListener } from '@ui/common/hooks';
+import { msInPageUiStateStream } from '@utils/messages';
 
-import ToolbarContainer from "../toolbar";
+import ToolbarContainer from '../toolbar';
 
-import "./styles.css";
-//import "@ui/common/styles/scss/abstracts";
+import './styles.css';
+// import "@ui/common/styles/scss/abstracts";
 
 const TOOLBAR_HIDE_TIMEOUT = 2000;
 
@@ -18,7 +18,7 @@ interface IToolbarHolderProps {
 const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   dependencies,
 }) => {
-  console.log(".r.e.n.d.e.r ToolbarHolderContainer");
+  console.log('.r.e.n.d.e.r ToolbarHolderContainer');
 
   const holderRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   let isAnyPopupOpen = false;
 
   useEffect(() => {
-    ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
+    msInPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       isAnyPopupOpen = sidebar;
     });
   }, []);
@@ -45,19 +45,19 @@ const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
   }, []);
 
   const handleMouseEnterHolderRef = (event: Event) => {
-    //console.log("handleMouseEnter HolderRef");
+    // console.log("handleMouseEnter HolderRef");
     mouseInHolder = true;
     inPageUI.showToolbar();
   };
 
   const handleMouseEnterToolbarRef = (event: Event) => {
-    //console.log("handleMouseEnter ToolbarRef");
+    // console.log("handleMouseEnter ToolbarRef");
     mouseInToolbar = true;
     inPageUI.showToolbar();
   };
 
   const handleMouseLeaveToolbarRef = (event: Event) => {
-    //console.log("handleMouseLeaveToolbarRef");
+    // console.log("handleMouseLeaveToolbarRef");
     mouseInToolbar = false;
   };
 
@@ -72,16 +72,16 @@ const ToolbarHolderContainer: React.FC<IToolbarHolderProps> = ({
     timerRef.current = setTimeout(hideToolbar, TOOLBAR_HIDE_TIMEOUT);
   };
 
-  useEventListener("mouseenter", handleMouseEnterHolderRef, holderRef);
-  useEventListener("mouseleave", hideToolbarWithTimeout, holderRef);
+  useEventListener('mouseenter', handleMouseEnterHolderRef, holderRef);
+  useEventListener('mouseleave', hideToolbarWithTimeout, holderRef);
 
-  useEventListener("mouseenter", handleMouseEnterToolbarRef, toolbarRef);
-  useEventListener("mouseleave", handleMouseLeaveToolbarRef, toolbarRef);
+  useEventListener('mouseenter', handleMouseEnterToolbarRef, toolbarRef);
+  useEventListener('mouseleave', handleMouseLeaveToolbarRef, toolbarRef);
 
   return (
     <div
       ref={holderRef}
-      className={cx("holder", "example", {
+      className={cx('holder', 'example', {
         withSidebar: inPageUI.componentsShown.sidebar, // sharedInPageUiState.sidebar,
       })}
     >

@@ -1,16 +1,16 @@
-import browser from "webextension-polyfill";
-import { _getListener, _removeListener, _setListener } from "./ListenerMap";
+import browser from 'webextension-polyfill';
+import { _getListener, _removeListener, _setListener } from './ListenerMap';
 import {
   AsyncMessageListener,
   CoreListener,
   CoreResponse,
   MessageListener,
-} from "./types";
+} from './types';
 
 export const scopeOn = (scope: string) => (callback: MessageListener) => {
   const listener: CoreListener = (message, sender) => {
     if (message.async || message.scope !== scope) {
-      //console.log("false:: ", scope, message); todo 1000 mal bei inject
+      // console.log("false:: ", scope, message); todo 1000 mal bei inject
       return false;
     }
     // console.log(
@@ -23,7 +23,7 @@ export const scopeOn = (scope: string) => (callback: MessageListener) => {
       callback(message.payload, sender);
     } catch (error) {
       // Log listener error
-      console.error("Uncaught error in chrome.runtime.onMessage listener");
+      console.error('Uncaught error in chrome.runtime.onMessage listener');
       console.error(error);
     }
 
@@ -34,55 +34,53 @@ export const scopeOn = (scope: string) => (callback: MessageListener) => {
   _setListener(scope, callback, listener);
 };
 
-export const scopeAsyncOn = (scope: string) => (
-  callback: AsyncMessageListener
-) => {
-  const listener: CoreListener = (message, sender, sendResponse) => {
-    if (!message.async || scope !== message.scope) return false;
+export const scopeAsyncOn =
+  (scope: string) => (callback: AsyncMessageListener) => {
+    const listener: CoreListener = (message, sender) => {
+      if (!message.async || scope !== message.scope) return false;
 
-    return new Promise((resolve) => {
-      handleMessage();
+      return new Promise((resolve) => {
+        handleMessage();
 
-      function handleMessage() {
-        try {
-          const respond = (response: any): any => {
-            const coreResponse: CoreResponse = {
-              success: true,
-              payload: response,
+        function handleMessage() {
+          try {
+            const respond = (response: any): any => {
+              const coreResponse: CoreResponse = {
+                success: true,
+                payload: response,
+              };
+
+              resolve(coreResponse);
             };
 
-            resolve(coreResponse);
-          };
+            callback(message.payload, sender, respond);
+          } catch (error) {
+            const response: CoreResponse = {
+              success: false,
+              payload: {
+                greeting: (error as any).message,
+              },
+            };
 
-          callback(message.payload, sender, respond);
-        } catch (error) {
-          const response: CoreResponse = {
-            success: false,
-            payload: {
-              greeting: (error as any).message,
-            },
-          };
-
-          resolve(response);
+            resolve(response);
+          }
         }
-      }
-    });
+      });
+    };
+
+    browser.runtime.onMessage.addListener(listener);
+    _setListener(scope, callback, listener);
   };
 
-  browser.runtime.onMessage.addListener(listener);
-  _setListener(scope, callback, listener);
-};
+export const scopeOff =
+  (scope: string) => (listener: MessageListener | AsyncMessageListener) => {
+    const _listener = _getListener(scope, listener);
 
-export const scopeOff = (scope: string) => (
-  listener: MessageListener | AsyncMessageListener
-) => {
-  const _listener = _getListener(scope, listener);
-
-  if (_listener) {
-    _removeListener(scope, listener);
-    browser.runtime.onMessage.removeListener(_listener);
-  }
-};
+    if (_listener) {
+      _removeListener(scope, listener);
+      browser.runtime.onMessage.removeListener(_listener);
+    }
+  };
 
 // import browser from "webextension-polyfill";
 // import { _getListener, _removeListener, _setListener } from "./ListenerMap";

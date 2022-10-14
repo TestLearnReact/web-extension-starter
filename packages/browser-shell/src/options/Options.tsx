@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react';
 
-export const Options: React.FC<{}> = () => {
+export const Options: React.FC<void> = () => {
   return <div>Options !!!</div>;
 };

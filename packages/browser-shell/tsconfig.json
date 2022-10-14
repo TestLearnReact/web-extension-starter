@@ -1,6 +1,8 @@
 {  
   "extends": "../../tsconfig.settings.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "types": ["vite/client"]
+  },
   "references": [
     { "path": "../message-system" }
   ],

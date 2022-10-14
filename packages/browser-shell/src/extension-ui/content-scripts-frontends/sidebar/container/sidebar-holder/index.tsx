@@ -1,7 +1,7 @@
-import React from "react";
-import { SidebarContainerDependencies } from "../../main";
+import React from 'react';
+import { SidebarContainerDependencies } from '../../main';
 
-import SidebarContainer from "../sidebar";
+import SidebarContainer from '../sidebar';
 
 interface SidebarHolderContainerProps {
   dependencies: SidebarContainerDependencies;
@@ -10,10 +10,10 @@ interface SidebarHolderContainerProps {
 const SidebarHolderContainer: React.FC<SidebarHolderContainerProps> = ({
   dependencies,
 }) => {
-  console.log("r.e.r.e.n.d.e.r SidebarHolderContainer");
+  console.log('r.e.r.e.n.d.e.r SidebarHolderContainer');
 
   return (
-    <div className="_sidebarHolderContainer">
+    <div className='_sidebarHolderContainer'>
       <SidebarContainer dependencies={dependencies} />
     </div>
   );

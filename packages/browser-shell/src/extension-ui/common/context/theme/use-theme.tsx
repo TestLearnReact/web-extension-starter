@@ -1,37 +1,36 @@
-import React, { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import { ms_sendSharedStateSettings } from "@utils/messages";
-import { THEMES } from "./theme";
-import { ThemeType, Theme } from "./theme";
+import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
+import { msSendSharedStateSettings } from '@utils/messages';
+import { THEMES, ThemeType, Theme } from './theme';
 
 interface ThemeContextProps {
   themeType: ThemeType;
   theme: Theme;
-  setCurrentTheme: Dispatch<SetStateAction<ThemeType>>; //| null;
+  setCurrentTheme: Dispatch<SetStateAction<ThemeType>>; // | null;
 }
 
 export const ThemeContext = React.createContext<ThemeContextProps>({
-  themeType: "light",
-  theme: THEMES["light"],
+  themeType: 'light',
+  theme: THEMES['light'],
   setCurrentTheme: () => null,
 });
 
 const ThemeProvider: React.FC<{
   theme?: ThemeType;
   children: ReactNode;
-}> = ({ theme = "light", children }) => {
-  let themeStorage = localStorage.getItem("theme");
+}> = ({ theme = 'light', children }) => {
+  const themeStorage = localStorage.getItem('theme');
   if (!themeStorage) {
-    localStorage.setItem("theme", theme);
+    localStorage.setItem('theme', theme);
   }
 
   const [currentTheme, setCurrentTheme] = React.useState<ThemeType>(
-    themeStorage as ThemeType
-  ); //"light"
+    themeStorage as ThemeType,
+  ); // "light"
 
   // todo doppelt click
   useEffect(() => {
-    ms_sendSharedStateSettings({ theme: currentTheme });
-    localStorage.setItem("theme", currentTheme);
+    msSendSharedStateSettings({ theme: currentTheme });
+    localStorage.setItem('theme', currentTheme);
   }, [currentTheme]);
 
   return (

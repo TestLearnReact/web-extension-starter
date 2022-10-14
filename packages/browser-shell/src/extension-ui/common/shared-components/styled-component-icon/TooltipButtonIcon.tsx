@@ -1,7 +1,7 @@
-import React, { ReactElement, SVGProps } from "react";
+import React, { ReactElement, SVGProps } from 'react';
 
-import { ButtonTooltip, TooltipPosition } from "../button-tooltip"; //"@ui/common/shared-components";
-import { Icon } from "./Icon";
+import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; // "@ui/common/shared-components";
+import { Icon } from './Icon';
 
 type SvgIconProps = (props: SVGProps<SVGSVGElement>) => ReactElement;
 
@@ -10,9 +10,9 @@ export interface IPropsStyledComponentsSvg {
   iconProps: {
     icon: SvgIconProps;
     className?: string;
-    height?: string | undefined; //SVGProps<SVGSVGElement>["height"];
-    width?: string | undefined; //SVGProps<SVGSVGElement>["width"];
-    fill?: SVGProps<SVGSVGElement>["fill"];
+    height?: string | undefined; // SVGProps<SVGSVGElement>["height"];
+    width?: string | undefined; // SVGProps<SVGSVGElement>["width"];
+    fill?: SVGProps<SVGSVGElement>['fill'];
   };
   onClick: () => void;
 }
@@ -26,7 +26,7 @@ export const TooltipButtonIcon: React.FC<IPropsStyledComponentsSvg> = ({
 
   return (
     <ButtonTooltip tooltipText={tooltipText} position={position}>
-      <div onClick={onClick} className="s-container">
+      <div onClick={onClick} className='s-container'>
         <Icon {...iconProps} />
       </div>
     </ButtonTooltip>

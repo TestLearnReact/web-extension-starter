@@ -1,1 +1,1 @@
-export * from "./_card.scss";
+export * from './_card.scss';

@@ -1,5 +1,5 @@
-import browser from "webextension-polyfill";
-import { CoreMessage, CoreResponse } from "./types";
+import browser from 'webextension-polyfill';
+import { CoreMessage, CoreResponse } from './types';
 
 export class ChromeMessageError extends Error {
   coreMessage: CoreMessage | null;
@@ -11,7 +11,7 @@ export class ChromeMessageError extends Error {
     coreResponse = null,
     message = browser.runtime?.lastError?.message ||
       coreResponse?.payload.greeting ||
-      "chrome.runtime.lastError is undefined",
+      'chrome.runtime.lastError is undefined',
   }: {
     coreMessage?: CoreMessage | null;
     coreResponse?: CoreResponse | null;

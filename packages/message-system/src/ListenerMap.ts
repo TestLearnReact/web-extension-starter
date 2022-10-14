@@ -1,4 +1,4 @@
-import { MessageListener, AsyncMessageListener, CoreListener } from "./types";
+import { MessageListener, AsyncMessageListener, CoreListener } from './types';
 
 type ListenerMap = Map<MessageListener | AsyncMessageListener, CoreListener>;
 

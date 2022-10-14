@@ -1,7 +1,7 @@
-import * as styledComponents from "styled-components";
-import { ThemedStyledComponentsModule } from "styled-components";
+import * as styledComponents from 'styled-components';
+import { ThemedStyledComponentsModule } from 'styled-components';
 
-import { StyleClosetTheme } from "./theme";
+import { StyleClosetTheme } from './theme';
 
 const {
   default: styled,

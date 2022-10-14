@@ -1,7 +1,7 @@
 export function createInPageUI(
   name: string,
   cssFile: string,
-  containerClassNames?: string[]
+  containerClassNames?: string[],
 ) {
   const containerId = `crxjs_mount-${name}-container`;
 
@@ -33,8 +33,8 @@ export function createInPageUIRoot({
   rootClassNames?: string[];
   containerClassNames?: string[];
 }) {
-  const container = document.createElement("div");
-  container.setAttribute("id", containerId);
+  const container = document.createElement('div');
+  container.setAttribute('id', containerId);
 
   if (containerClassNames != null) {
     container.classList.add(...containerClassNames);
@@ -44,7 +44,7 @@ export function createInPageUIRoot({
     container,
     rootId,
     rootClassNames,
-    cssFile
+    cssFile,
   );
 
   // dont add twice in dev mode
@@ -68,10 +68,10 @@ export function createShadowRootIfSupported(
   container: HTMLElement,
   rootId: string,
   rootClassNames?: string[],
-  cssFile: string = ""
+  cssFile = '',
 ) {
-  const rootElement = document.createElement("div");
-  rootElement.setAttribute("id", rootId);
+  const rootElement = document.createElement('div');
+  rootElement.setAttribute('id', rootId);
 
   if (rootClassNames != null) {
     rootElement.classList.add(...rootClassNames);
@@ -79,16 +79,16 @@ export function createShadowRootIfSupported(
 
   let shadow: ShadowRoot | null = null; // todo
   if (!__DEV__ && container.attachShadow) {
-    console.log("--------------");
+    console.log('--------------');
     /** 'open' mode to access shadow dom elements from outisde the shadow root.
      * More info: https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#Parameters
      */
-    shadow = container.attachShadow({ mode: "open" });
+    shadow = container.attachShadow({ mode: 'open' });
 
-    let innerHTML = "";
-    innerHTML += "<style>";
-    innerHTML += ":host {all: initial}";
-    innerHTML += "</style>";
+    let innerHTML = '';
+    innerHTML += '<style>';
+    innerHTML += ':host {all: initial}';
+    innerHTML += '</style>';
     shadow.innerHTML = innerHTML;
 
     shadow.appendChild(rootElement);
@@ -113,9 +113,9 @@ export function injectCSS(cssUrl: string, root?: ShadowRoot | Element) {
   }
 
   return new Promise((resolve, reject) => {
-    const link = document.createElement("link");
-    link.type = "text/css";
-    link.rel = "stylesheet";
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
     link.onload = resolve;
     link.onerror = reject;
     link.href = cssUrl;
@@ -127,9 +127,9 @@ export function injectCSS(cssUrl: string, root?: ShadowRoot | Element) {
 
 export function injectScript(
   src: string,
-  options?: { parent?: Element; id?: string }
+  options?: { parent?: Element; id?: string },
 ) {
-  const script = document.createElement("script");
+  const script = document.createElement('script');
   script.src = src;
   if (options?.id) {
     script.id = options.id;

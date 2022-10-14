@@ -1,7 +1,7 @@
-import React, { ReactElement, SVGProps } from "react";
-import { ButtonTooltip, TooltipPosition } from "../button-tooltip"; //"@ui/common/shared-components";
+import React, { ReactElement, SVGProps } from 'react';
+import { ButtonTooltip, TooltipPosition } from '../button-tooltip'; // "@ui/common/shared-components";
 
-import "../style-element.scss";
+import '../style-element.scss';
 
 interface ISvgTooltipElementProps {
   tooltipProps: { tooltipText: string; position: TooltipPosition };
@@ -22,11 +22,11 @@ export const SvgTooltipElement = ({
   const svgProps = iconProps.icon.props;
 
   const clonedIcon = React.cloneElement(iconProps.icon, {
-    height: svgProps.height || "20px",
-    width: svgProps.width || "18px",
+    height: svgProps.height || '20px',
+    width: svgProps.width || '18px',
     className: svgProps.className
       ? `${svgProps.className} buttonElemenet`
-      : "buttonElemenet",
+      : 'buttonElemenet',
   });
 
   return (

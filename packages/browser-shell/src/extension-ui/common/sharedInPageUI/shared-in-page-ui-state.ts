@@ -1,17 +1,17 @@
 /* eslint-disable */
 import {
-  ms_sendComponentDestroy,
-  ms_sendComponentInit,
-  ms_sendInPageUiState,
-} from "@utils/messages";
+  msSendComponentDestroy,
+  msSendComponentInit,
+  msSendInPageUiState,
+} from '@utils/messages';
 import {
   InPageUIComponentShowState,
   InPageUIComponent,
   SharedInPageUIInterface,
-} from "./types";
+} from './types';
 
 export const isCsDevHtmlFirefox = (url: string) =>
-  url.includes("moz-extension://") && url.includes("/dist/csdev/index.html");
+  url.includes('moz-extension://') && url.includes('/dist/csdev/index.html');
 
 export interface SharedInPageUIDependencies {
   loadComponent: (component: InPageUIComponent) => void;
@@ -35,7 +35,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     // if (this.componentsShown.sidebar) return;
     // this.componentsShown.sidebar = true;
     // this.componentsShown.toolbar = true;
-    // await ms_sendInPageUiState({
+    // await msSendInPageUiState({
     //   ...this.componentsShown,
     //   toolbar: true,
     //   sidebar: true,
@@ -47,7 +47,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.sidebar = true;
     this.componentsShown.toolbar = true;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
       sidebar: true,
@@ -59,7 +59,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.sidebar = false;
 
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       sidebar: false,
     });
@@ -69,7 +69,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsShown.sidebar) {
       await this.hideSidebar();
     } else {
-      await this.showSidebar({ action: "comment" });
+      await this.showSidebar({ action: 'comment' });
     }
   }
 
@@ -82,7 +82,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
     if (this.componentsShown.toolbar) return;
 
     this.componentsShown.toolbar = true;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: true,
     });
@@ -93,7 +93,7 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
     this.componentsShown.toolbar = false;
     this.componentsShown.sidebar = false;
-    await ms_sendInPageUiState({
+    await msSendInPageUiState({
       ...this.componentsShown,
       toolbar: false,
       sidebar: false,
@@ -110,36 +110,36 @@ export class SharedInPageUIState implements SharedInPageUIInterface {
 
   async removeToolbar() {
     if (this.componentsSetUp.sidebar) {
-      await this._removeComponent("sidebar");
+      await this._removeComponent('sidebar');
     }
-    await this._removeComponent("toolbar");
+    await this._removeComponent('toolbar');
   }
 
   async reloadToolbar() {
-    await this.reloadComponent("toolbar");
-    await this.reloadComponent("sidebar");
+    await this.reloadComponent('toolbar');
+    await this.reloadComponent('sidebar');
   }
 
   _removeComponent(component: InPageUIComponent) {
     this.options.unloadComponent(component);
     this.componentsShown[component] = false;
     this.componentsSetUp[component] = false;
-    ms_sendComponentDestroy({ component });
+    msSendComponentDestroy({ component });
   }
 
   async reloadComponent(component: InPageUIComponent, options: any = {}) {
     await this.options.loadComponent(component);
-    ms_sendComponentInit({ component: component });
+    msSendComponentInit({ component: component });
   }
 
   private async _maybeEmitShouldSetUp(
     component: InPageUIComponent,
-    options: any = {}
+    options: any = {},
   ) {
     if (this.componentsSetUp[component]) return;
 
     this.componentsSetUp[component] = true;
-    await ms_sendComponentInit({ component: component });
+    await msSendComponentInit({ component: component });
   }
 
   /** development -> no script injected */

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { ToolbarContainerDependencies } from "../../main";
-import { ms_inPageUiStateStream } from "@utils/messages";
+import React, { useEffect, useState } from 'react';
+import { ToolbarContainerDependencies } from '../../main';
+import { msInPageUiStateStream } from '@utils/messages';
 
-import { useThemeContext } from "@ui/common/context";
-import { darkTheme, lightTheme, ThemeProvider } from "@ui/common/styles";
+import { useThemeContext } from '@ui/common/context';
+import { darkTheme, lightTheme, ThemeProvider } from '@ui/common/styles';
 
-import Toolbar from "../../components/toolbar";
-import { InPageUIComponentShowState } from "@ui/common";
+import Toolbar from '../../components/toolbar';
+import { InPageUIComponentShowState } from '@ui/common';
 
 interface IToolbarContainer {
   dependencies: ToolbarContainerDependencies;
@@ -17,7 +17,7 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   dependencies,
   toolbarRef,
 }) => {
-  console.log(".r.e.n.d.e.r ToolbarContainer");
+  console.log('.r.e.n.d.e.r ToolbarContainer');
 
   const { inPageUI } = dependencies;
 
@@ -27,7 +27,7 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
     useState<InPageUIComponentShowState>(inPageUI.componentsShown);
 
   useEffect(() => {
-    ms_inPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
+    msInPageUiStateStream.subscribe(([{ toolbar, sidebar }, sender]) => {
       setSharedInPageUiState({ toolbar, sidebar });
     });
   }, []);
@@ -40,10 +40,10 @@ const ToolbarContainer: React.FC<IToolbarContainer> = ({
   return (
     <>
       {/* Theme styled-component */}
-      <ThemeProvider theme={themeType === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider theme={themeType === 'light' ? lightTheme : darkTheme}>
         {/* Theme scss + css variables in style={} */}
         <div
-          className={"theme-" + (themeType === "dark" ? "dark" : "light")}
+          className={'theme-' + (themeType === 'dark' ? 'dark' : 'light')}
           style={
             {
               ...theme,

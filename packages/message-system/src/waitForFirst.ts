@@ -1,4 +1,4 @@
-import { Observable, first } from "rxjs";
+import { Observable, first } from 'rxjs';
 
 export const setupWaitForFirst =
   <T>(stream: Observable<T>) =>

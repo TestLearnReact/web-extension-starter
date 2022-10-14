@@ -1,4 +1,4 @@
-export type InPageUIComponent = "toolbar" | "sidebar";
+export type InPageUIComponent = 'toolbar' | 'sidebar';
 export type InPageUIComponentShowState = {
   [Component in InPageUIComponent]: boolean;
 };
@@ -20,4 +20,4 @@ export interface SharedInPageUIInterface {
   toggleTheme(): Promise<void>;
 }
 
-export type ContentScriptComponent = "toolbar" | "sidebar";
+export type ContentScriptComponent = 'toolbar' | 'sidebar';

@@ -1,11 +1,11 @@
-import React from "react";
-import * as ReactDOM from "react-dom";
-import { InPageUIRootMount } from "@ui/common";
-import { StyleSheetManager } from "styled-components";
+import React from 'react';
+import * as ReactDOM from 'react-dom';
+import { InPageUIRootMount } from '@ui/common';
+import { StyleSheetManager } from 'styled-components';
 
-import { SharedInPageUIState } from "@ui/common/sharedInPageUI";
-import { ThemeProviderContext } from "@ui/common/context";
-import SidebarHolderContainer from "./container/sidebar-holder";
+import { SharedInPageUIState } from '@ui/common/sharedInPageUI';
+import { ThemeProviderContext } from '@ui/common/context';
+import SidebarHolderContainer from './container/sidebar-holder';
 
 export interface SidebarContainerDependencies {
   inPageUI: SharedInPageUIState;
@@ -13,7 +13,7 @@ export interface SidebarContainerDependencies {
 
 export function setupFrontendSidebar(
   mount: InPageUIRootMount,
-  dependencies: SidebarContainerDependencies
+  dependencies: SidebarContainerDependencies,
 ): void {
   ReactDOM.render(
     <React.StrictMode>
@@ -23,13 +23,13 @@ export function setupFrontendSidebar(
         </ThemeProviderContext>
       </StyleSheetManager>
     </React.StrictMode>,
-    mount.rootElement
+    mount.rootElement,
   );
 }
 
 export function destroyFrontendSidebar(
   target: HTMLElement,
-  shadowRoot: ShadowRoot | null
+  shadowRoot: ShadowRoot | null,
 ): void {
   ReactDOM.unmountComponentAtNode(target);
 

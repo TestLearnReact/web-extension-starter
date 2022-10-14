@@ -1,12 +1,12 @@
-import { ms_sendComponentInit, ms_sendInjectScript } from "@utils/messages";
-import { SharedInPageUIState } from "@ui/common/sharedInPageUI";
+import { msSendComponentInit, msSendInjectScript } from '@utils/messages';
+import { SharedInPageUIState } from '@ui/common/sharedInPageUI';
 import {
   ContentScriptComponent,
   ContentScriptRegistry,
   SidebarScriptMain,
   ToolbarScriptMain,
-} from "../types";
-import { Resolvable, resolvablePromise } from "../utils";
+} from '../types';
+import { Resolvable, resolvablePromise } from '../utils';
 
 /**
  * Main Module for HMR && inject in webpage
@@ -18,9 +18,9 @@ const csMainModule = async (
       toolbarDevModule: ToolbarScriptMain;
       sidebarDevModule: SidebarScriptMain;
     };
-  } = { loadRemotely: true }
+  } = { loadRemotely: true },
 ) => {
-  console.log("cs-modules/main.ts...");
+  console.log('cs-modules/main.ts...');
 
   // 1. Create a local object with promises to track each content script
   // initialisation and provide a function which can initialise a content script
@@ -83,7 +83,7 @@ const csMainModule = async (
     },
   };
 
-  window["contentScriptRegistry"] = contentScriptRegistry;
+  window['contentScriptRegistry'] = contentScriptRegistry;
 
   // 6. Setup other interactions with this page (things that always run)
   const loadContentScript = createContentScriptLoader({
@@ -92,7 +92,7 @@ const csMainModule = async (
 
   // use es modules in development for frontend stuff
   // (chrome-extension://xxx/src/browser-shell/contentScripts/index.html)
-  if (__DEV__ && window.location.href.startsWith("chrome-extension://")) {
+  if (__DEV__ && window.location.href.startsWith('chrome-extension://')) {
     // webpack bundles code in production mode too, so we passed modules as parameter only in dev
     // no need inject scripts
     await params.devScripts?.toolbarDevModule(csDeps.toolbar);
@@ -100,26 +100,26 @@ const csMainModule = async (
     // await toolbarMain(csDeps.toolbar);
     // await sidebarMain(csDeps.sidebar);
 
-    ms_sendComponentInit({ component: "toolbar" }).then(() =>
+    msSendComponentInit({ component: 'toolbar' }).then(() =>
       inPageUI.setComponentShouldSetup({
-        component: "toolbar",
+        component: 'toolbar',
         shouldSetUp: true,
-      })
+      }),
     );
-    ms_sendComponentInit({ component: "sidebar" }).then(() =>
+    msSendComponentInit({ component: 'sidebar' }).then(() =>
       inPageUI.setComponentShouldSetup({
-        component: "sidebar",
+        component: 'sidebar',
         shouldSetUp: true,
-      })
+      }),
     );
   } else {
     // inject scripts
-    await inPageUI.loadComponent("toolbar");
-    await inPageUI.loadComponent("sidebar");
+    await inPageUI.loadComponent('toolbar');
+    await inPageUI.loadComponent('sidebar');
   }
 
-  // ms_sendComponentInit({ component: "toolbar" });
-  // ms_sendComponentInit({ component: "sidebar" });
+  // msSendComponentInit({ component: "toolbar" });
+  // msSendComponentInit({ component: "sidebar" });
 
   return inPageUI;
 };
@@ -129,15 +129,15 @@ export { csMainModule };
 type ContentScriptLoader = (component: ContentScriptComponent) => Promise<void>;
 export function createContentScriptLoader(args: { loadRemotely?: boolean }) {
   const remoteLoader: ContentScriptLoader = async (
-    component: ContentScriptComponent
+    component: ContentScriptComponent,
   ) => {
-    await ms_sendInjectScript({ filename: component });
+    await msSendInjectScript({ filename: component });
   };
 
   const localLoader: ContentScriptLoader = async (
-    component: ContentScriptComponent
+    component: ContentScriptComponent,
   ) => {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = `../content_script_${component}.js`;
     document.body.appendChild(script);
   };
