@@ -1,17 +1,17 @@
-import webpack, { Configuration } from "webpack";
-import path, { relative, resolve } from "path";
-import { execSync } from "child_process";
+import webpack, { Configuration } from 'webpack';
+import path, { relative, resolve } from 'path';
+import { execSync } from 'child_process';
 
-import FilemanagerPlugin from "filemanager-webpack-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import WextManifestWebpackPlugin from "wext-manifest-webpack-plugin";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
+import FilemanagerPlugin from 'filemanager-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WextManifestWebpackPlugin from 'wext-manifest-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
-import { ESBuildMinifyPlugin } from "esbuild-loader";
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 
 // import Icons from "unplugin-icons/webpack";
 // import { promises as fs } from "fs";
@@ -20,7 +20,7 @@ import { ESBuildMinifyPlugin } from "esbuild-loader";
 // //const HtmlWebpackInlineSVGPlugin = require("html-webpack-inline-svg-plugin");
 // import HtmlWebpackInlineSVGPlugin from "html-webpack-inline-svg-plugin";
 
-import "webpack-dev-server";
+import 'webpack-dev-server';
 
 import {
   isDev,
@@ -30,22 +30,22 @@ import {
   nodeEnv,
   targetBrowser,
   OUTDIR_WEBPACK_NAME,
-} from "../shared";
-import { aliasWebpack, getAlias } from "../shared/sharedConfig";
+} from '../shared';
+import { aliasWebpack, getAlias } from '../shared/sharedConfig';
 
-const packages = ["browser-shell", "message-system"];
+const packages = ['browser-shell', 'message-system'];
 
 let alias = {
-  "~icons/public-assets-icons": resSrc("../public/assets/icons/"),
-  "@browser-shell": resSrc(),
-  "@ui": resSrc("extension-ui/"),
-  "@utils": resSrc("utils/"),
+  '~icons/public-assets-icons': resSrc('../public/assets/icons/'),
+  '@browser-shell': resSrc(),
+  '@ui': resSrc('extension-ui/'),
+  '@utils': resSrc('utils/'),
 };
 
 export const getExtensionFileType = (browser) => {
-  if (browser === "opera") return "crx";
-  if (browser === "firefox") return "xpi";
-  return "zip";
+  if (browser === 'opera') return 'crx';
+  if (browser === 'firefox') return 'xpi';
+  return 'zip';
 };
 
 const config: Configuration = {
@@ -65,39 +65,39 @@ const config: Configuration = {
   },
 
   entry: {
-    messages: { import: resSrc("utils", "index.ts") },
+    messages: { import: resSrc('utils', 'index.ts') },
     background: {
-      import: resSrc("background", "prod.ts"),
+      import: resSrc('background', 'prod.ts'),
       //dependOn: "messages",
     },
-    "contentScripts/cs.global": {
-      import: resSrc("contentScripts", "cs-scripts", "main.ts"),
-      dependOn: "messages",
+    'contentScripts/cs.global': {
+      import: resSrc('contentScripts', 'cs-scripts', 'main.ts'),
+      dependOn: 'messages',
     },
-    "contentScripts/cs.toolbar": {
-      import: resSrc("contentScripts", "cs-scripts", "toolbar.ts"),
-      dependOn: "messages",
+    'contentScripts/cs.toolbar': {
+      import: resSrc('contentScripts', 'cs-scripts', 'toolbar.ts'),
+      dependOn: 'messages',
     },
-    "contentScripts/cs.sidebar": {
-      import: resSrc("contentScripts", "cs-scripts", "sidebar.ts"),
-      dependOn: "messages",
+    'contentScripts/cs.sidebar': {
+      import: resSrc('contentScripts', 'cs-scripts', 'sidebar.ts'),
+      dependOn: 'messages',
     },
-    "popup/popup": { import: resSrc("popup", "main.tsx") },
-    "options/options": { import: resSrc("options", "main.tsx") },
+    'popup/popup': { import: resSrc('popup', 'main.tsx') },
+    'options/options': { import: resSrc('options', 'main.tsx') },
   },
 
   output: {
     path: resRoot(OUTDIR_WEBPACK_NAME, targetBrowser),
-    filename: "dist/[name].js",
+    filename: 'dist/[name].js',
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json", ".svg"],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.svg'],
 
     fallback: {
-      crypto: require.resolve("crypto-browserify"),
-      path: require.resolve("path-browserify"),
-      stream: require.resolve("stream-browserify"),
+      crypto: require.resolve('crypto-browserify'),
+      path: require.resolve('path-browserify'),
+      stream: require.resolve('stream-browserify'),
     },
 
     alias: getAlias(aliasWebpack),
@@ -109,16 +109,16 @@ const config: Configuration = {
     //   alias
     // ),
 
-    modules: [path.resolve(__dirname, "../../node_modules"), "node_modules"],
+    modules: [path.resolve(__dirname, '../../node_modules'), 'node_modules'],
   },
 
   module: {
     rules: [
       {
-        type: "javascript/auto", // prevent webpack handling json with its own loaders,
+        type: 'javascript/auto', // prevent webpack handling json with its own loaders,
         test: /manifest\.json$/,
         use: {
-          loader: "wext-manifest-loader",
+          loader: 'wext-manifest-loader',
           options: {
             usePackageJSONVersion: true, // set to false to not use package.json version for manifest
           },
@@ -129,13 +129,13 @@ const config: Configuration = {
       {
         test: /\.ts(x?)$/,
         exclude: /[\\/]node_modules[\\/]/, // /node_modules/,
-        loader: "esbuild-loader",
+        loader: 'esbuild-loader',
         options: {
-          loader: "tsx", // Or 'ts' if you don't need tsx
-          target: "es2018",
+          loader: 'tsx', // Or 'ts' if you don't need tsx
+          target: 'es2018',
           //tsconfigRaw: require("../../tsconfig.json"),
-          jsxFactory: "React.createElement",
-          jsxFragment: "React.Fragment",
+          jsxFactory: 'React.createElement',
+          jsxFragment: 'React.Fragment',
         },
       },
       // {
@@ -159,18 +159,18 @@ const config: Configuration = {
             loader: MiniCssExtractPlugin.loader, // It creates a CSS file per JS file which contains CSS
           },
           {
-            loader: "css-loader", // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
+            loader: 'css-loader', // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 plugins: [
                   [
-                    "autoprefixer",
+                    'autoprefixer',
                     {
                       // Options
                     },
@@ -180,18 +180,18 @@ const config: Configuration = {
             },
           },
 
-          "resolve-url-loader", // Rewrites relative paths in url() statements
-          "sass-loader", // Takes the Sass/SCSS file and compiles to the CSS
+          'resolve-url-loader', // Rewrites relative paths in url() statements
+          'sass-loader', // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
       {
         test: /\.svg$/,
-        loader: "@svgr/webpack",
+        loader: '@svgr/webpack',
         options: {
           svgoConfig: {
             plugins: [
               {
-                name: "removeViewBox",
+                name: 'removeViewBox',
                 active: false,
               },
             ],
@@ -219,7 +219,7 @@ const config: Configuration = {
       // },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
       },
       // {
       //   test: /\.svg$/,
@@ -262,11 +262,11 @@ const config: Configuration = {
       // },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf|)$/,
-        type: "asset/inline",
+        type: 'asset/inline',
       },
       // {
       //   test: /\.svg$/,
@@ -297,7 +297,7 @@ const config: Configuration = {
       // },
       {
         test: /favicon\.(png|ico)$/,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
     ],
   },
@@ -334,10 +334,10 @@ const config: Configuration = {
       apply: (compiler) => {
         let wroteManifest = false;
 
-        compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
+        compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
           if (!wroteManifest) {
-            execSync("npx esno ./build-tools/dev-scripts/manifest.ts", {
-              stdio: "inherit",
+            execSync('npx esno ./build-tools/dev-scripts/manifest.ts', {
+              stdio: 'inherit',
             });
           }
           wroteManifest = true;
@@ -368,7 +368,7 @@ const config: Configuration = {
       cleanOnceBeforeBuildPatterns: [
         resRoot(`extension/${targetBrowser}`),
         resRoot(
-          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`,
         ),
       ],
       dry: false,
@@ -377,29 +377,29 @@ const config: Configuration = {
       verbose: true,
     }),
     new HtmlWebpackPlugin({
-      template: resSrc("popup", "index.html"),
-      inject: "body", //true
-      chunks: ["popup/popup"],
-      filename: "dist/popup/index.html",
+      template: resSrc('popup', 'index.html'),
+      inject: 'body', //true
+      chunks: ['popup/popup'],
+      filename: 'dist/popup/index.html',
     }),
     new HtmlWebpackPlugin({
-      template: resSrc("options", "index.html"),
-      inject: "body",
-      chunks: ["options/options"],
-      filename: "dist/options/index.html",
+      template: resSrc('options', 'index.html'),
+      inject: 'body',
+      chunks: ['options/options'],
+      filename: 'dist/options/index.html',
     }),
     //new HtmlWebpackInlineSVGPlugin(),
     // write css file(s) to build folder
-    new MiniCssExtractPlugin({ filename: "css/[name].css" }),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     // copy static assets
     new CopyWebpackPlugin({
       patterns: [
-        { from: resSrc("../public/assets"), to: "assets" },
+        { from: resSrc('../public/assets'), to: 'assets' },
         {
           from: resRoot(
-            "node_modules/webextension-polyfill/dist/browser-polyfill.js"
+            'node_modules/webextension-polyfill/dist/browser-polyfill.js',
           ),
-          to: "lib/browser-polyfill.js",
+          to: 'lib/browser-polyfill.js',
         },
       ],
     }),
@@ -410,8 +410,8 @@ const config: Configuration = {
     minimize: true,
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: "es2018", // Syntax to compile to (see options below for possible values)
-        tsconfigRaw: require("../../tsconfig.json"),
+        target: 'es2018', // Syntax to compile to (see options below for possible values)
+        tsconfigRaw: require('../../tsconfig.json'),
       }),
       // todo no need webpack 5 // esbuild ?
       new TerserPlugin({
@@ -426,7 +426,7 @@ const config: Configuration = {
       // todo no need webpack 5 // esbuild ?
       new OptimizeCSSAssetsPlugin({
         cssProcessorPluginOptions: {
-          preset: ["default", { discardComments: { removeAll: true } }],
+          preset: ['default', { discardComments: { removeAll: true } }],
         },
       }),
       isProd &&
@@ -435,11 +435,11 @@ const config: Configuration = {
             onEnd: {
               archive: [
                 {
-                  format: "zip",
+                  format: 'zip',
                   source: resRoot(OUTDIR_WEBPACK_NAME, targetBrowser),
                   destination: resRoot(
                     OUTDIR_WEBPACK_NAME,
-                    `${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+                    `${targetBrowser}.${getExtensionFileType(targetBrowser)}`,
                   ),
 
                   options: { zlib: { level: 6 } },
@@ -454,9 +454,9 @@ const config: Configuration = {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
+          name: 'vendor',
           chunks(chunk) {
-            return chunk.name !== "background";
+            return chunk.name !== 'background';
           },
         },
       },

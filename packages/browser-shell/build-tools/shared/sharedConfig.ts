@@ -1,20 +1,20 @@
-import path from "path";
-import { resSrc } from "./sharedUtils";
+import path from 'path';
+import { resSrc } from './sharedUtils';
 
-export const packages = ["browser-shell", "message-system"];
+export const packages = ['browser-shell', 'message-system'];
 
 export const aliasVite = {
-  "~icons/public-assets-icons/*": resSrc("../public/assets/icons/"),
-  "@browser-shell": resSrc(),
-  "@ui": resSrc("extension-ui/"),
-  "@utils": resSrc("utils/"),
+  '~icons/public-assets-icons/*': resSrc('../public/assets/icons/'),
+  '@browser-shell': resSrc(),
+  '@ui': resSrc('extension-ui/'),
+  '@utils': resSrc('utils/'),
 };
 
 export const aliasWebpack = {
-  "~icons/public-assets-icons": resSrc("../public/assets/icons/"),
-  "@browser-shell": resSrc(),
-  "@ui": resSrc("extension-ui/"),
-  "@utils": resSrc("utils/"),
+  '~icons/public-assets-icons': resSrc('../public/assets/icons/'),
+  '@browser-shell': resSrc(),
+  '@ui': resSrc('extension-ui/'),
+  '@utils': resSrc('utils/'),
 };
 
 export const getAlias = (alias) =>
@@ -23,5 +23,5 @@ export const getAlias = (alias) =>
       ...alias,
       [`@workspace/${p}`]: path.resolve(__dirname, `../../../${p}/src`),
     }),
-    alias
+    alias,
   );

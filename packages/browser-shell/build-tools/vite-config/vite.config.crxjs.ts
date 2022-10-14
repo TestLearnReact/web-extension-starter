@@ -1,15 +1,15 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import Icons from "unplugin-icons/vite";
-import { crx } from "@crxjs/vite-plugin";
-import AutoImport from "unplugin-auto-import/vite";
-import { promises as fs } from "fs";
-import { FileSystemIconLoader } from "unplugin-icons/loaders";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import Icons from 'unplugin-icons/vite';
+import { crx } from '@crxjs/vite-plugin';
+import AutoImport from 'unplugin-auto-import/vite';
+import { promises as fs } from 'fs';
+import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 
-import { manifest } from "./manifest.vite";
-import { isDev, OUTDIR_VITE_NAME, resSrc } from "../shared";
-import path from "path";
-import { aliasVite, getAlias, packages } from "../shared/sharedConfig";
+import { manifest } from './manifest.vite';
+import { isDev, OUTDIR_VITE_NAME, resSrc } from '../shared';
+import path from 'path';
+import { aliasVite, getAlias, packages } from '../shared/sharedConfig';
 
 // alias: {
 //   "@workspace/browser-shell": resSrc("../../browser-shell/src/"),
@@ -33,29 +33,29 @@ export default defineConfig({
 
   plugins: [
     Icons({
-      compiler: "jsx",
-      jsx: "react",
+      compiler: 'jsx',
+      jsx: 'react',
       customCollections: {
         // key as the collection name
-        "my-icons": {
-          account: "<svg><!-- ... --></svg>",
+        'my-icons': {
+          account: '<svg><!-- ... --></svg>',
           // load your custom icon lazily
-          settings: () => fs.readFile("./path/to/my-icon.svg", "utf-8"),
+          settings: () => fs.readFile('./path/to/my-icon.svg', 'utf-8'),
           /* ... */
         },
-        "my-other-icons": async (iconName) => {
+        'my-other-icons': async (iconName) => {
           // your custom loader here. Do whatever you want.
           // for example, fetch from a remote server:
           return await fetch(`https://example.com/icons/${iconName}.svg`).then(
-            (res) => res.text()
+            (res) => res.text(),
           );
         },
         // a helper to load icons from the file system
         // files under `./assets/icons` with `.svg` extension will be loaded as it's file name
         // you can also provide a transform callback to change each icon (optional)
-        "public-assets-icons": FileSystemIconLoader(
-          resSrc("../public/assets/icons"),
-          (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')
+        'public-assets-icons': FileSystemIconLoader(
+          resSrc('../public/assets/icons'),
+          (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" '),
         ),
       },
     }),
@@ -64,10 +64,10 @@ export default defineConfig({
     AutoImport({
       imports: [
         {
-          "webextension-polyfill": [["*", "browser"]],
+          'webextension-polyfill': [['*', 'browser']],
         },
       ],
-      dts: resSrc("auto-imports.d.ts"),
+      dts: resSrc('auto-imports.d.ts'),
     }),
   ],
   build: {
@@ -83,6 +83,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["webextension-polyfill"], //"styled-components"
+    include: ['webextension-polyfill'], //"styled-components"
   },
 });
