@@ -15,7 +15,10 @@
     "build:firefox": "cross-env TARGET_BROWSER=\"firefox\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
     "build:opera": "cross-env TARGET_BROWSER=\"opera\" NODE_ENV=\"production\" webpack --config build-tools/webpack-config/webpack.config.ts",
     "write:manifest": "esno build-tools/dev-scripts/manifest.ts",
-    "clear": "rimraf extension/dist extension/manifest.json extension/.*"
+    "clear": "rimraf extension/dist extension/manifest.json extension/.*",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json} build-tools/**/*.{js,jsx,ts,tsx,css,md,json} --config ./.prettierrc"
   },
   "dependencies": {
     "-": "^0.0.1",
@@ -99,7 +102,17 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3",
     "webpack-node-externals": "^3.0.0",
-    "wext-manifest-webpack-plugin": "^1.2.1"
+    "wext-manifest-webpack-plugin": "^1.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.7.1"
   },
   "babel": {
     "presets": [
