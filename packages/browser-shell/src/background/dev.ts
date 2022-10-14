@@ -9,7 +9,7 @@ import { msExtensionReloadStream } from '../utils/messages';
 console.log(' -BG CRXJS DEV- ');
 
 msExtensionReloadStream.subscribe(([_, sender]) => {
-  console.log('services worker "dev.ts" browser.runtime.reload()');
+  console.log('services worker dev.ts browser.runtime.reload()');
 
   // browser.tabs.query({ active: true }).then((tab) => {
   // browser.runtime.reload();
