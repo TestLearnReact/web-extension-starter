@@ -1,7 +1,8 @@
 # web-extension-starter
 Web Extension starter to build "Write Once Run on Any Browser" extension
 
-A [Vite](https://vitejs.dev/)[crxjs]([https://vitejs.dev/](https://github.com/crxjs/chrome-extension-tools)) powered WebExtension ([Chrome](https://developer.chrome.com/docs/extensions/reference/), [FireFox](https://addons.mozilla.org/en-US/developers/), etc.) in development.
+Use [Vite](https://vitejs.dev/) / [crxjs](https://github.com/crxjs/chrome-extension-tools)) in development
+Use [Webpack](https://webpack.js.org/) for building ([Chrome](https://developer.chrome.com/docs/extensions/reference/), [FireFox](https://addons.mozilla.org/en-US/developers/), etc.)
 
 ## Features
 
